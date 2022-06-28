@@ -3,10 +3,12 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
 
-
-from src.diverse.funksjoner import load_page, title_page
-from src.apps.bergvarmekalkulatoren import bergvarmekalkulatoren_app
+from src.diverse.funksjoner import load_page
 from src.apps.forside import forside_app
+from src.apps.trt import trt_app
+from src.apps.bergvarmekalkulatoren import bergvarmekalkulatoren_app
+from src.apps.kart import kart_app
+from src.apps.kostnader import kostnader_app
 
 st.set_page_config(page_title="AV Grunnvarme", page_icon=":bar_chart:", layout="centered")
 
@@ -27,14 +29,33 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {name}!')
 
-        options = ["Forside", "Bergvarmekalkulatoren", "PROFet", "Maler", "TRT"]
+        options = ["Forside", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Maler", ]
         selected = st.radio("Velg app", options)
+        st.markdown("---")
 
     if selected == "Forside":
         forside_app()
 
+    if selected == "TRT":
+        trt_app()
+
     if selected == "Bergvarmekalkulatoren":
         bergvarmekalkulatoren_app()
+
+    if selected == "Kostnader":
+        kostnader_app()
+
+    if selected == "Kart":
+        kart_app() 
+
+    if selected == "PROFet":
+        pass
+
+    if selected == "Maler":
+        pass
+
+   
+        
         
 
 
