@@ -3,15 +3,19 @@ import requests
 import pydeck as pdk
 import pandas as pd
 
-
-
+from src.diverse.funksjoner import Location
 
 def kart_app():
     st.title("Kart")
-
+    
+    location = Location() 
+    lat, long = location.address_to_coordinate(location.input())
+    with st.expander("Juster posisjon"):
+        lat = st.number_input('Breddegrad', value=lat, step=0.0001)
+        long = st.number_input('Lengdegrad', value=long, step=0.0001)
+    
     st.header("Granada API")
-    lat = st.number_input('Latitude', value=59.28)
-    long = st.number_input('Longitude', value=11.10)
+    
 
     df = pd.DataFrame({'latitude': [lat],'longitude': [long]})
 
