@@ -4,7 +4,7 @@ import streamlit as st
 def geoteknikk_app():
     st.title("Energibrønner og geoteknikk")
 
-    st.header("Sjekkliste")
+    st.header("Hva kan vi gjøre?")
     st.subheader("Kartstudier")
     st.write("- *Dybde til fjell* | NADAG, GRANADA")
     st.write("- *Type løsmasser* | Løsmassedatabasen")
@@ -13,7 +13,7 @@ def geoteknikk_app():
     st.write("- *Terrengprofil* | Kartverket")
     st.write("- *Nærhet til hendelser vi vet om*")
     
-    st.subheader("f2")
+    st.subheader("")
     
     st.subheader("Risiko")
     st.write("- Setningsskader eller skred?")
