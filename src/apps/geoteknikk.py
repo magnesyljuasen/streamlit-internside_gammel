@@ -11,10 +11,12 @@ def geoteknikk_app():
     st.write("- *Over/under marin grense* | Marin grense")
     st.write("- *Dypforvitring* | Aktsomhetskart for tunnelplanlegging")
     st.write("- *Terrengprofil* | Kartverket")
+    st.write("- *Nærhet til hendelser vi vet om*")
     
     st.subheader("Risiko")
-    st.caption("- Setningsskader eller skred?")
-    st.write("- Antall brønner")
+    st.write("- Setningsskader eller skred?")
+    st.write("- Type anlegg (åpent/lukket)")
+    st.write("- Størrelse på anlegg (antall brønner)")
     st.write("- Løsmassemektighet") 
     
 
