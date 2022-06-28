@@ -1,5 +1,7 @@
 import streamlit as st
 from PIL import Image
+import requests
+import streamlit.components.v1 as components
 
 
 def forside_app():
@@ -32,3 +34,26 @@ def forside_app():
         st.subheader("[UnderOslo](%s)" % "https://kart4.nois.no/underoslo/Content/login.aspx?standalone=true&onsuccess=restart&layout=underoslo&time=637883136354120798&vwr=asv")
         st.subheader("[Saksinnsyn](%s)" % "https://od2.pbe.oslo.kommune.no/kart/")
         st.subheader("[Nord Pool](%s)" % "https://www.nordpoolgroup.com/en/Market-data1/#/nordic/table")
+        
+
+
+
+    class Tweet(object):
+        def __init__(self, s, embed_str=False):
+            if not embed_str:
+                # Use Twitter's oEmbed API
+                # https://dev.twitter.com/web/embedded-tweets
+                api = "https://publish.twitter.com/oembed?url={}".format(s)
+                response = requests.get(api)
+                self.text = response.json()["html"]
+            else:
+                self.text = s
+
+        def _repr_html_(self):
+            return self.text
+
+        def component(self):
+            return components.html(self.text, height=600)
+
+
+    t = Tweet("https://twitter.com/OReillyMedia/status/901048172738482176").component()
