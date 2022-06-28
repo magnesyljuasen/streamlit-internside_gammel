@@ -1,0 +1,12 @@
+credentials:
+  usernames:
+    magne.syljuasen:
+      name: Magne
+      password: $2b$12$GusMnNUCtvE3revMF75ZpeseQ2Z29vbbuu647fFSadmrdb1JoSb/C # To be replaced with hashed password
+    henrik.holmberg:
+      name: Rebecca Briggs
+      password: $2b$12$d6hzbaZgaK6Uck8.6zif..6FZEl/2a0gDqJqgqJLG2fc9m.5l340G # To be replaced with hashed password
+cookie:
+  expiry_days: 60
+  key: some_signature_key
+  name: some_cookie_name
