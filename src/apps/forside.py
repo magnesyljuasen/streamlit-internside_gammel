@@ -38,21 +38,21 @@ def forside_app():
 
     st.markdown(""" --- """)
 
-    class Tweet(object):
-        def __init__(self, s, embed_str=False):
-            if not embed_str:
-                # Use Twitter's oEmbed API
-                # https://dev.twitter.com/web/embedded-tweets
-                api = "https://publish.twitter.com/oembed?url={}".format(s)
-                response = requests.get(api)
-                self.text = response.json()["html"]
-            else:
-                self.text = s
+#    class Tweet(object):
+#        def __init__(self, s, embed_str=False):
+#            if not embed_str:
+#                # Use Twitter's oEmbed API
+#                # https://dev.twitter.com/web/embedded-tweets
+#                api = "https://publish.twitter.com/oembed?url={}".format(s)
+#                response = requests.get(api)
+#                self.text = response.json()["html"]
+#            else:
+#                self.text = s#
 
-        def _repr_html_(self):
-            return self.text
+#        def _repr_html_(self):
+#            return self.text
 
-        def component(self):
-            return components.html(self.text, height=400)
+#        def component(self):
+#            return components.html(self.text, height=400)
 
-    t = Tweet("https://twitter.com/SGehlin?ref_src=twsrc%5Etfw").component()
+#    t = Tweet("https://twitter.com/SGehlin?ref_src=twsrc%5Etfw").component()
