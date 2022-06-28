@@ -70,4 +70,10 @@ def kart_app():
             bearing=0
             ),
             layers=[geojson, init]))
+    
+    st.markdown(""" <iframe width="500" height="400" frameborder="0" scrolling="no" marginheight="0" 
+    marginwidth="0"
+    src="https://asplanviak.maps.arcgis.com/apps/webappviewer/index.html?id=7b6a5e54406043a4962698d88636ba65"></iframe> """, unsafe_allow_html=True)
+    
+    
 
