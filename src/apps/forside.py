@@ -36,7 +36,7 @@ def forside_app():
         st.subheader("[Nord Pool](%s)" % "https://www.nordpoolgroup.com/en/Market-data1/#/nordic/table")
         
 
-
+    st.markdown(""" --- """)
 
     class Tweet(object):
         def __init__(self, s, embed_str=False):
