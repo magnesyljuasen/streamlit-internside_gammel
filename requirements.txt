@@ -99,4 +99,4 @@ wcwidth==0.2.5
 webencodings==0.5.1
 widgetsnbextension==3.6.1
 zipp==3.8.0
-xlsxwriter=3.0.3
+xlsxwriter==3.0.3
