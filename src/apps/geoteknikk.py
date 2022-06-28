@@ -6,14 +6,18 @@ def geoteknikk_app():
 
     st.header("Sjekkliste")
     st.subheader("Grunnforhold")
-    st.write("- NADAG")
-    st.write("- GRANADA")
-    st.write("- Løsmassekart")
-    st.write("- Marin grense")
-    st.write("- Dypforvitring")
-    st.write("- Terrengprofil")
+    st.write("- *Dybde til fjell* | NADAG, GRANADA")
+    st.write("- *Type løsmasser* | Løsmassedatabasen)")
+    st.write("- *Over/under marin grense* | Marin grense")
+    st.write("- *Dypforvitring* | Aktsomhetskart for tunnelplanlegging")
+    st.write("- *Terrengprofil*")
     
     st.subheader("Risiko")
+    st.write("- Setningsskader / skred")
+    st.write("- Antall brønner")
+    st.write("- Dybde til fjell") 
+    
+
     
     
     st.subheader("Konsekvens")
