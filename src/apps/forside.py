@@ -56,4 +56,4 @@ def forside_app():
             return components.html(self.text, height=700)
 
 
-    t = Tweet("https://twitter.com/sgehlin").component()
+    t = Tweet("https://twitter.com/SGehlin/status/1541170957603274753?cxt=HHwWgoC8ocG0q-MqAAAA").component()
