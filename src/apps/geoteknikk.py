@@ -13,7 +13,11 @@ def geoteknikk_app():
     st.write("- *Terrengprofil* | Kartverket")
     st.write("- *Nærhet til hendelser vi vet om*")
     
-    st.subheader("")
+    st.subheader("Praktiske indikatorer fra testbrønn")
+    st.write(" - Lav grunnvannstand målt i testbrønn")
+    st.write(" - Ulik grunnvannstand målt i testbrønn / poretrykksmåler")
+    st.write(" - Ulik grunnvannstand målt før / etter responstest")
+    st.write(" - Stor dybde til fjell i testbrønn")
     
     st.subheader("Risiko")
     st.write("- Setningsskader eller skred?")
@@ -29,6 +33,7 @@ def geoteknikk_app():
 
     st.subheader("Tiltak")
     st.write("- Utstøping")
-    st.write("- Poretrykksivå")
+    st.write("- Måle poretrykk")
+    st.write("- Diver i testbrønn") 
 
     
