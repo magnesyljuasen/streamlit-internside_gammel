@@ -53,6 +53,6 @@ def forside_app():
             return self.text
 
         def component(self):
-            return components.html(self.text, height=700)
+            return components.html(self.text, height=500)
 
     t = Tweet("https://twitter.com/SGehlin?ref_src=twsrc%5Etfw").component()
