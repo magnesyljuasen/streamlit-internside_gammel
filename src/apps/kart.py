@@ -72,11 +72,13 @@ def kart_app():
             layers=[geojson, init]))
     
     url = "https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"
-    st.caption("[Fullskjerm](%s)" % url)
-    st.markdown(""" <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" 
-    marginwidth="0"
-    src="https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"></iframe> """, unsafe_allow_html=True)
+    st.header("[Gå til kart](%s)" % url)
+    #st.markdown(""" <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" 
+    #marginwidth="0"
+    #src="https://asplanviak.maps.arcgis.com/home/item.html?id=f62a45619dc643d78d2294a5fc6dc293"></iframe> """, unsafe_allow_html=True)
 
+
+    
 
     
     
