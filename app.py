@@ -24,7 +24,6 @@ if authentication_status == False:
     
 elif authentication_status == None:
     load_page()
-    st.write("g")
 
 #App start 
 elif authentication_status:
