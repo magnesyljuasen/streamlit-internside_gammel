@@ -77,7 +77,6 @@ def kart_app():
     marginwidth="0"
     src="https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"></iframe> """, unsafe_allow_html=True)
 
-    st.write("hei")
 
     
     
