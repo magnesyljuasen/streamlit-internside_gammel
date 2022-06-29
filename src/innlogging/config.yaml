@@ -1,11 +1,26 @@
 credentials:
   usernames:
-    magne.syljuasen:
+    magne:
       name: Magne
-      password: $2b$12$GusMnNUCtvE3revMF75ZpeseQ2Z29vbbuu647fFSadmrdb1JoSb/C # To be replaced with hashed password
-    henrik.holmberg:
-      name: Rebecca Briggs
-      password: $2b$12$d6hzbaZgaK6Uck8.6zif..6FZEl/2a0gDqJqgqJLG2fc9m.5l340G # To be replaced with hashed password
+      password: $2b$12$3BIzzBRFf4iUi1FBHyFCqufvhHd20EWQpp0bAyFPyQ8W5E5YgdEpq # To be replaced with hashed password
+    henrik:
+      name: Henrik
+      password: $2b$12$PwFCN16oXzuFt6TS4LxNOuhIBFrou.veRuPMnJzOU4QkDvgW16NfC # To be replaced with hashed password
+    randi:
+      name: Randi
+      password: $2b$12$IjW9V2bvdzRIcK7Epgb8uOicYZQHDXrdjUVxHynWZ0HWp2T8eh02i # To be replaced with hashed password
+    sofie:
+      name: Sofie
+      password: $2b$12$.zl960O0qbrDPl34QdY9u.a4fthGhSk1lS9gDXKgbUgiavtXVJLrK # To be replaced with hashed password
+    johanne:
+      name: Johanne
+      password: $2b$12$wlstZCA.KuK.kejAkNpw5uevwmvsEScgPseC2B/eRL585MBVvHYm2 # To be replaced with hashed password
+    andreas:
+      name: Andreas
+      password: $2b$12$U0fZLJXNAZrNqx0RKgt83eviTwKyOEbKkYTmXfRRmGxJrtA.p701G # To be replaced with hashed password
+    ellen:
+      name: Ellen
+      password: $2b$12$8JxyNJQJJk2Ax9VOCvR1lePLuDnDCAjzmX0BGqrHdxpoopI7yb7ca # To be replaced with hashed password
 cookie:
   expiry_days: 60
   key: some_signature_key
