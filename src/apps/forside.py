@@ -17,23 +17,34 @@ def forside_app():
     c1, c2 = st.columns(2)
     with c1:
         st.subheader("[GRANADA](%s)" % "https://geo.ngu.no/kart/granada_mobil/")
-        st.subheader("[Løsmasser](%s)" % "https://geo.ngu.no/kart/losmasse_mobil/")
         st.subheader("[NADAG](%s)" % "https://geo.ngu.no/kart/nadag-avansert/")
-    with c2:
+        st.subheader("[Løsmasser](%s)" % "https://geo.ngu.no/kart/losmasse_mobil/")
         st.subheader("[Berggrunn](%s)" % "https://geo.ngu.no/kart/berggrunn_mobil/")
+
+    with c2:
         st.subheader("[InSAR](%s)" % "https://insar.ngu.no/")
         st.subheader("[AV-kartet](%s)" % "https://kart.asplanviak.no/")
-    st.markdown("""--""")
+        st.subheader("[Saksinnsyn](%s)" % "https://od2.pbe.oslo.kommune.no/kart/")
+        st.subheader("[UnderOslo](%s)" % "https://kart4.nois.no/underoslo/Content/login.aspx?standalone=true&onsuccess=restart&layout=underoslo&time=637883136354120798&vwr=asv")
+
+    st.markdown("""---""")
     #--
     c1, c2 = st.columns(2)
     with c1:
-        st.subheader("[Ebooks](%s)" % "https://asplanviak.sharepoint.com/sites/10333-03")
-        st.subheader("[Gamle Ebooks](%s)" % "http://bikube/Oppdrag/8492/default.aspx")
-        st.subheader("[GeoNorge](%s)" % "https://www.geonorge.no/")
+        st.subheader("[Maler](%s)" % "https://asplanviak.sharepoint.com/sites/10333-03/Delte%20dokumenter/General/Maler") 
+        st.subheader("[TRT's](%s)" % "https://asplanviak.sharepoint.com/sites/10333-03/Delte%20dokumenter/General/Termisk%20responstest/Testoversikt.xlsx") 
     with c2:
-        st.subheader("[UnderOslo](%s)" % "https://kart4.nois.no/underoslo/Content/login.aspx?standalone=true&onsuccess=restart&layout=underoslo&time=637883136354120798&vwr=asv")
-        st.subheader("[Saksinnsyn](%s)" % "https://od2.pbe.oslo.kommune.no/kart/")
+        st.subheader("[Ebooks](%s)" % "https://asplanviak.sharepoint.com/sites/10333-03")
+        st.subheader("[Gamle Ebooks](%s)" % "http://bikube/Oppdrag/8492/default.aspx")    
+    st.markdown("""---""")
+    #--
+    c1, c2 = st.columns(2)
+    with c1:
         st.subheader("[Nord Pool](%s)" % "https://www.nordpoolgroup.com/en/Market-data1/#/nordic/table")
+    with c2:
+        st.subheader("[GeoNorge](%s)" % "https://www.geonorge.no/") 
+        
+
         
 
     st.markdown(""" --- """)

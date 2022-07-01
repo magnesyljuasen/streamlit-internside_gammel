@@ -11,6 +11,7 @@ from src.apps.bergvarmekalkulatoren import bergvarmekalkulatoren_app
 from src.apps.kostnader import kostnader_app
 from src.apps.kart import kart_app
 from src.apps.profet import profet_app
+from src.apps.maler import maler_app
 
 st.set_page_config(page_title="AV Grunnvarme", page_icon=":bar_chart:", layout="centered")
 
@@ -56,9 +57,8 @@ elif authentication_status:
     if selected == "Geoteknikk":
         geoteknikk_app()
 
-
     if selected == "Maler":
-        pass
+        maler_app()
 
    
         

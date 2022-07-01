@@ -5,7 +5,17 @@ import pandas as pd
 from src.diverse.asplan_viak import Importer, Justeringer, Analyse, Plotting
 
 def trt_app():
-    st.title('TRT Analyse')   
+    st.title('TRT Analyse')
+    with st.sidebar:
+        st.title("Sjekkliste for analyse")
+        st.write("- Bilde av strømmåler før / etter test")
+        st.write("- Temperaturprofilmålinger før / etter test")
+        st.write("- Kollektorvæske")
+        st.write("- Kollektortype")
+        st.write("- Grunnvannstand")
+        st.write("- Borelogg")
+           
+
     fil = st.file_uploader ('Last opp testdata', key='TRT')
     if fil is not None:
         plotting = Plotting()
