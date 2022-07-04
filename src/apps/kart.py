@@ -18,6 +18,7 @@ def kart_app():
     url = "https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"
     st.header("[Gå til generelt kart](%s)" % url)
 
+    st.markdown("---")
     st.header("3D kart, Asplan Viak")
     url = "https://asplanviak.maps.arcgis.com/apps/webappviewer3d/index.html?id=66d6a06bc9a84510a4db7262411ffda7"
     st.header("[Gå til 3D kart](%s)" % url)
