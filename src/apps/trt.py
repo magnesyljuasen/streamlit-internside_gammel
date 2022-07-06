@@ -14,6 +14,17 @@ def trt_app():
         st.write("- Kollektortype")
         st.write("- Grunnvannstand")
         st.write("- Borelogg")
+    
+        st.markdown("""---""")
+        st.header("HUB for brønnborere")
+        url = "https://grunnvarme-asplanviak.hub.arcgis.com/"
+        st.subheader("[Innmeldingsportal for brønnborere](%s)" % url)
+        url = "https://melhus-asplanviak.hub.arcgis.com/"
+        st.subheader("[Innkomne tester](%s)" % url)
+        st.caption(""" basum.boring | ZEZSPKJ1 """)
+        st.caption(""" ostlandet.boring | JOUAFOE1 """)
+        st.caption(""" vestnorsk.boring | VVBHFIO1 """)
+        
            
 
     fil = st.file_uploader ('Last opp testdata', key='TRT')

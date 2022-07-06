@@ -17,11 +17,17 @@ def kart_app():
     #st.markdown(""" <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"></iframe> """, unsafe_allow_html=True)
     url = "https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"
     st.header("[Gå til generelt kart](%s)" % url)
-
     st.markdown("---")
-    st.header("3D kart, Asplan Viak")
-    url = "https://asplanviak.maps.arcgis.com/apps/webappviewer3d/index.html?id=66d6a06bc9a84510a4db7262411ffda7"
-    st.header("[Gå til 3D kart](%s)" % url)
+    st.header("Andre kart")
+    c1, c2 = st.columns(2)
+    with c1:
+        url = "https://asplanviak.maps.arcgis.com/apps/webappviewer3d/index.html?id=66d6a06bc9a84510a4db7262411ffda7"
+        st.header("[3D kart](%s)" % url)
+
+        url = "https://melhus-asplanviak.hub.arcgis.com/"
+        st.header("[Melhus HUB](%s)" % url)
+        st.caption(""" melhus.fellesnett | OBUHLGAP2 """ )
+
     
     st.markdown("---")
     st.header("Test av NGU sine APIer")
