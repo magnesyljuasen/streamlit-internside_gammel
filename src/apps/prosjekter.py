@@ -1,3 +1,4 @@
+from click import option
 import streamlit as st
 import re 
 import requests
@@ -12,7 +13,7 @@ class Location:
 
     def address_to_coordinate (self, adresse):
         geolocator = Nominatim(user_agent="my_request")
-        location = geolocator.geocode(adresse, timeout=None)
+        location = geolocator.geocode(adresse, timeout=None, country_codes="NO")
         if location is None:
             lat = 0
             long = 0
@@ -54,27 +55,36 @@ class Location:
 
 
 def prosjekter_app():
-    st.title("Prosjekter")
-    st.header("Legg inn nytt prosjekt")
-    projectname = st.text_input("*Prosjektnavn")
-    id = st.text_input("*Oppdragsnummer")
-
+    st.title("Oppdragsoversikt")
+    st.header("Registrer nytt oppdrag")
+    c1, c2 = st.columns(2)
+    with c1: 
+        projectname = st.text_input("*Prosjektnavn")
+        id = st.text_input("*Oppdragsnummer")
+        
+    with c2:
+        project_type = st.multiselect("*Oppdragstype", ["TRT", "TRT & Dimensjonering", "Annet", "Større oppdrag"])
+        status = st.multiselect("*Oppdragsstatus", ["Pågår", "Fullført", "Avventer", "Kommer"])
+        
+    lat, long = 0, 0
     res = re.findall(r'\w+', projectname)
     location = Location()
     for index, value in enumerate(res):
         lat, long = location.address_to_coordinate(value)
         if lat or long > 0:
-            break 
-    adjusted_address = location.input()
+            break
+    with st.expander("Hvis posisjon er feil"):
+        adjusted_address = location.input()
     if len(adjusted_address) > 0:
         lat, long = location.address_to_coordinate(adjusted_address)
-    location.map(lat, long)
+    if lat != 0:
+        location.map(lat, long)
 
-#    location = Location() 
-    
-#    with st.expander("Juster posisjon"):
-#        lat = st.number_input('Breddegrad', value=lat, step=0.0001)
-#        long = st.number_input('Lengdegrad', value=long, step=0.0001)
-    
-#        location.map(lat, long)
-#        st.markdown("---")
+    st.header("Aktive oppdrag")
+    st.write("Kart")
+    st.write("Liste")
+
+    st.header("Fullførte oppdrag")
+    st.write("Kart")
+    st.write("Liste")
+

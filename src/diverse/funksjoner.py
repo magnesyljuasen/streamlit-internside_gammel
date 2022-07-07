@@ -34,7 +34,7 @@ class Location:
 
     def address_to_coordinate (self, adresse):
         geolocator = Nominatim(user_agent="my_request")
-        location = geolocator.geocode(adresse, timeout=None)
+        location = geolocator.geocode(adresse, timeout=None, country_codes="NO")
         if location is None:
             st.warning ('Finner ikke adresse. Prøv igjen!')
             st.stop()
