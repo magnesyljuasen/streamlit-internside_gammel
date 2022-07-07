@@ -41,7 +41,7 @@ elif authentication_status:
         forside_app()
 
     if selected == "Prosjekter":
-        prosjekter_app()
+        prosjekter_app(name)
 
     if selected == "TRT":
         trt_app()
