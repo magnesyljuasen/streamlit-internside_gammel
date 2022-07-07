@@ -24,9 +24,16 @@ def kart_app():
         url = "https://asplanviak.maps.arcgis.com/apps/webappviewer3d/index.html?id=66d6a06bc9a84510a4db7262411ffda7"
         st.header("[3D kart](%s)" % url)
 
+        url = "https://asplanviak.maps.arcgis.com/home/item.html?id=0da805382c454ffeb9bb86f1b6f8b97a"
+        st.header("[Grunnvarmekartet](%s)" % url)
+
         url = "https://melhus-asplanviak.hub.arcgis.com/"
         st.header("[Melhus HUB](%s)" % url)
         st.caption(""" melhus.fellesnett | OBUHLGAP2 """ )
+
+        
+
+        
 
     
     st.markdown("---")
