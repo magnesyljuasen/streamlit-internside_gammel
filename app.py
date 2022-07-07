@@ -7,6 +7,7 @@ from src.apps.geoteknikk import geoteknikk_app
 from src.diverse.funksjoner import load_page
 from src.apps.forside import forside_app
 from src.apps.trt import trt_app
+from src.apps.prosjekter import prosjekter_app
 from src.apps.bergvarmekalkulatoren import bergvarmekalkulatoren_app
 from src.apps.kostnader import kostnader_app
 from src.apps.kart import kart_app
@@ -32,12 +33,15 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {name}!')
 
-        options = ["Forside", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", ]
+        options = ["Forside", "Prosjekter", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", ]
         selected = st.radio("Velg app", options)
         st.markdown("---")
 
     if selected == "Forside":
         forside_app()
+
+    if selected == "Prosjekter":
+        prosjekter_app()
 
     if selected == "TRT":
         trt_app()

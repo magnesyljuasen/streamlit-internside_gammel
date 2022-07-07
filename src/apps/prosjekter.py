@@ -1,31 +1,9 @@
+import streamlit as st
+import re 
 import requests
-from streamlit_lottie import st_lottie
-import streamlit as st 
-from PIL import Image
 from geopy.geocoders import Nominatim
 import pydeck as pdk
 import pandas as pd
-
-
-def load_lottie(url: str):
-    r = requests.get(url)
-    if r.status_code!= 200:
-        return None
-    return r.json()
-
-#--
-def load_page():
-    lott = load_lottie('https://assets3.lottiefiles.com/packages/lf20_szeieqx5.json')
-    st_lottie(lott)
-
-def title_page():
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        image = Image.open('src/bilder/logo.png')
-        st.image(image)  
-    with col2:
-        st.title("Grunnvarme")
-        st.write('Internside')
 
 
 class Location:
@@ -36,14 +14,15 @@ class Location:
         geolocator = Nominatim(user_agent="my_request")
         location = geolocator.geocode(adresse, timeout=None)
         if location is None:
-            st.warning ('Finner ikke adresse. Prøv igjen!')
-            st.stop()
-        lat = location.latitude
-        long = location.longitude
+            lat = 0
+            long = 0
+        else:
+            lat = location.latitude
+            long = location.longitude
         return lat, long
 
     def input(self):
-         address = st.text_input('Oppgi adresse (det kan være lurt å inkludere kommune)', placeholder='Karl Johans Gate 22, Oslo')
+         address = st.text_input('Skriv inn adresse hvis den ikke finner riktig sted (det kan være lurt å inkludere kommune)', placeholder='Karl Johans Gate 22, Oslo')
          return address
 
     def map(self, lat, long):
@@ -72,3 +51,30 @@ class Location:
                 bearing=0
                 ),
                 layers=[init]))
+
+
+def prosjekter_app():
+    st.title("Prosjekter")
+    st.header("Legg inn nytt prosjekt")
+    projectname = st.text_input("*Prosjektnavn")
+    id = st.text_input("*Oppdragsnummer")
+
+    res = re.findall(r'\w+', projectname)
+    location = Location()
+    for index, value in enumerate(res):
+        lat, long = location.address_to_coordinate(value)
+        if lat or long > 0:
+            break 
+    adjusted_address = location.input()
+    if len(adjusted_address) > 0:
+        lat, long = location.address_to_coordinate(adjusted_address)
+    location.map(lat, long)
+
+#    location = Location() 
+    
+#    with st.expander("Juster posisjon"):
+#        lat = st.number_input('Breddegrad', value=lat, step=0.0001)
+#        long = st.number_input('Lengdegrad', value=long, step=0.0001)
+    
+#        location.map(lat, long)
+#        st.markdown("---")
