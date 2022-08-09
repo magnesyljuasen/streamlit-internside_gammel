@@ -55,8 +55,7 @@ class Location:
         ),
         layers=[init]))
 
-    def map2(self, df):
-
+    def map2(self, df, color_pick):
         init = pdk.Layer(
         type='ScatterplotLayer',
         data=df,
@@ -68,7 +67,7 @@ class Location:
         filled=True,
         line_width_scale=25,
         line_width_max_pixels=5,
-        get_fill_color=[255, 195, 88],
+        get_fill_color=color_pick,
         get_line_color=[0, 0, 0])
 
         st.pydeck_chart(pdk.Deck(
@@ -164,7 +163,15 @@ def prosjekter_app(name):
     with st.expander("Tabellform"):
         st.write(df)
     location = Location()
-    location.map2(df)
+    st.subheader("Aktive oppdrag")
+    location.map2(df.loc[df['Status'] == 'Pågår'], [255, 195, 88])
+
+    with st.expander("Andre"):
+        st.subheader("Fremtidige oppdrag")
+        location.map2(df.loc[df['Status'] == 'Kommer'], [183, 220, 143])
+        
+        st.subheader("Fullførte oppdrag")
+        location.map2(df.loc[df['Status'] == 'Fullført'], [29, 60, 52])
     
     
 
