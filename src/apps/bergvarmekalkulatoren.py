@@ -4,7 +4,7 @@ import src.innlogging.database as db
 def bergvarmekalkulatoren_app():
     st.title("Bergvarmekalkulatoren") 
     
-    st.subheader("[Kalkulatoren](%s)" % "https://magnesyljuasen-bergvarme-app-7fvbu7.streamlitapp.com/")
+    st.subheader("[Kalkulatoren](%s)" % "https://bergvarmekalkulatoren.webflow.io/")
     list = db.fetch_all_data()
     st.subheader(f"Antall besøkende: {len(list)}")
 
