@@ -84,40 +84,42 @@ class Location:
         'style': {'color': 'white'}}))
 
 def new_entry(name):
-    dato = date.today().strftime("%d/%m/%Y")
-    st.header("Registrer nytt oppdrag")
-    c1, c2 = st.columns(2)
-    with c1: 
-        projectname = st.text_input("*Prosjektnavn")
-        id = st.text_input("*Oppdragsnummer")
-    with c2:
-        project_type = st.multiselect("*Oppdragstype", ["TRT", "TRT & Dimensjonering", "Annet", "Større oppdrag"])
-        if len(project_type) > 0:
-            project_type = project_type[0]
-        project_status = st.multiselect("*Oppdragsstatus", ["Pågår", "Fullført", "Avventer", "Kommer"])
-        if len(project_status) > 0:
-            project_status = project_status[0]
+    with st.form("new_entry", clear_on_submit=True):
+        dato = date.today().strftime("%d/%m/%Y")
+        c1, c2 = st.columns(2)
+        with c1: 
+            projectname = st.text_input("*Prosjektnavn")
+            id = st.text_input("*Oppdragsnummer")
+        with c2:
+            project_type = st.multiselect("*Oppdragstype", ["TRT", "TRT & Dimensjonering", "Annet", "Større oppdrag"])
+            if len(project_type) > 0:
+                project_type = project_type[0]
+            project_status = st.multiselect("*Oppdragsstatus", ["Pågår", "Fullført", "Kommer"])
+            if len(project_status) > 0:
+                project_status = project_status[0]
 
-    if len(projectname) > 0 and len(id) > 0 and len(project_type) > 0 and len(project_status) > 0: 
-        lat, long = 0, 0
-        res = re.findall(r'\w+', projectname)
-        location = Location()
-        for index, value in enumerate(res):
-            lat, long = location.address_to_coordinate(value)
-            if lat or long > 0:
-                break
-        with st.expander("Hvis posisjon er feil"):
-            adjusted_address = location.input()
-        if len(adjusted_address) > 0:
-            lat, long = location.address_to_coordinate(adjusted_address)
-        if lat != 0:
-            location.map1(lat, long)
+        if len(projectname) > 0 and len(id) > 0 and len(project_type) > 0 and len(project_status) > 0: 
+            lat, long = 0, 0
+            res = re.findall(r'\w+', projectname)
+            location = Location()
+            for index, value in enumerate(res):
+                lat, long = location.address_to_coordinate(value)
+                if lat or long > 0:
+                    break
+            #adjusted_address = location.input()
+            #if len(adjusted_address) > 0:
+            #    lat, long = location.address_to_coordinate(adjusted_address)
+            #if lat != 0:
+            #    location.map1(lat, long)
             db.insert_data(projectname, id, project_type, project_status, lat, long, name, dato)
+        st.form_submit_button("Oppdater")
+            
 
 def change_entry():
     ds = db.fetch_all_data()
     df = pd.DataFrame(ds)
     arr = df["key"].to_numpy()
+    
     selected = st.radio("Valg", ["Slett oppdrag", "Oppdater status"])
     key = st.multiselect("Velg oppdrag", arr)
     if len(key) > 0:
@@ -135,43 +137,59 @@ def change_entry():
                 index = 0
             if project_status == "Fullført":
                 index = 1
-            if project_status == "Avventer":
-                index = 2
             if project_status == "Kommer":
-                index = 3
-            project_status = st.selectbox("Status", ["Pågår", "Fullført", "Avventer", "Kommer"])
+                index = 2
+            project_status = st.selectbox("Status", ["Pågår", "Fullført", "Kommer"])
             lat = list["Latitude"]
             long = list["Longitude"]
             name = list["Innsender"]
             dato = list["Dato"]
             db.insert_data(projectname, id, project_type, project_status, lat, long, name, dato)
 
-def prosjekter_app(name):
-    st.title("Prosjekter")
-    new_entry(name)
 
-    st.markdown("""---""")
-    st.header("Oppdragsoversikt")
+@st.cache
+def convert_df(df):
+   return df.to_csv().encode('utf-8')
+
+def download_csv(df):
+    csv = convert_df(df)
+
+    st.download_button(
+    "Last ned...",
+    csv,
+    "file.csv",
+    "text/csv",
+    key='download-csv'
+    )
+
+def prosjekter_app(name):
+    st.title("Oppdragsoversikt")
+    with st.expander("Registrer nytt oppdrag"):
+        new_entry(name)
+  
+    with st.expander("Oppdater status / Feilført"):
+        change_entry()
+
     ds = db.fetch_all_data()
     if len(ds) == 0:
         st.warning("Ingen data")
         st.stop()
     df = pd.DataFrame(ds)
-    
-    with st.expander("Oppdater status / Feilført"):
-        change_entry()
+
     with st.expander("Tabellform"):
         st.write(df)
+        download_csv(df)
     location = Location()
-    st.subheader("Aktive oppdrag")
+    st.subheader(f"{len(df.loc[df['Status'] == 'Pågår'])} Aktive oppdrag")
     location.map2(df.loc[df['Status'] == 'Pågår'], [255, 195, 88])
+    st.markdown("""---""")
 
-    with st.expander("Andre"):
-        st.subheader("Fremtidige oppdrag")
-        location.map2(df.loc[df['Status'] == 'Kommer'], [183, 220, 143])
-        
-        st.subheader("Fullførte oppdrag")
-        location.map2(df.loc[df['Status'] == 'Fullført'], [29, 60, 52])
-    
+    st.subheader(f"{len(df.loc[df['Status'] == 'Kommer'])} Fremtidige oppdrag")
+    location.map2(df.loc[df['Status'] == 'Kommer'], [29, 60, 52])
+    st.markdown("""---""")
+
+    st.subheader(f" {len(df.loc[df['Status'] == 'Fullført'])} Fullførte oppdrag")
+    location.map2(df.loc[df['Status'] == 'Fullført'], [183, 220, 143])
+
     
 
