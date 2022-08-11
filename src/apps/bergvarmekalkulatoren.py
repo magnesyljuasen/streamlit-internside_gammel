@@ -32,7 +32,7 @@ class Location:
         zoom = 3.1
         ),
         layers=[init], tooltip={
-        'html': '<b>{key}</b> <br> Innsendt: {Dato}',
+        'html': '<b>{key}</b> <br> Boligareal: {Areal} <br> Innsendt: {Dato}',
         'style': {'color': 'white'}}))
 
 
