@@ -32,7 +32,7 @@ class Location:
         zoom = 3.1
         ),
         layers=[init], tooltip={
-        'html': '<b>{key}</b> <br> Boligareal: {Areal} <br> Innsendt: {Dato}',
+        'html': '<b>{key}</b> <br> Boligareal: {Areal} m2 <br> Innsendt: {Dato}',
         'style': {'color': 'white'}}))
 
 
@@ -46,7 +46,7 @@ def bergvarmekalkulatoren_app():
         st.dataframe(df)
 
     location = Location()
-    location.map(df, [255, 195, 88])
+    location.map(df, [29, 60, 52])
     st.markdown("""---""")
 
 
