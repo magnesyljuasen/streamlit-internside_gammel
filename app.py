@@ -13,6 +13,7 @@ from src.apps.kostnader import kostnader_app
 from src.apps.kart import kart_app
 from src.apps.profet import profet_app
 from src.apps.maler import maler_app
+from src.apps.strompris import strompris_app
 
 
 
@@ -38,8 +39,8 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {name}!')
 
-        options = ["Forside", "Prosjekter", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", ]
-        selected = st.radio("Velg app", options)
+        options = ["Forside", "Prosjekter", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", "Strompris"]
+        selected = st.radio("Velg app", options, index=9)
         st.markdown("---")
 
     if selected == "Forside":
@@ -68,6 +69,9 @@ elif authentication_status:
 
     if selected == "Maler":
         maler_app()
+
+    if selected == "Strompris":
+        strompris_app()
 
    
         
