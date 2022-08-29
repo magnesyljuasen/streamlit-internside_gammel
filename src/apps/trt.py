@@ -19,7 +19,7 @@ def trt_app():
         st.header("HUB for brønnborere")
         url = "https://grunnvarme-asplanviak.hub.arcgis.com/"
         st.subheader("[Innmeldingsportal for brønnborere](%s)" % url)
-        url = "https://melhus-asplanviak.hub.arcgis.com/"
+        url = "https://asplanviak.maps.arcgis.com/apps/webappviewer/index.html?id=fdc2587f84e745d1be12220e8d5ceb06"
         st.subheader("[Innkomne tester](%s)" % url)
         st.caption(""" basum.boring | ZEZSPKJ1 """)
         st.caption(""" ostlandet.boring | JOUAFOE1 """)

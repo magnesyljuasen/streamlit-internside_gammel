@@ -7,36 +7,6 @@ from PIL import Image
 from src.diverse.funksjoner import Location
 
 def kart_app():
-    st.title("Kart")
-
-    st.header("Generelt kart")
-    st.write("""Kartet gir en rask oversikt over grunnforhold, og andre relevante datasett. 
-    Trykk på lag-ikonet i venstre hjørne for å skru av og på lag.""")
-    image = Image.open('src/bilder/generelt_kart.png')
-    st.image(image)  
-    #st.markdown(""" <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"></iframe> """, unsafe_allow_html=True)
-    url = "https://asplanviak.maps.arcgis.com/apps/instant/basic/index.html?appid=901e9d0f94b24ec186bd4e1f7ce426c6"
-    st.header("[Gå til generelt kart](%s)" % url)
-    st.markdown("---")
-    st.header("Andre kart")
-    c1, c2 = st.columns(2)
-    with c1:
-        url = "https://asplanviak.maps.arcgis.com/apps/webappviewer3d/index.html?id=66d6a06bc9a84510a4db7262411ffda7"
-        st.header("[3D kart](%s)" % url)
-
-        url = "https://asplanviak.maps.arcgis.com/home/item.html?id=0da805382c454ffeb9bb86f1b6f8b97a"
-        st.header("[Grunnvarmekartet](%s)" % url)
-
-        url = "https://melhus-asplanviak.hub.arcgis.com/"
-        st.header("[Melhus HUB](%s)" % url)
-        st.caption(""" melhus.fellesnett | OBUHLGAP2 """ )
-
-        
-
-        
-
-    
-    st.markdown("---")
     st.header("Test av NGU sine APIer")
     with st.expander("API - test"):    
         
@@ -64,7 +34,7 @@ def kart_app():
                     get_fill_color=[255, 195, 88],
                     get_line_color=[0, 0, 0])
 
-        diff = 0.02
+        diff = 0.05
 
         x1 = long - diff
         x2 = lat - diff
