@@ -14,7 +14,7 @@ from src.apps.kart import kart_app
 from src.apps.profet import profet_app
 from src.apps.maler import maler_app
 from src.apps.strompris import strompris_app
-
+from src.apps.programmering import programmering_app
 
 
 st.set_page_config(page_title="AV Grunnvarme", page_icon=":bar_chart:", layout="centered")
@@ -39,8 +39,8 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {name}!')
 
-        options = ["Forside", "Prosjekter", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", "Strompris"]
-        selected = st.radio("Velg app", options, index=9)
+        options = ["Forside", "Prosjekter", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", "Strompris", "Programmering"]
+        selected = st.radio("Velg app", options, index=0)
         st.markdown("---")
 
     if selected == "Forside":
@@ -72,6 +72,9 @@ elif authentication_status:
 
     if selected == "Strompris":
         strompris_app()
+
+    if selected == "Programmering":
+        programmering_app()
 
    
         

@@ -4,7 +4,7 @@ deta = Deta("a0558p23_1qnSrugdeUhAokVe8AvE5w9HyNSnt6yx")
 
 db = deta.Base("Prosjekter")
 
-def insert_data(projectname, id, project_type, project_status, lat, long, name, date):
+def insert_data(projectname, id, project_type, project_status, lat, long, name, date, commentary):
     return db.put({
         "key" : projectname,
         "Oppdragsnummer" : id, 
@@ -13,7 +13,8 @@ def insert_data(projectname, id, project_type, project_status, lat, long, name, 
         "Latitude" : lat,
         "Longitude" : long, 
         "Innsender" : name,
-        "Dato" : date})
+        "Dato" : date,
+        "Kommentar" : commentary})
 
 def fetch_all_data():
     res = db.fetch()
