@@ -111,7 +111,8 @@ def new_entry(name):
             #    lat, long = location.address_to_coordinate(adjusted_address)
             #if lat != 0:
             #    location.map1(lat, long)
-            db.insert_data(projectname, id, project_type, project_status, lat, long, name, dato)
+            kommentar = "ingen"
+            db.insert_data(projectname, id, project_type, project_status, lat, long, name, dato, kommentar)
         st.form_submit_button("Oppdater")
             
 
@@ -144,7 +145,8 @@ def change_entry():
             long = list["Longitude"]
             name = list["Innsender"]
             dato = list["Dato"]
-            db.insert_data(projectname, id, project_type, project_status, lat, long, name, dato)
+            kommentar = "ingen"
+            db.insert_data(projectname, id, project_type, project_status, lat, long, name, dato, kommentar)
 
 
 @st.cache
