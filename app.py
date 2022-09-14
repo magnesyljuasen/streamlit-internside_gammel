@@ -40,7 +40,7 @@ elif authentication_status:
         st.title(f'Hei {name}!')
 
         options = ["Forside", "Prosjekter", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", "Strompris", "Programmering", "Pygfunction"]
-        selected = st.radio("Velg app", options, index=11)
+        selected = st.radio("Velg app", options, index=0)
         st.markdown("---")
 
     if selected == "Forside":
