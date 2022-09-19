@@ -26,7 +26,6 @@ def trt_app():
         st.caption(""" vestnorsk.boring | VVBHFIO1 """)
         
            
-
     fil = st.file_uploader ('Last opp testdata', key='TRT')
     if fil is not None:
         plotting = Plotting()

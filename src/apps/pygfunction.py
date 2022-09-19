@@ -7,6 +7,85 @@ from scipy.interpolate import interp1d
 from scipy.signal import fftconvolve
 import pygfunction as gt
 
+from src.pygf.bore_field_thermal_resistance import bore_field_thermal_resistance_app
+from src.pygf.comparison_gfunction_solvers import comparison_gfunction_solvers_app
+from src.pygf.comparison_load_aggregation import comparison_load_aggregation_app
+from src.pygf.custom_bore_field_from_file import custom_bore_field_from_file_app
+from src.pygf.custom_bore_field import custom_bore_field_app
+from src.pygf.custom_borehole import custom_borehole_app
+from src.pygf.discretize_boreholes import discretize_boreholes_app
+from src.pygf.equal_inlet_temperature import equal_inlet_temperature_app
+from src.pygf.fluid_temperature_multiple_boreholes import fluid_temperature_multiple_boreholes_app
+from src.pygf.fluid_temperature import fluid_temperature_app
+from src.pygf.inclined_boreholes import inclined_boreholes_app
+from src.pygf.load_aggregation import load_aggregation_app
+from src.pygf.mixed_inlet_conditions import mixed_inlet_conditions_app
+from src.pygf.multiple_independent_Utubes import multiple_independent_Utubes_app
+from src.pygf.multipole_temperature import multipole_temperature_app
+from src.pygf.regular_bore_field import regular_bore_field_app
+from src.pygf.unequal_segments import unequal_segments_app
+from src.pygf.uniform_heat_extraction_rate import uniform_heat_extraction_rate_app
+from src.pygf.uniform_temperature import uniform_temperature_app
+
+from src.pygf.simulation import simulation_app
+
+def pygfunction_app():
+    st.title("Beregning")
+    simulation_app()
+    st.markdown("---")
+    st.title("Annet")
+    if st.checkbox("Brønndesign og plassering"):
+        custom_bore_field_from_file_app()
+        st.markdown("---")
+        custom_bore_field_app()
+        st.markdown("---")
+        custom_borehole_app()
+        st.markdown("---")
+        inclined_boreholes_app()
+        st.markdown("---")
+        regular_bore_field_app()
+        st.markdown("---")
+        multipole_temperature_app()
+
+    if st.checkbox("Simuleringer"):
+        fluid_temperature_multiple_boreholes_app()
+        st.markdown("---")
+        fluid_temperature_app()
+        st.markdown("---")
+        load_aggregation_app()
+        st.markdown("---")
+        #comparison_load_aggregation_app() #kjøretid
+
+    if st.checkbox("Annet"):
+        bore_field_thermal_resistance_app()
+        st.markdown("---")
+        comparison_gfunction_solvers_app()
+        st.markdown("---")
+        equal_inlet_temperature_app()
+        st.markdown("---")
+        mixed_inlet_conditions_app()
+        st.markdown("---")
+        multiple_independent_Utubes_app()
+        st.markdown("---")
+        unequal_segments_app()
+        st.markdown("---")
+        uniform_heat_extraction_rate_app()
+        st.markdown("---")
+        uniform_temperature_app()
+        st.markdown("---")
+        #discretize_boreholes_app() #kjøretid
+
+
+
+
+
+
+
+
+
+
+
+
 def borehole_field():
     st.header("Brønndesign")
     D = st.number_input("Borehole buried depth (m)", value = 0) 
@@ -98,9 +177,9 @@ def calculation(YEARS, ALPHA, K_S, T_G):
     plt.tight_layout()
     st.pyplot(plt)
 
-def pygfunction_app():
-    st.title("Beregning")
-    YEARS, ALPHA, K_S, T_G = constants()
-    calculation(YEARS, ALPHA, K_S, T_G)
+#def pygfunction_app():
+    #st.title("Beregning")
+    #YEARS, ALPHA, K_S, T_G = constants()
+    #calculation(YEARS, ALPHA, K_S, T_G)
     
     return

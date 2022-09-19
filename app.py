@@ -39,7 +39,7 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {name}!')
 
-        options = ["Forside", "Prosjekter", "TRT", "Bergvarmekalkulatoren", "Kart", "Kostnader", "PROFet", "Geoteknikk", "Maler", "Strompris", "Programmering", "Pygfunction"]
+        options = ["Forside", "Prosjekter", "TRT", "Dimensjonering", "Økonomi", "PROFet", "Strømpris", "Bergvarmekalkulatoren", "Kart", "Geoteknikk", "Maler", "Programmering"]
         selected = st.radio("Velg app", options, index=0)
         st.markdown("---")
 
@@ -52,17 +52,23 @@ elif authentication_status:
     if selected == "TRT":
         trt_app()
 
-    if selected == "Bergvarmekalkulatoren":
-        bergvarmekalkulatoren_app()
+    if selected == "Dimensjonering":
+        pygfunction_app()
 
-    if selected == "Kostnader":
+    if selected == "Økonomi":
         kostnader_app()
-
-    if selected == "Kart":
-        kart_app() 
 
     if selected == "PROFet":
         profet_app()
+
+    if selected == "Strømpris":
+        strompris_app()
+
+    if selected == "Bergvarmekalkulatoren":
+        bergvarmekalkulatoren_app()
+
+    if selected == "Kart":
+        kart_app() 
 
     if selected == "Geoteknikk":
         geoteknikk_app()
@@ -70,14 +76,8 @@ elif authentication_status:
     if selected == "Maler":
         maler_app()
 
-    if selected == "Strompris":
-        strompris_app()
-
     if selected == "Programmering":
         programmering_app()
-
-    if selected == "Pygfunction":
-        pygfunction_app()
 
    
         
