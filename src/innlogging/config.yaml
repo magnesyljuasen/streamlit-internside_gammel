@@ -16,7 +16,7 @@ credentials:
       name: Johanne
       password: $2b$12$wlstZCA.KuK.kejAkNpw5uevwmvsEScgPseC2B/eRL585MBVvHYm2 # To be replaced with hashed password
     andreas:
-      name: Andreas
+      name: Bente
       password: $2b$12$U0fZLJXNAZrNqx0RKgt83eviTwKyOEbKkYTmXfRRmGxJrtA.p701G # To be replaced with hashed password
     ellen:
       name: Ellen
