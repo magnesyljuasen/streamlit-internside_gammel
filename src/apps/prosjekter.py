@@ -69,11 +69,11 @@ def new_project(name):
         workers = st.multiselect("Medarbeidere", options=option_list)
         
         st.write("--")  
-        checked_sendttilbud = st.checkbox("Sendt tilbud?", on_change=None) 
-        checked_registrertoppdrag = st.checkbox("Registrert oppdrag?", on_change=None)
-        checked_oppdragsbekreftelse = st.checkbox("Sendt oppdragsbekreftelse?", on_change=None)
-        checked_sendtrapport = st.checkbox("Sendt rapport?", on_change=None)
-        checked_faktura = st.checkbox("Fakturert?", on_change=None)
+        checked_sendttilbud = st.checkbox("Sendt tilbud", on_change=None) 
+        checked_registrertoppdrag = st.checkbox("Registrert oppdrag", on_change=None)
+        checked_oppdragsbekreftelse = st.checkbox("Sendt oppdragsbekreftelse", on_change=None)
+        checked_sendtrapport = st.checkbox("Sendt rapport", on_change=None)
+        checked_faktura = st.checkbox("Fakturert", on_change=None)
 
         #if len(project_address) > 0: 
         #    lat, long = 0, 0
