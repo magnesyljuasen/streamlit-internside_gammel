@@ -174,12 +174,6 @@ def to_csv (df):
         
     f.close ()
     
-def main ():
-    df = frost_profet_beregning ()
-    to_csv (df)
-
-main()
-
 def profet_app():
     st.title("PROFet")
 

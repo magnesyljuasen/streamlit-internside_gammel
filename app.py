@@ -16,6 +16,7 @@ from src.apps.maler import maler_app
 from src.apps.strompris import strompris_app
 from src.apps.programmering import programmering_app
 from src.apps.pygfunction import pygfunction_app
+from src.apps.news import news_app
 
 st.set_page_config(page_title="AV Grunnvarme", page_icon=":bar_chart:", layout="centered")
 
@@ -39,7 +40,7 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {name}!')
 
-        options = ["Forside", "Prosjekter", "TRT", "Dimensjonering", "Økonomi", "PROFet", "Strømpris", "Bergvarmekalkulatoren", "Kart", "Geoteknikk", "Maler", "Programmering"]
+        options = ["Forside", "Prosjekter", "TRT", "Dimensjonering", "Økonomi", "PROFet", "Strømpris", "Bergvarmekalkulatoren", "Kart", "Geoteknikk", "Maler", "Programmering", "Nyhetsartikler"]
         selected = st.radio("Velg app", options, index=0)
         st.markdown("---")
 
@@ -78,6 +79,9 @@ elif authentication_status:
 
     if selected == "Programmering":
         programmering_app()
+
+    if selected == "Nyhetsartikler":
+        news_app()
 
    
         
