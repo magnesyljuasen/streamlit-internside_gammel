@@ -103,3 +103,4 @@ zipp==3.8.0
 xlsxwriter==3.0.3
 openpyxl==3.0.10
 pygfunction==2.2.1
+xlwings==0.28.0
