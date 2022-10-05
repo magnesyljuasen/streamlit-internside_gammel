@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import xlwings as xw
-import win32com.client as win32
 import requests
 import csv
 import os
