@@ -2,6 +2,7 @@
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
+import base64
 from src.apps.geoteknikk import geoteknikk_app
 
 from src.diverse.funksjoner import load_page
@@ -28,6 +29,7 @@ with open('src/innlogging/config.yaml') as file:
 authenticator = stauth.Authenticate(config['credentials'],config['cookie']['name'],config['cookie']['key'],config['cookie']['expiry_days'])
 name, authentication_status, username = authenticator.login('Asplan Viak🌱 Innlogging for grunnvarme', 'main')
 
+
 if authentication_status == False:
     st.error('Ugyldig brukernavn/passord')
     
@@ -46,7 +48,7 @@ elif authentication_status:
 
     if selected == "Forside":
         forside_app()
-
+        
     if selected == "Prosjekter":
         prosjekter_app(name)
 
