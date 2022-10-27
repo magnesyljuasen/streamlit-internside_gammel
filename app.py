@@ -19,7 +19,7 @@ from src.apps.programmering import programmering_app
 from src.apps.pygfunction import pygfunction_app
 from src.apps.news import news_app
 
-st.set_page_config(page_title="AV Grunnvarme", page_icon=":bar_chart:", layout="centered")
+st.set_page_config(page_title="AV Grunnvarme", page_icon=":bar_chart:", layout="centered", initial_sidebar_state="expanded")
 
 with open("styles/main.css") as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
