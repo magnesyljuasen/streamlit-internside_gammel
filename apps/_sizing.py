@@ -6,6 +6,7 @@ from scripts._pygfunction import Simulation
 from scripts._profet import EnergyDemand
 from scripts._utils import Plotting
 from scripts._energy_coverage import EnergyCoverage
+from scripts._costs import Costs
 
 
 def sizing():
@@ -62,15 +63,35 @@ def sizing():
         simulation_obj.K_S = st.number_input("Varmledningsevne", min_value=1.0, value=3.5, max_value=10.0, step=1.0)
         simulation_obj.T_G = st.number_input("Uforstyrret temperatur", min_value=1.0, value=8.0, max_value=20.0, step=1.0)
     simulation_obj.select_borehole_field(number_of_wells_300)
-    if st.button("Kjør simulering"):
+    if st.checkbox("Kjør simulering"):
         with st.spinner("Beregner..."):
             simulation_obj.run_simulation(energy_coverage.gshp_delivered_arr)
+            meters = int(round(simulation_obj.N_B * simulation_obj.H,0))
             c1, c2, c3 = st.columns(3)
             with c1:
-                st.metric("Antall brønnmeter", value=f"{int(round(simulation_obj.N_B * simulation_obj.H,0)):,} m".replace(',', ' '))
+                st.metric("Antall brønnmeter", value=f"{meters:,} m".replace(',', ' '))
             with c2:
                 st.metric("Antall brønner", value=f"{int(round(simulation_obj.N_B,0)):,}".replace(',', ' '))
             with c3:
                 st.metric("Brønndybde", value=f"{int(round(simulation_obj.H,0)):,} m".replace(',', ' '))
-                
+            #--
+            st.title("Kostnader")
+            st.caption("Under arbeid")
+            costs = Costs()
+            costs.calculate_investment(energy_coverage.heat_pump_size, meters, 5)
+            costs.adjust()
+            tab1, tab2 = st.tabs(["Direkte kjøp", "Lånefinansiert"])
+            with tab1:
+                costs.calculate_monthly_costs(demand_array, energy_coverage.gshp_compressor_arr, energy_coverage.non_covered_arr, costs.elprice, 0, 0)
+                costs.operation_show_after()
+                costs.plot("Driftskostnad")
+                costs.profitibality_operation()
+
+            with tab2:
+                costs.calculate_monthly_costs(demand_array, energy_coverage.gshp_compressor_arr, energy_coverage.non_covered_arr, costs.elprice, costs.investment, costs.payment_time)
+
+                costs.operation_and_investment_show()
+
+                costs.plot("Totalkostnad")
+                costs.profitibality_operation_and_investment()
         
