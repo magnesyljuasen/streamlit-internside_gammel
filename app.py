@@ -14,6 +14,7 @@ from apps._sizing import sizing
 from apps._python_programming import python_programming
 from apps._geotechnics import geotechnics
 from apps._energy_analysis import energy_analysis
+from apps._energy_demand import energy_demand
 
 
 NAME, authentication_status, USERNAME, authenticator = settings()
@@ -27,7 +28,7 @@ elif authentication_status:
     with st.sidebar:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {NAME}!')
-        options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Dimensjonering", "Python", "Geoteknikk", "Energianalyse"]
+        options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Dimensjonering", "Energibehov", "Python", "Geoteknikk", "Energianalyse"]
         selected = st.radio("Velg app", options, index=0)
         st.markdown("---")
     if selected == "Forside":
@@ -38,6 +39,8 @@ elif authentication_status:
         trt()
     if selected == "Bergvarmekalkulatoren":
         bergvarmekalkulatoren()
+    if selected == "Energibehov":
+        energy_demand()
     if selected == "Dimensjonering":
         sizing()
     if selected == "Python":
@@ -46,6 +49,7 @@ elif authentication_status:
         geotechnics()
     if selected == "Energianalyse":
         energy_analysis()
+    
         
 
 

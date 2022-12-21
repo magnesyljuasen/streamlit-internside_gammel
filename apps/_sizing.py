@@ -1,4 +1,3 @@
-
 import streamlit as st
 import numpy as np
 
@@ -94,4 +93,4 @@ def sizing():
 
                 costs.plot("Totalkostnad")
                 costs.profitibality_operation_and_investment()
-        
+    

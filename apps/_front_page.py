@@ -63,9 +63,9 @@ def front_page():
         st.subheader("[GeoNorge](%s)" % "https://www.geonorge.no/") 
     st.markdown(""" --- """)
     #--
-    st.header("📺 Nyheter")
-    Tweet("https://twitter.com/SGehlin?ref_src=twsrc%5Etfw").component()
-    st.markdown("---")
+    #st.header("📺 Nyheter")
+    #Tweet("https://twitter.com/SGehlin?ref_src=twsrc%5Etfw").component()
+    #st.markdown("---")
     #--
     st.caption("Under arbeid... ")
     st.header("⚡ Dagens strømpris")
