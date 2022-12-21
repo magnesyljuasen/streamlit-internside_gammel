@@ -4,7 +4,7 @@ import numpy as np
 
 class EnergyDemand:
     def __init__(self):
-        self.profet_data = pd.read_csv('src\data\csv\effect_profiles.csv', sep=';')
+        self.profet_data = pd.read_csv('src/data/csv/effect_profiles.csv', sep=';')
             
     def get_thermal_arrays_from_input(self):
         building_types = ['House', 'Apartment', 'Office', 
