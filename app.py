@@ -30,7 +30,7 @@ elif authentication_status:
     with st.sidebar:
         authenticator.logout('Logg ut', 'sidebar')
         st.title(f'Hei {NAME}!')
-        options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Dimensjonering", "Energibehov", "Python", "Geoteknikk", "Energianalyse", "GHE"]
+        options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Energibehov", "Python", "Geoteknikk", "Energianalyse"]
         selected = st.radio("Velg app", options, index=0)
         st.markdown("---")
     if selected == "Forside":
@@ -43,16 +43,13 @@ elif authentication_status:
         bergvarmekalkulatoren()
     if selected == "Energibehov":
         energy_demand()
-    if selected == "Dimensjonering":
-        sizing()
     if selected == "Python":
         python_programming()
     if selected == "Geoteknikk":
         geotechnics()
     if selected == "Energianalyse":
         energy_analysis()
-    if selected == "GHE":
-        main_functionalities()
+
 
     
         
