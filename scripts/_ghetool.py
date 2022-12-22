@@ -59,7 +59,7 @@ class GheTool:
             st.pyplot(gt.boreholes.visualize_field(field))
         borefield.calculate_temperatures()
         x = np.arange(0,len(borefield.results_month_heating))
-        y_min, y_max = -2, 14
+        y_min, y_max = -2, 5
         with st.expander("Se resultater", expanded=True):
             st.write(f"**{self.N_1 * self.N_2} brønn(er) à {self.H} aktiv brønndybde med {self.B} m avstand**")
             st.write(f"Leveres fra brønn(er) til oppvarming: {int(np.sum(self.monthly_load_heating))} kWh | Varmepumpestørrelse {self.peak_heating} kW")

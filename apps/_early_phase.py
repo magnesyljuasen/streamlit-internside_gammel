@@ -11,8 +11,8 @@ from scripts._utils import hour_to_month
 from scripts._peakshaving import peakshaving
 
 def early_phase():
-    st.title("Energibehov")
-    st.header("PROFet")
+    st.title("Tidligfasedimensjonering")
+    st.header("Termisk behov fra PROFet")
     st.caption("Foreløpig begrenset til Trondheimsklima")
     energy_demand = EnergyDemand()
     demand_array, selected_array = energy_demand.get_thermal_arrays_from_input()
@@ -20,12 +20,19 @@ def early_phase():
     Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().FOREST_GREEN)
     st.markdown("---")
     #--
+    st.header("Elspesifikt behov fra PROFet")
+    with st.expander("Elspesifikt behov"):
+        electric_array, selected_array = energy_demand.get_electric_array_()
+        Plotting().hourly_plot(electric_array, selected_array, Plotting().SUN_YELLOW)
+        Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().SUN_YELLOW)
+    st.markdown("---")
+    #--
     st.header("Kjølebehov")
     annual_cooling_demand = st.number_input("Legg inn årlig kjølebehov [kWh]", min_value=0, value=0, step=1000)
     cooling_effect = st.number_input("Legg inn kjøleeffekt [kW]", min_value=0, value=0, step=100)
     cooling_per_month = annual_cooling_demand * np.array([0.025, 0.05, 0.05, .05, .075, .1, .2, .2, .1, .075, .05, .025])
     months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
-    Plotting().xy_plot_bar(months, "Måneder", cooling_per_month, 0, max(cooling_per_month) + max(cooling_per_month)/10, "Kjølebehov [kwh]", Plotting().GRASS_GREEN)
+    Plotting().xy_plot_bar(months, "Måneder", cooling_per_month, 0, max(cooling_per_month) + max(cooling_per_month)/10, "Effekt [kW]", Plotting().GRASS_GREEN)
     st.markdown("---")
     #--
     st.header("Dekningsgrad")

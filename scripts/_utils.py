@@ -207,12 +207,14 @@ class Plotting:
         st.pyplot(plt)
         plt.close()
 
-    def xy_plot_bar(self, x, x_label, y, ymin, ymax, y_label, COLOR):
+    def xy_plot_bar(self, x, x_label, y, ymin, ymax, y_label, COLOR, hline_value=0):
         fig, ax = plt.subplots()
         mpl.rcParams['axes.prop_cycle'] = cycler(color=[COLOR])
         ax.bar(x, y)
         ax.grid(color='black', linestyle='--', linewidth=0.1)
         ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
+        if hline_value != 0:
+            ax.axhline(y = hline_value, color = 'black', linestyle = '--', linewidth=0.3)
         st.pyplot(plt)
         plt.close()
 
