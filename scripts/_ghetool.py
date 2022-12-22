@@ -65,8 +65,8 @@ class GheTool:
             st.write(f"Leveres fra brønn(er) {int(np.sum(self.monthly_load_heating))} kWh | Varmepumpestørrelse {self.peak_heating} kW")
             Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
             borefield.results_peak_heating, y_min, y_max, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().FOREST_GREEN, Plotting().SUN_YELLOW)
-            st.write(f"Laveste gj.snittlige kollektorvæsketemperatur ved dellast: **{round(min(borefield.results_month_heating),1)} ℃**")
-            st.write(f"Laveste gj.snittlige kollektorvæsketemperatur ved maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} ℃**")      
+            st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/dellast: **{round(min(borefield.results_month_heating),1)} ℃**")
+            st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} ℃**")      
             #borefield.results_peak_heating()
             #borefield.results_peak_cooling()
 
