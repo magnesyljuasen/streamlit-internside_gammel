@@ -150,7 +150,7 @@ class Simulation:
         load_arr = np.vstack([stacked_arr]).flatten()
         load_arr[0:730] = 0
         self.load_arr = load_arr
-        np.savetxt('data1.csv', arr, delimiter=',')
+        #np.savetxt('data1.csv', arr, delimiter=',')
 
     def _simulation(self):
         q_tot = self.load_arr  # Evaluate heat extraction rate
