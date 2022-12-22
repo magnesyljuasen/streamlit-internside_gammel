@@ -2,6 +2,10 @@ import streamlit as st
 from PIL import Image
 import requests
 import streamlit.components.v1 as components
+from datetime import date
+from scripts._utils import load_lottie
+from streamlit_lottie import st_lottie
+
 
 from scripts._utils import Tweet, elspot_today
 
@@ -14,8 +18,7 @@ def front_page():
         st.image(image)  
     with col2:
         st.title("Grunnvarme")
-        st.write('Internside')
-
+        st.write('♨️ Internside')
     #--
     st.header("🗺️ Kart")
     c1, c2 = st.columns(2)
@@ -63,11 +66,22 @@ def front_page():
         st.subheader("[GeoNorge](%s)" % "https://www.geonorge.no/") 
     st.markdown(""" --- """)
     #--
-    #st.header("📺 Nyheter")
-    #Tweet("https://twitter.com/SGehlin?ref_src=twsrc%5Etfw").component()
-    #st.markdown("---")
-    #--
     st.caption("Under arbeid... ")
     st.header("⚡ Dagens strømpris")
     elspot_today()
+    #--
+    st.header("📺 Nyheter")
+    c1, c2 = st.columns(2)
+    with c1:
+        Tweet("https://twitter.com/EGEC_geothermal").component()
+        st.markdown("---")
+        Tweet("https://twitter.com/SGehlin?ref_src=twsrc%5Etfw").component()
+    with c2:
+        Tweet("https://twitter.com/ProfSpitler").component()
+        st.markdown("---")
+        Tweet("https://twitter.com/BeingSaqibJaved").component()
+    st.markdown("---")
+    lott = "https://assets1.lottiefiles.com/packages/lf20_l22gyrgm.json"
+    st_lottie(load_lottie(lott))
+
     
