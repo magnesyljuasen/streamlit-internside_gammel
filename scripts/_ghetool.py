@@ -55,16 +55,20 @@ class GheTool:
 
         borefield.set_ground_parameters(data)
         field = borefield.create_rectangular_borefield(self.N_1, self.N_2, self.B, self.B, self.H, 0, self.RADIUS)
-        st.pyplot(gt.boreholes.visualize_field(field))
+        with st.expander("Se konfigurasjon"):
+            st.pyplot(gt.boreholes.visualize_field(field))
         borefield.calculate_temperatures()
         x = np.arange(0,len(borefield.results_month_heating))
         y_min, y_max = -2, 10
-        Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
-        borefield.results_peak_heating, y_min, y_max, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal varmeeffekt {(self.peak_heating)} kW", Plotting().FOREST_GREEN, Plotting().SUN_YELLOW)
-        st.write(f"Laveste gj.snittlige kollektorvæsketemperatur ved dellast: **{round(min(borefield.results_month_heating),1)} ℃**")
-        st.write(f"Laveste gj.snittlige kollektorvæsketemperatur ved maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} ℃**")      
-        #borefield.results_peak_heating()
-        #borefield.results_peak_cooling()
+        with st.expander("Se resultater", expanded=True):
+            st.write(f"**{self.N_1 * self.N_2} brønn(er) à {self.H} brønndybde med {self.B} m avstand**")
+            st.write(f"Leveres fra brønn(er) {int(np.sum(self.monthly_load_heating))} kWh | Varmepumpestørrelse {self.peak_heating} kW")
+            Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
+            borefield.results_peak_heating, y_min, y_max, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().FOREST_GREEN, Plotting().SUN_YELLOW)
+            st.write(f"Laveste gj.snittlige kollektorvæsketemperatur ved dellast: **{round(min(borefield.results_month_heating),1)} ℃**")
+            st.write(f"Laveste gj.snittlige kollektorvæsketemperatur ved maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} ℃**")      
+            #borefield.results_peak_heating()
+            #borefield.results_peak_cooling()
 
 
 
