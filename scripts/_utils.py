@@ -171,7 +171,7 @@ class Plotting:
         st.pyplot(plt)
         plt.close()
 
-    def hourly_plot(self, y1, y1label, y1color):
+    def hourly_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0):
         date_1, date_2 = np.datetime64("2021-01-01T00"), np.datetime64("2022-01-01T00")
         x = np.arange(date_1, date_2, dtype='datetime64')
         mpl.rcParams['axes.prop_cycle'] = cycler(color=[y1color])
@@ -181,10 +181,13 @@ class Plotting:
         plt.gca().xaxis.set_major_formatter(myFmt)
         plt.xlabel("Timer i ett år")
         plt.ylabel("Effekt [kW]")
+        plt.ylim((ymin, ymax))
+        plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.xlim([date_1, date_2])
         st.pyplot(plt)
         plt.close()
+
 
     def xy_plot(self, x, xmin, xmax, x_label, y, ymin, ymax, y_label, COLOR):
         fig, ax = plt.subplots()

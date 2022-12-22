@@ -8,6 +8,7 @@ from scripts._energy_coverage import EnergyCoverage
 from scripts._costs import Costs
 from scripts._ghetool import GheTool
 from scripts._utils import hour_to_month
+from scripts._peakshaving import peakshaving
 
 def early_phase():
     st.title("Energibehov")
@@ -42,6 +43,18 @@ def early_phase():
     np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_GREEN, Plotting().SUN_YELLOW)
     st.markdown("---")
     #--
+    st.header("Alternativer for spisslast - Akkumuleringstank")
+    max_effect_noncovered = max(energy_coverage.non_covered_arr)
+    effect_reduction = st.number_input("Ønsket effektreduksjon [kW]", value=int(round(max_effect_noncovered/10,0)), step=10)
+    if effect_reduction > max_effect_noncovered:
+        st.warning("Effektreduksjon kan ikke være høyere enn effekttopp")
+        st.stop()
+    st.write("**Før akkumulering**")
+    Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SUN_YELLOW, 0, 1.1*max_effect_noncovered, max_effect_noncovered)
+    st.write("**Etter akkumulering**")
+    peakshaving_arr, peakshaving_effect = peakshaving(energy_coverage.non_covered_arr, effect_reduction)
+    Plotting().hourly_plot(peakshaving_arr, "Spisslast", Plotting().SUN_YELLOW, 0, 1.1*max_effect_noncovered, peakshaving_effect)
+    st.markdown("---")
     st.header("Oppsummert")
     st.write(f"Totalt energibehov {int(round(np.sum(demand_array),0))} kWh")
     st.write(f"Dekkes av grunnvarmeanlegget {int(round(np.sum(energy_coverage.covered_arr),0))} kWh")
