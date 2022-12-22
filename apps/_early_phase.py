@@ -24,7 +24,8 @@ def early_phase():
     cooling_effect = st.number_input("Legg inn kjøleeffekt [kW]", min_value=0, value=0, step=100)
     cooling_per_month = annual_cooling_demand * np.array([0.025, 0.05, 0.05, .05, .075, .1, .2, .2, .1, .075, .05, .025])
     months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
-    Plotting().xy_plot(months, months[0], months[-1], "Måneder", cooling_per_month, 0, max(cooling_per_month) + max(cooling_per_month)/10, "Kjølebehov [kwh]", Plotting().GRASS_GREEN)
+    Plotting().xy_plot_bar(months, "Måneder", cooling_per_month, 0, max(cooling_per_month) + max(cooling_per_month)/10, "Kjølebehov [kwh]", Plotting().GRASS_GREEN)
+    st.markdown("---")
     #--
     st.header("Dekningsgrad")
     energy_coverage = EnergyCoverage(demand_array)

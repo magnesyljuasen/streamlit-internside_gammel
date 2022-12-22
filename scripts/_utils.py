@@ -195,6 +195,15 @@ class Plotting:
         st.pyplot(plt)
         plt.close()
 
+    def xy_plot_bar(self, x, x_label, y, ymin, ymax, y_label, COLOR):
+        fig, ax = plt.subplots()
+        mpl.rcParams['axes.prop_cycle'] = cycler(color=[COLOR])
+        ax.bar(x, y)
+        ax.grid(color='black', linestyle='--', linewidth=0.1)
+        ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
+        st.pyplot(plt)
+        plt.close()
+
     def xy_simulation_plot(self, x, xmin, xmax, x_label, y1, y2, ymin, ymax, y_label, y_legend1, y_legend2, COLOR1, COLOR2):
         fig, ax = plt.subplots()
         x = x/12

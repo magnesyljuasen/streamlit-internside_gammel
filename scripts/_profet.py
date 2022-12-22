@@ -12,15 +12,21 @@ class EnergyDemand:
         'University','Culture_Sport', 'Nursing_Home', 
         'Hospital','Other']
         building_standard = ['Regular', 'Efficient', 'Very efficient']
-        arrays = ["Thermal", "DHW", "Space_heating"]
+        arrays = ["Romoppvarming + Tappevann", "Tappevann", "Romoppvarming"]
         c1, c2 = st.columns(2)
         with c1:
             selected_area = st.number_input("Areal", min_value=1, value=1000, max_value=100000, step = 250)
             selected_building_type = st.selectbox("Bygningstype", options=building_types)
         with c2:
             selected_building_standard = st.selectbox("Bygningsstandard", options=building_standard)
-            selected_array = st.selectbox("Behovsprofil", options=arrays)
+            selected_array_name = st.selectbox("Behovsprofil", options=arrays)
+            if selected_array_name == "Romoppvarming + Tappevann":
+                selected_array = "Thermal"
+            if selected_array_name == "Romoppvarming":
+                selected_array = "Space_heating"
+            if selected_array_name == "Tappevann":
+                selected_array = "DHW"
         if selected_array == "Thermal":
-            return selected_area * (np.array(self.profet_data[selected_building_type + selected_building_standard + "Space_heating"]) + np.array(self.profet_data[selected_building_type + selected_building_standard + "DHW"])).flatten(), selected_array
+            return selected_area * (np.array(self.profet_data[selected_building_type + selected_building_standard + "Space_heating"]) + np.array(self.profet_data[selected_building_type + selected_building_standard + "DHW"])).flatten(), selected_array_name
         else:
-            return selected_area * np.array(self.profet_data[selected_building_type + selected_building_standard + selected_array]).flatten(), selected_array
+            return selected_area * np.array(self.profet_data[selected_building_type + selected_building_standard + selected_array]).flatten(), selected_array_name
