@@ -9,7 +9,7 @@ from scripts._costs import Costs
 from scripts._ghetool import GheTool
 from scripts._utils import hour_to_month
 
-def energy_demand():
+def early_phase():
     st.title("Energibehov")
     st.header("PROFet")
     st.caption("Foreløpig begrenset til Trondheimsklima")
@@ -18,6 +18,13 @@ def energy_demand():
     Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
     Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().FOREST_GREEN)
     st.markdown("---")
+    #--
+    st.header("Kjølebehov")
+    annual_cooling_demand = st.number_input("Legg inn årlig kjølebehov [kWh]", min_value=0, value=0, step=1000)
+    cooling_effect = st.number_input("Legg inn kjøleeffekt [kW]", min_value=0, value=0, step=100)
+    cooling_per_month = annual_cooling_demand * np.array([0.025, 0.05, 0.05, .05, .075, .1, .2, .2, .1, .075, .05, .025])
+    months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
+    Plotting().xy_plot(months, months[0], months[-1], "Måneder", cooling_per_month, 0, max(cooling_per_month) + max(cooling_per_month)/10, "Kjølebehov [kwh]", Plotting().GRASS_GREEN)
     #--
     st.header("Dekningsgrad")
     energy_coverage = EnergyCoverage(demand_array)
@@ -46,9 +53,9 @@ def energy_demand():
     st.title("Brønnpark")
     simulation_obj = GheTool()
     simulation_obj.monthly_load_heating = hour_to_month(energy_coverage.gshp_delivered_arr)
-    simulation_obj.monthly_load_cooling = 0
+    simulation_obj.monthly_load_cooling = cooling_per_month
     simulation_obj.peak_heating = energy_coverage.heat_pump_size
-    simulation_obj.peak_cooling = 0
+    simulation_obj.peak_cooling = cooling_effect
     well_guess = int(round(np.sum(energy_coverage.gshp_delivered_arr)/80/300,2))
     st.markdown(f"Ca. **{well_guess}** brønner a 300 m ")
     with st.form("Inndata"):

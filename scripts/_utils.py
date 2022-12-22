@@ -100,6 +100,8 @@ class Plotting:
         self.GRASS_GREEN = "#48a23f"
         self.FOREST_GREEN = "#1d3c34"
         self.SUN_YELLOW = "#FFC358"
+        self.GRASS_BLUE = "#3f48a2"
+        self.GRASS_RED = "#a23f48"
 
     def xy_plot(self, x, xmin, xmax, xlabel, y, ymin, ymax, ylabel, COLOR):
         source = pd.DataFrame({"x": x, "y": y})
@@ -112,6 +114,14 @@ class Plotting:
     def xy_bar_plot(self, x, xmin, xmax, xlabel, y, ymin, ymax, ylabel, COLOR):
         source = pd.DataFrame({"x": x, "y": y})
         c = alt.Chart(source).mark_bar(width=0.5).encode(
+            x=alt.X("x", scale=alt.Scale(domain=[xmin, xmax]), title=xlabel),
+            y=alt.Y("y", scale=alt.Scale(domain=[ymin, ymax]), title=ylabel),
+            color = alt.value(COLOR))
+        st.altair_chart(c, use_container_width=True)
+
+    def xy_bar_thick_plot(self, x, xmin, xmax, xlabel, y, ymin, ymax, ylabel, COLOR):
+        source = pd.DataFrame({"x": x, "y": y})
+        c = alt.Chart(source).mark_bar().encode(
             x=alt.X("x", scale=alt.Scale(domain=[xmin, xmax]), title=xlabel),
             y=alt.Y("y", scale=alt.Scale(domain=[ymin, ymax]), title=ylabel),
             color = alt.value(COLOR))
@@ -183,6 +193,7 @@ class Plotting:
         ax.grid(color='black', linestyle='--', linewidth=0.1)
         ax.set(xlim=(xmin, xmax), ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
         st.pyplot(plt)
+        plt.close()
 
     def xy_simulation_plot(self, x, xmin, xmax, x_label, y1, y2, ymin, ymax, y_label, y_legend1, y_legend2, COLOR1, COLOR2):
         fig, ax = plt.subplots()

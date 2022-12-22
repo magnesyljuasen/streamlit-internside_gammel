@@ -8,7 +8,7 @@ class EnergyDemand:
             
     def get_thermal_arrays_from_input(self):
         building_types = ['House', 'Apartment', 'Office', 
-        'Shop', 'Hotel', 'Kindergarten',' School', 
+        'Shop', 'Hotel', 'Kindergarten', 'School', 
         'University','Culture_Sport', 'Nursing_Home', 
         'Hospital','Other']
         building_standard = ['Regular', 'Efficient', 'Very efficient']
