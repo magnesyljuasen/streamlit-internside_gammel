@@ -81,13 +81,14 @@ def early_phase():
     simulation_obj.peak_cooling = cooling_effect
     well_guess = int(round(np.sum(energy_coverage.gshp_delivered_arr)/80/300,2))
     st.markdown(f"Estimert ca. **{well_guess}** brønner a 300 m ")
+    verdi = 5
     with st.form("Inndata"):
         c1, c2 = st.columns(2)
         with c1:
             simulation_obj.K_S = st.number_input("Varmledningsevne", min_value=1.0, value=3.5, max_value=10.0, step=1.0) 
             simulation_obj.T_G = st.number_input("Uforstyrret temperatur", min_value=1.0, value=8.0, max_value=20.0, step=1.0)
             simulation_obj.R_B = st.number_input("Målt borehullsmotstand", min_value=0.0, value=0.08, max_value=2.0, step=0.01) + 0.02
-            simulation_obj.N_1= st.number_input("Antall brønner (X)", value=1, step=1) 
+            simulation_obj.N_1= st.number_input("Antall brønner (X)", value=well_guess, step=1) 
             simulation_obj.N_2= st.number_input("Antall brønner (Y)", value=1, step=1) 
         with c2:
             H = st.number_input("Brønndybde [m]", min_value=100, value=300, max_value=500, step=10)
