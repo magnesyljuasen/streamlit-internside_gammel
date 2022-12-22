@@ -200,7 +200,8 @@ class Plotting:
         x = x/12
         ax.plot(x, y1, linewidth=2.0, color=COLOR1, label=y_legend1)
         ax.plot(x, y2, linewidth=2.0, color=COLOR2, label=y_legend2)
-        ax.axhline(y = 1, color = 'b', linestyle = '--', linewidth=0.5)        
+        ax.axhline(y = 1, color = 'black', linestyle = '--', linewidth=0.3)
+        ax.axhline(y = 0, color = 'black', linestyle = '-.', linewidth=0.3)        
         ax.legend()
         ax.grid(color='black', linestyle='--', linewidth=0.1)
         ax.set(xlim=(xmin, xmax), xlabel=(x_label), ylabel=(y_label), yticks=(np.arange(ymin, ymax, 1)))

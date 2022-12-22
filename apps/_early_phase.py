@@ -57,17 +57,19 @@ def early_phase():
     simulation_obj.peak_heating = energy_coverage.heat_pump_size
     simulation_obj.peak_cooling = cooling_effect
     well_guess = int(round(np.sum(energy_coverage.gshp_delivered_arr)/80/300,2))
-    st.markdown(f"Ca. **{well_guess}** brønner a 300 m ")
+    st.markdown(f"Estimert ca. **{well_guess}** brønner a 300 m ")
     with st.form("Inndata"):
         c1, c2 = st.columns(2)
         with c1:
             simulation_obj.K_S = st.number_input("Varmledningsevne", min_value=1.0, value=3.5, max_value=10.0, step=1.0) 
             simulation_obj.T_G = st.number_input("Uforstyrret temperatur", min_value=1.0, value=8.0, max_value=20.0, step=1.0)
+            simulation_obj.R_B = st.number_input("Målt borehullsmotstand", min_value=0.0, value=0.08, max_value=2.0, step=0.01) + 0.02
             simulation_obj.N_1= st.number_input("Antall brønner (X)", value=1, step=1) 
             simulation_obj.N_2= st.number_input("Antall brønner (Y)", value=1, step=1) 
         with c2:
-            simulation_obj.R_B = st.number_input("Målt borehullsmotstand", min_value=0.0, value=0.08, max_value=2.0, step=0.01) + 0.02
-            simulation_obj.H = st.number_input("Brønndybde [m]", min_value=100, value=300, max_value=500, step=10)
+            H = st.number_input("Brønndybde [m]", min_value=100, value=300, max_value=500, step=10)
+            GWT = st.number_input("Grunnvannsstand [m]", min_value=0, value=5, max_value=100, step=1)
+            simulation_obj.H = H - GWT
             simulation_obj.B = st.number_input("Avstand mellom brønner", min_value=1, value=15, max_value=30, step=1)
             simulation_obj.RADIUS = st.number_input("Brønndiameter [mm]", min_value = 80, value=115, max_value=300, step=1) / 2000
         st.form_submit_button("Kjør simulering")

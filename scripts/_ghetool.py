@@ -61,7 +61,7 @@ class GheTool:
         x = np.arange(0,len(borefield.results_month_heating))
         y_min, y_max = -2, 14
         with st.expander("Se resultater", expanded=True):
-            st.write(f"**{self.N_1 * self.N_2} brønn(er) à {self.H} brønndybde med {self.B} m avstand**")
+            st.write(f"**{self.N_1 * self.N_2} brønn(er) à {self.H} aktiv brønndybde med {self.B} m avstand**")
             st.write(f"Leveres fra brønn(er) til oppvarming: {int(np.sum(self.monthly_load_heating))} kWh | Varmepumpestørrelse {self.peak_heating} kW")
             Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
             borefield.results_peak_heating, y_min, y_max, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
