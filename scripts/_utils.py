@@ -171,9 +171,19 @@ class Plotting:
         st.pyplot(plt)
         plt.close()
 
-    def hourly_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0):
+    def hourly_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0, winterweek = False):
         date_1, date_2 = np.datetime64("2021-01-01T00"), np.datetime64("2022-01-01T00")
         x = np.arange(date_1, date_2, dtype='datetime64')
+        if winterweek == True:
+            y_new = []
+            date_1 = np.datetime64("2021-01-02T00")
+            date_2 = np.datetime64("2021-01-08T00")
+            x = np.arange(date_1, date_2, dtype='datetime64').flatten()
+            #for i in range(0, len(y1)):
+            #    state = x[i] > date_1 and x[i] < date_2
+            #    if bool(state) == bool(1):
+            #        y_new.append(y1[i])
+            #y1 = y_new
         mpl.rcParams['axes.prop_cycle'] = cycler(color=[y1color])
         plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')])
         plt.legend(loc='best')
@@ -187,7 +197,6 @@ class Plotting:
         plt.xlim([date_1, date_2])
         st.pyplot(plt)
         plt.close()
-
 
     def xy_plot(self, x, xmin, xmax, x_label, y, ymin, ymax, y_label, COLOR):
         fig, ax = plt.subplots()
