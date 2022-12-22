@@ -6,19 +6,15 @@ from scripts._profet import EnergyDemand
 from scripts._utils import Plotting
 from scripts._energy_coverage import EnergyCoverage
 from scripts._costs import Costs
+from scripts._ghetool import GheTool
+from scripts._utils import hour_to_month
 
 def energy_demand():
     st.title("Energibehov")
-    selected_input_option = st.radio("Velg inputform", options=["PROFet", "Last opp fil"], horizontal=True)
-    if selected_input_option == "PROFet":
-        st.header("PROFet")
-        st.caption("Foreløpig begrenset til Trondheimsklima")
-        energy_demand = EnergyDemand()
-        demand_array, selected_array = energy_demand.get_thermal_arrays_from_input()
-    if selected_input_option == "Last opp fil":
-        st.header("Filopplasting")
-        st.caption("Under arbeid...")
-        demand_array = st.file_uploader("Last opp fil")
+    st.header("PROFet")
+    st.caption("Foreløpig begrenset til Trondheimsklima")
+    energy_demand = EnergyDemand()
+    demand_array, selected_array = energy_demand.get_thermal_arrays_from_input()
     Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
     Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().FOREST_GREEN)
     st.markdown("---")
@@ -36,43 +32,55 @@ def energy_demand():
     energy_coverage.non_covered_arr, "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_GREEN, Plotting().SUN_YELLOW)
     Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], 
     np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_GREEN, Plotting().SUN_YELLOW)
-
+    st.markdown("---")
+    #--
+    st.header("Oppsummert")
+    st.write(f"Totalt energibehov {int(round(np.sum(demand_array),0))} kWh")
+    st.write(f"Dekkes av grunnvarmeanlegget {int(round(np.sum(energy_coverage.covered_arr),0))} kWh")
+    st.write(f"- Kompressor {int(round(np.sum(energy_coverage.gshp_compressor_arr),0))} kWh")
+    st.write(f"- Levert fra brønn(er) {int(round(np.sum(energy_coverage.gshp_delivered_arr),0))} kWh")
+    st.write(f"Spisslast {int(round(np.sum(energy_coverage.non_covered_arr),0))} kWh")
+    st.write(f"Varmpumpestørrelse {int(round(energy_coverage.heat_pump_size,0))} kW")
     st.markdown("---")
     #--
     st.title("Brønnpark")
-    st.header("Design")
-    c1, c2 = st.columns(2)
-    with c1:
-        kWh_per_meter = st.number_input("Velg kWh/m", min_value=60, value=80, max_value=120, step=5)
-    with c2:
-        watt_per_meter = st.number_input("Velg W/m", min_value=10, value=25, max_value=50) /1000
-    meters_1 = (np.sum(energy_coverage.gshp_delivered_arr)/kWh_per_meter)
-    meters_2 = max(energy_coverage.covered_arr)/watt_per_meter
-    if meters_1 > meters_2:
-        meters = meters_1
-    else:
-        meters = meters_2
-    meters = st.number_input("Velg totalt antall brønnmeter [m] - standardverdi er basert på kWh/m og W/m", value=int(meters), step=10)
-    st.header("Dybde til fjell")
-    depth_to_bedrock = st.number_input("Oppgi dybde til fjell [m]", min_value = 0, value=10, max_value=250, step=1)
-    st.markdown("---")
-    st.title("Kostnader")
-    st.caption("Under arbeid")
-    costs = Costs()
-    costs.calculate_investment(energy_coverage.heat_pump_size, meters, 5)
-    costs.adjust()
-    tab1, tab2 = st.tabs(["Direkte kjøp", "Lånefinansiert"])
-    with tab1:
-        costs.calculate_monthly_costs(demand_array, energy_coverage.gshp_compressor_arr, energy_coverage.non_covered_arr, costs.elprice, 0, 0)
-        costs.operation_show_after()
-        costs.plot("Driftskostnad")
-        costs.profitibality_operation()
+    simulation_obj = GheTool()
+    simulation_obj.monthly_load_heating = hour_to_month(energy_coverage.gshp_delivered_arr)
+    simulation_obj.monthly_load_cooling = 0
+    simulation_obj.peak_heating = energy_coverage.heat_pump_size
+    simulation_obj.peak_cooling = 0
+    well_guess = int(round(np.sum(energy_coverage.gshp_delivered_arr)/80/300,2))
+    st.markdown(f"Ca. **{well_guess}** brønner a 300 m ")
+    with st.form("Inndata"):
+        c1, c2 = st.columns(2)
+        with c1:
+            simulation_obj.K_S = st.number_input("Varmledningsevne", min_value=1.0, value=3.5, max_value=10.0, step=1.0) 
+            simulation_obj.T_G = st.number_input("Uforstyrret temperatur", min_value=1.0, value=8.0, max_value=20.0, step=1.0)
+            simulation_obj.N_1= st.number_input("Antall brønner (X)", value=1, step=1) 
+            simulation_obj.N_2= st.number_input("Antall brønner (Y)", value=1, step=1) 
+        with c2:
+            simulation_obj.R_B = st.number_input("Målt borehullsmotstand", min_value=0.0, value=0.08, max_value=2.0, step=0.01) + 0.02
+            simulation_obj.H = st.number_input("Brønndybde [m]", min_value=100, value=300, max_value=500, step=10)
+            simulation_obj.B = st.number_input("Avstand mellom brønner", min_value=1, value=15, max_value=30, step=1)
+            simulation_obj.RADIUS = st.number_input("Brønndiameter [mm]", min_value = 80, value=115, max_value=300, step=1) / 2000
+        st.form_submit_button("Kjør simulering")
+        simulation_obj._run_simulation()
 
-    with tab2:
-        costs.calculate_monthly_costs(demand_array, energy_coverage.gshp_compressor_arr, energy_coverage.non_covered_arr, costs.elprice, costs.investment, costs.payment_time)
-
-        costs.operation_and_investment_show()
-
-        costs.plot("Totalkostnad")
-        costs.profitibality_operation_and_investment()
+    #st.title("Kostnader")
+    #st.caption("Under arbeid")
+    #tab1, tab2 = st.tabs(["Direkte kjøp", "Lånefinansiert"])
+    #with tab1:
+    #    costs_operation = Costs(meters)
+    #    costs_operation._calculate_monthly_costs(demand_array, energy_coverage.gshp_compressor_arr, energy_coverage.non_covered_arr, costs_operation.INVESTMENT)
+    #    costs_operation._show_operation_costs(costs_operation.INVESTMENT)
+        #costs.operation_show_after()
+        #costs.plot("Driftskostnad")
+        #costs.profitibality_operation()
+    #with tab2:
+    #    costs_operation_and_investment = Costs(meters)
+    #    costs_operation_and_investment._calculate_monthly_costs(demand_array, energy_coverage.gshp_compressor_arr, energy_coverage.non_covered_arr, 0)
+    #    costs_operation_and_investment._show_operation_costs(0)
+        #costs.operation_and_investment_show()
+        #costs.plot("Totalkostnad")
+        #costs.profitibality_operation_and_investment()
     
