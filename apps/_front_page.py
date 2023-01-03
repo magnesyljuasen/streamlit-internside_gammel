@@ -62,12 +62,29 @@ def front_page():
     c1, c2 = st.columns(2)
     with c1:
         st.subheader("[Nord Pool](%s)" % "https://www.nordpoolgroup.com/en/Market-data1/#/nordic/table")
+        st.subheader("[Profilmanual](%s)" % "https://profil.asplanviak.no/")
+        
     with c2:
         st.subheader("[GeoNorge](%s)" % "https://www.geonorge.no/") 
     st.markdown(""" --- """)
     #--
-    st.caption("Under arbeid... ")
+    st.header("✂️ Symboler")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.caption("Enheter")
+        st.code("°C")
+        st.code("W/m∙K")
+        st.code("m∙K/W")
+    with c2:
+        st.caption("Andre")
+        st.code("á")
+        st.code("∙")
+        st.code("Δ")
+        st.code("λ")
+    st.markdown("---")
+    #--
     st.header("⚡ Dagens strømpris")
+    st.caption("Under arbeid... ")
     elspot_today()
     #--
     st.header("📺 Nyheter")
