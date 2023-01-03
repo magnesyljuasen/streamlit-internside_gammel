@@ -86,6 +86,7 @@ def front_page():
     st.header("⚡ Dagens strømpris")
     st.caption("Under arbeid... ")
     elspot_today()
+    st.markdown("---")
     #--
     st.header("📺 Nyheter")
     c1, c2 = st.columns(2)
