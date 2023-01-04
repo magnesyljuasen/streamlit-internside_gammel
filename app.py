@@ -29,7 +29,10 @@ elif authentication_status == None:
 elif authentication_status:
     with st.sidebar:
         authenticator.logout('Logg ut', 'sidebar')
-        st.title(f'Hei {NAME}!')
+        if NAME != None:
+            st.title(f'Hei {NAME}!')
+        else:
+            st.title("Hei!")
         options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Python", "Geoteknikk", "Energianalyse"]
         selected = st.radio("Velg app", options, index=0)
         st.markdown("---")

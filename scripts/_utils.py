@@ -67,7 +67,7 @@ class Tweet(object):
 
 #  Hjelpefunksjon - dagens strømpris
 def elspot_today():
-    #url = "https://norway-power.ffail.win/" 
+    url = "https://norway-power.ffail.win/" 
     url = "https://playground-norway-power.ffail.win" #bruk denne for testing
     today = date.today()
     zones = ["NO1", "NO2", "NO3", "NO4", "NO5"]

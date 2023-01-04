@@ -21,8 +21,8 @@ credentials:
     ellen:
       name: Ellen
       password: $2b$12$8JxyNJQJJk2Ax9VOCvR1lePLuDnDCAjzmX0BGqrHdxpoopI7yb7ca # To be replaced with hashed password
-    usman:
-      name: Usman
+    vvs:
+      name: 
       password: $2b$12$4muzMw1Wjau7.exomGYh4.LaYTYrXUsxj.wux17VI1sTjcph7MBdS #To be replaced with hashed password
 cookie:
   expiry_days: 60
