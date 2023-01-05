@@ -2,11 +2,9 @@ import numpy as np
 import streamlit as st
 import scipy
 
-def peakshaving(energy_arr, REDUCTION):
+def peakshaving(energy_arr, REDUCTION, TO_TEMP, FROM_TEMP):
     RHO, HEAT_CAPACITY = 0.96, 4.2
     NEW_MAX_EFFECT = max(energy_arr) - REDUCTION
-    TO_TEMP = 60
-    FROM_TEMP = 40
     
     #Finne topper
     peakshaving_arr = energy_arr
