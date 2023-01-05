@@ -17,8 +17,10 @@ def peakshaving(energy_arr, REDUCTION, TO_TEMP, FROM_TEMP):
     #Lade tanken før topper, og ta bort topper
     day = 12
     peakshave_accumulated = 0
+    peakshave_arr = []
     for i in range(0, len(energy_arr)-day):
         peakshave = max_effect_arr[i+day]
+        peakshave_arr.append(peakshave)
         peakshave_accumulated += peakshave
         if peakshave > 0:
             peakshaving_arr[i+day] -= peakshave
@@ -30,8 +32,8 @@ def peakshaving(energy_arr, REDUCTION, TO_TEMP, FROM_TEMP):
             peakshaving_arr[i+5] += peakshave/6
 
     #Totalenergi
-    tank_size = round(peakshave_accumulated*3600/(RHO*HEAT_CAPACITY*(TO_TEMP-FROM_TEMP))/1000,1)
-    st.write(f"Akkumulert energi {int(round(peakshave_accumulated,0))} kWh")
+    tank_size = round(max(peakshave_arr)*3600/(RHO*HEAT_CAPACITY*(TO_TEMP-FROM_TEMP))/1000,1)
+    #tank_size = round(peakshave_accumulated*3600/(RHO*HEAT_CAPACITY*(TO_TEMP-FROM_TEMP))/1000,1)
     st.write(f"Tankstørrelse {tank_size} m3")
     with st.expander("Mulige tanker", expanded=True):
         diameter_list = [1, 2, 3, 4, 5]

@@ -64,14 +64,14 @@ def early_phase():
     #--
     st.header("Alternativer for spisslast - Akkumuleringstank")
     max_effect_noncovered = max(energy_coverage.non_covered_arr)
-    effect_reduction = st.number_input("Ønsket effektreduksjon [kW]", value=int(round(max_effect_noncovered/10,0)), step=10)
-    if effect_reduction > max_effect_noncovered:
-        st.warning("Effektreduksjon kan ikke være høyere enn effekttopp")
-        st.stop()
     st.write("**Før akkumulering**")
     Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SUN_YELLOW, 0, 1.1*max_effect_noncovered, max_effect_noncovered)
     #Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SUN_YELLOW, 0, 1.1*max_effect_noncovered, max_effect_noncovered, winterweek=True)
     st.write("**Etter akkumulering**")
+    effect_reduction = st.number_input("Ønsket effektreduksjon [kW]", value=int(round(max_effect_noncovered/10,0)), step=10)
+    if effect_reduction > max_effect_noncovered:
+        st.warning("Effektreduksjon kan ikke være høyere enn effekttopp")
+        st.stop()
     TO_TEMP = st.number_input("Turtemperatur [°C]", value = 60)
     FROM_TEMP = st.number_input("Returtemperatur [°C]", value = 40)
     peakshaving_arr, peakshaving_effect = peakshaving(energy_coverage.non_covered_arr, effect_reduction, TO_TEMP, FROM_TEMP)
