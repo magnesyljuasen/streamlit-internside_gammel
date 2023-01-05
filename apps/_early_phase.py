@@ -1,6 +1,7 @@
 
 import streamlit as st
 import numpy as np
+import pandas as pd
 
 from scripts._profet import EnergyDemand
 from scripts._utils import Plotting
@@ -12,19 +13,27 @@ from scripts._peakshaving import peakshaving
 
 def early_phase():
     st.title("Tidligfasedimensjonering")
-    st.header("Termisk behov fra PROFet")
-    st.caption("Foreløpig begrenset til Trondheimsklima")
-    energy_demand = EnergyDemand()
-    demand_array, selected_array = energy_demand.get_thermal_arrays_from_input()
-    Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
-    Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().FOREST_GREEN)
-    st.markdown("---")
-    #--
-    st.header("Elspesifikt behov fra PROFet")
-    with st.expander("Elspesifikt behov"):
-        electric_array, selected_array = energy_demand.get_electric_array_()
-        Plotting().hourly_plot(electric_array, selected_array, Plotting().SUN_YELLOW)
-        Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().SUN_YELLOW)
+    selected_input = st.radio("Hvordan vil du legge inn input?", options=["PROFet", "Last opp"])
+    if selected_input == "PROFet":
+        st.header("Termisk behov fra PROFet")
+        st.caption("Foreløpig begrenset til Trondheimsklima")
+        energy_demand = EnergyDemand()
+        demand_array, selected_array = energy_demand.get_thermal_arrays_from_input()
+        Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
+        Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().FOREST_GREEN)
+        #--
+        st.header("Elspesifikt behov fra PROFet")
+        with st.expander("Elspesifikt behov"):
+            electric_array, selected_array = energy_demand.get_electric_array_()
+            Plotting().hourly_plot(electric_array, selected_array, Plotting().SUN_YELLOW)
+            Plotting().hourly_plot(np.sort(demand_array)[::-1], selected_array, Plotting().SUN_YELLOW)
+        st.markdown("---")
+    else:
+        st.header("Last opp fil")
+        uploaded_array = st.file_uploader("Last opp timeserie i kW")
+        df = pd.read_excel(uploaded_array)
+        demand_array = df.iloc[:,0].to_numpy()
+        Plotting().hourly_plot(demand_array, "Energibehov", Plotting().FOREST_GREEN)
     st.markdown("---")
     #--
     st.header("Kjølebehov")
