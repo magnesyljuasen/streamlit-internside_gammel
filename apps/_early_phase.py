@@ -31,9 +31,12 @@ def early_phase():
     else:
         st.header("Last opp fil")
         uploaded_array = st.file_uploader("Last opp timeserie i kW")
-        df = pd.read_excel(uploaded_array)
-        demand_array = df.iloc[:,0].to_numpy()
-        Plotting().hourly_plot(demand_array, "Energibehov", Plotting().FOREST_GREEN)
+        if uploaded_array:
+            df = pd.read_excel(uploaded_array)
+            demand_array = df.iloc[:,0].to_numpy()
+            Plotting().hourly_plot(demand_array, "Energibehov", Plotting().FOREST_GREEN)
+        else:
+            st.stop()
     st.markdown("---")
     #--
     st.header("Kjølebehov")
