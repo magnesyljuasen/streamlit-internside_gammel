@@ -17,7 +17,7 @@ def energy_analysis():
     st.header("Last opp fil")
     with st.expander("Hvordan skal filen se ut?"):
         st.write("Det kan kun importeres **excel ark** med maks 5 timeserier på formatet som under. Det er at rekkefølgen er lik som under (og med overskrift).")
-        image = Image.open('src\data\img\example_input_energy_analysis.PNG')
+        image = Image.open(r"src\data\img\example_input_energy_analysis.PNG")
         st.image(image)  
     uploaded_array = st.file_uploader("Last opp timeserier [kW]")
     if uploaded_array:
