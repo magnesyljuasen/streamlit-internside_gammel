@@ -13,6 +13,7 @@ from apps._bergvarmekalkulatoren import bergvarmekalkulatoren
 from apps._sizing import sizing
 from apps._python_programming import python_programming
 from apps._geotechnics import geotechnics
+from old._energy_analysis_old import energy_analysis_old
 from apps._energy_analysis import energy_analysis
 from apps._early_phase import early_phase
 
@@ -33,7 +34,7 @@ elif authentication_status:
             st.title(f'Hei {NAME}!')
         else:
             st.title("Hei!")
-        options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Python", "Geoteknikk", "Energianalyse"]
+        options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk",]
         selected = st.radio("Velg app", options, index=0)
         st.markdown("---")
     if selected == "Forside":
@@ -46,12 +47,13 @@ elif authentication_status:
         bergvarmekalkulatoren()
     if selected == "Tidligfasedimensjonering":
         early_phase()
+    if selected == "Energianalyse":
+        energy_analysis()
     if selected == "Python":
         python_programming()
     if selected == "Geoteknikk":
         geotechnics()
-    if selected == "Energianalyse":
-        energy_analysis()
+
 
 
     

@@ -7,6 +7,8 @@ import numpy as np
 import pandas as pd
 import altair as alt
 import base64
+import locale
+locale.setlocale(locale.LC_ALL,'NOR')
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -98,10 +100,25 @@ def elspot_today():
 class Plotting:
     def __init__(self):
         self.GRASS_GREEN = "#48a23f"
-        self.FOREST_GREEN = "#1d3c34"
-        self.SUN_YELLOW = "#FFC358"
         self.GRASS_BLUE = "#3f48a2"
         self.GRASS_RED = "#a23f48"
+        self.GRASS_PINK = "#a23f7a"
+        self.GRASS_PURPLE = "#683fa2"
+
+        self.SPRING_GREEN = "#b7dc8f"
+        self.SPRING_BLUE = "#8fb7dc"
+        self.SPRING_PINK = "#dc8fb7"
+
+        self.FOREST_GREEN = "#1d3c34"
+        self.FOREST_BROWN = "#3c341d"
+        self.FOREST_DARK_BROWN = "#3c251d"
+        self.FOREST_PURPLE = "#341d3c"
+        self.FOREST_DARK_PURPLE = "#3c1d35"
+
+        self.SUN_YELLOW = "#FFC358"
+        self.SUN_PINK = "#c358ff"
+        self.SUN_GREEN = "#58ffc3"
+
 
     def xy_plot(self, x, xmin, xmax, xlabel, y, ymin, ymax, ylabel, COLOR):
         source = pd.DataFrame({"x": x, "y": y})
@@ -144,9 +161,8 @@ class Plotting:
         mpl.rcParams['axes.prop_cycle'] = cycler(color=[y1color, y2color])
         plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')])
         plt.legend(loc='best')
-        myFmt = mdates.DateFormatter('%d.%m')
+        myFmt = mdates.DateFormatter('%d.%b')
         plt.gca().xaxis.set_major_formatter(myFmt)
-        plt.xlabel("Timer i ett år")
         plt.ylabel("Effekt [kW]")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.xlim([date_1, date_2])
@@ -162,9 +178,26 @@ class Plotting:
         f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
         f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')])
         plt.legend(loc='best')
-        myFmt = mdates.DateFormatter('%d.%m')
+        myFmt = mdates.DateFormatter('%d.%b')
         plt.gca().xaxis.set_major_formatter(myFmt)
-        plt.xlabel("Timer i ett år")
+        plt.ylabel("Effekt [kW]")
+        plt.grid(color='black', linestyle='--', linewidth=0.1)
+        plt.xlim([date_1, date_2])
+        st.pyplot(plt)
+        plt.close()
+
+    def hourly_quad_stack_plot(self, y1 , y2, y3, y4, y1label, y2label, y3label, y4label, y1color, y2color, y3color, y4color):
+        date_1, date_2 = np.datetime64("2021-01-01T00"), np.datetime64("2022-01-01T00")
+        x = np.arange(date_1, date_2, dtype='datetime64')
+        mpl.rcParams['axes.prop_cycle'] = cycler(color=[y1color, y2color, y3color, y4color])
+        plt.stackplot(x, y1, y2, y3, y4, labels=[
+        f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
+        f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
+        f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' '),
+        f'{y4label}: {int(np.sum(y4)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')])
+        plt.legend(loc='best')
+        myFmt = mdates.DateFormatter('%d.%b')
+        plt.gca().xaxis.set_major_formatter(myFmt)
         plt.ylabel("Effekt [kW]")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.xlim([date_1, date_2])
@@ -187,9 +220,8 @@ class Plotting:
         mpl.rcParams['axes.prop_cycle'] = cycler(color=[y1color])
         plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')])
         plt.legend(loc='best')
-        myFmt = mdates.DateFormatter('%d.%m')
+        myFmt = mdates.DateFormatter('%d.%b')
         plt.gca().xaxis.set_major_formatter(myFmt)
-        plt.xlabel("Timer i ett år")
         plt.ylabel("Effekt [kW]")
         plt.ylim((ymin, ymax))
         plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
