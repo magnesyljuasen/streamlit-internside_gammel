@@ -12,7 +12,7 @@ from scripts._utils import hour_to_month
 from scripts._peakshaving import peakshaving
 
 def early_phase():
-    st.title("Tidligfasedimensjonering")
+    st.title("Tidligfasedimensjonering av energibrønnpark")
     selected_input = st.radio("Hvordan vil du legge inn input?", options=["PROFet", "Last opp"])
     if selected_input == "PROFet":
         st.header("Termisk behov fra PROFet")

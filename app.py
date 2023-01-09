@@ -32,27 +32,28 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         if NAME != None:
             st.title(f'Hei {NAME}!')
-        else:
-            st.title("Hei!")
-        options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk",]
-        selected = st.radio("Velg app", options, index=0)
-        st.markdown("---")
-    if selected == "Forside":
-        front_page()   
-    if selected == "Prosjektoversikt":
-        projects(NAME)
-    if selected == "TRT":
-        trt()
-    if selected == "Bergvarmekalkulatoren":
-        bergvarmekalkulatoren()
-    if selected == "Tidligfasedimensjonering":
+            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk",]
+            selected = st.radio("Velg app", options, index=0)
+            st.markdown("---")
+    if NAME == None:
         early_phase()
-    if selected == "Energianalyse":
-        energy_analysis()
-    if selected == "Python":
-        python_programming()
-    if selected == "Geoteknikk":
-        geotechnics()
+    else:
+        if selected == "Forside":
+            front_page()   
+        if selected == "Prosjektoversikt":
+            projects(NAME)
+        if selected == "TRT":
+            trt()
+        if selected == "Bergvarmekalkulatoren":
+            bergvarmekalkulatoren()
+        if selected == "Tidligfasedimensjonering":
+            early_phase()
+        if selected == "Energianalyse":
+            energy_analysis()
+        if selected == "Python":
+            python_programming()
+        if selected == "Geoteknikk":
+            geotechnics()
 
 
 
