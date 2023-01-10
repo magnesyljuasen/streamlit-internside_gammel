@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 from PIL import Image
+import locale
+locale.setlocale(locale.LC_ALL, "NOR")
 
 from scripts._profet import EnergyDemand
 from scripts._utils import Plotting
