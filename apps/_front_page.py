@@ -27,7 +27,7 @@ def front_page():
         st.subheader("[NADAG](%s)" % "https://geo.ngu.no/kart/nadag-avansert/")
         st.subheader("[Løsmasser](%s)" % "https://geo.ngu.no/kart/losmasse_mobil/")
         st.subheader("[Berggrunn](%s)" % "https://geo.ngu.no/kart/berggrunn_mobil/")
-
+        st.subheader("[Høydedata](%s)" % "https://hoydedata.no/LaserInnsyn2/")
     with c2:
         st.subheader("[InSAR](%s)" % "https://insar.ngu.no/")
         st.subheader("[AV-kartet](%s)" % "https://kart.asplanviak.no/")
