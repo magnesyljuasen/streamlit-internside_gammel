@@ -16,6 +16,7 @@ from apps._geotechnics import geotechnics
 from old._energy_analysis_old import energy_analysis_old
 from apps._energy_analysis import energy_analysis
 from apps._early_phase import early_phase
+from apps._delta_t import delta_t
 
 from scripts._ghetool import main_functionalities
 
@@ -32,7 +33,7 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         if NAME != None:
             st.title(f'Hei {NAME}!')
-            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk",]
+            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk", "ΔT"]
             selected = st.radio("Velg app", options, index=0)
             st.markdown("---")
     if NAME == None:
@@ -54,6 +55,8 @@ elif authentication_status:
             python_programming()
         if selected == "Geoteknikk":
             geotechnics()
+        if selected == "ΔT":
+            delta_t()
 
 
 
