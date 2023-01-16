@@ -7,8 +7,8 @@ import numpy as np
 import pandas as pd
 import altair as alt
 import base64
-#import locale
-#locale.setlocale(locale.LC_ALL,'NOR')
+import locale
+locale.setlocale(locale.LC_ALL,'NOR')
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
