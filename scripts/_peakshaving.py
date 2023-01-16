@@ -35,10 +35,9 @@ def peakshaving(energy_arr, REDUCTION, TO_TEMP, FROM_TEMP):
     tank_size = round(max(peakshave_arr)*3600/(RHO*HEAT_CAPACITY*(TO_TEMP-FROM_TEMP))/1000,1)
     #tank_size = round(peakshave_accumulated*3600/(RHO*HEAT_CAPACITY*(TO_TEMP-FROM_TEMP))/1000,1)
     st.write(f"Tankstørrelse {tank_size} m3")
-    with st.expander("Mulige tanker", expanded=True):
-        diameter_list = [1, 2, 3, 4, 5]
-        for i in range(0, len(diameter_list)):
-            diameter = diameter_list[i]
-            height = round(4*tank_size/(scipy.pi*diameter**2),1)
-            st.write(f"{i}) Diameter: {diameter} m | Høyde: {height} m")
+    diameter_list = [1, 2, 3, 4, 5]
+    for i in range(0, len(diameter_list)):
+        diameter = diameter_list[i]
+        height = round(4*tank_size/(scipy.pi*diameter**2),1)
+        st.caption(f"{i}) Diameter: {diameter} m | Høyde: {height} m")
     return peakshaving_arr, max(peakshaving_arr)

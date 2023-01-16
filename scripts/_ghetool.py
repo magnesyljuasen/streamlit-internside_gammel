@@ -59,18 +59,17 @@ class GheTool:
             st.pyplot(gt.boreholes.visualize_field(field))
         borefield.calculate_temperatures()
         x = np.arange(0,len(borefield.results_month_heating))
-        y_min, y_max = -2, 16
         with st.expander("Se resultater", expanded=True):
-            st.write(f"**{self.N_1 * self.N_2} brønn(er) à {self.H} aktiv brønndybde med {self.B} m avstand**")
-            st.write(f"Leveres fra brønn(er) til oppvarming: {int(np.sum(self.monthly_load_heating))} kWh | Varmepumpestørrelse {self.peak_heating} kW")
+            st.write(f"**{self.N_1 * self.N_2} brønn(er) á {self.H} aktiv brønndybde med {self.B} m avstand**")
+            st.write(f"Leveres fra brønn(er) til oppvarming: {int(np.sum(self.monthly_load_heating)):,} kWh | Varmepumpestørrelse: {self.peak_heating:,} kW".replace(',', ' '))
             Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
-            borefield.results_peak_heating, y_min, y_max, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
+            borefield.results_peak_heating, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/dellast: **{round(min(borefield.results_month_heating),1)} ℃**")
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} ℃**")
             if np.sum(self.monthly_load_cooling) > 0:   
                 st.markdown("---")
                 Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_cooling, 
-                borefield.results_peak_cooling, y_min, y_max, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal kjøleeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_BLUE)   
+                borefield.results_peak_cooling, "Gj.snittlig kollektorvæsketemperatur [℃]", "Ved dellast", f"Ved maksimal kjøleeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_BLUE)   
                 st.write(f"Høyeste gj.snittlige kollektorvæsketemperatur v/maksimal kjøleeffekt: **{round(max(borefield.results_peak_cooling),1)} ℃**")
                 st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal kjøleeffekt: **{round(min(borefield.results_peak_cooling),1)} ℃**")  
             

@@ -230,6 +230,20 @@ class Plotting:
         st.pyplot(plt)
         plt.close()
 
+    def hourly_duration_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0, winterweek = False):
+        x = np.arange(0, len(y1))
+        mpl.rcParams['axes.prop_cycle'] = cycler(color=[y1color])
+        plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')])
+        plt.legend(loc='best')
+        plt.ylabel("Effekt [kW]")
+        plt.ylim((ymin, ymax))
+        plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
+        plt.grid(color='black', linestyle='--', linewidth=0.1)
+        plt.xlim(0, 8760)
+        plt.xlabel("Varighet [timer]")
+        st.pyplot(plt)
+        plt.close()
+
     def xy_plot(self, x, xmin, xmax, x_label, y, ymin, ymax, y_label, COLOR):
         fig, ax = plt.subplots()
         mpl.rcParams['axes.prop_cycle'] = cycler(color=[COLOR])
@@ -250,7 +264,7 @@ class Plotting:
         st.pyplot(plt)
         plt.close()
 
-    def xy_simulation_plot(self, x, xmin, xmax, x_label, y1, y2, ymin, ymax, y_label, y_legend1, y_legend2, COLOR1, COLOR2):
+    def xy_simulation_plot(self, x, xmin, xmax, x_label, y1, y2, y_label, y_legend1, y_legend2, COLOR1, COLOR2, ymin = -2, ymax = 10):
         fig, ax = plt.subplots()
         x = x/12
         ax.plot(x, y1, linewidth=2.0, color=COLOR1, label=y_legend1)
