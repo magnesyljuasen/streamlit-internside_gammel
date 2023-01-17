@@ -10,6 +10,7 @@ from scripts._costs import Costs
 from scripts._ghetool import GheTool
 from scripts._utils import hour_to_month
 from scripts._peakshaving import peakshaving
+from scripts._utils import negative_sum
 
 def energy_analysis():
     st.button("Refresh")
@@ -28,20 +29,24 @@ def energy_analysis():
         solar_array = df.iloc[:,3].to_numpy()
         thermal_array = df.iloc[:,4].to_numpy()
         Plotting().hourly_plot(electric_array, "Elspesifikt behov", Plotting().GRASS_BLUE)
-        Plotting().hourly_plot(np.sort(electric_array)[::-1], "Elspesifikt behov", Plotting().GRASS_BLUE)
+        with st.expander("Varighetskurve"):
+            Plotting().hourly_duration_plot(electric_array, "Elspesifikt behov", Plotting().GRASS_BLUE)
 
         Plotting().hourly_plot(space_heating_array, "Romoppvarmingsbehov", Plotting().FOREST_BROWN)
-        Plotting().hourly_plot(np.sort(space_heating_array)[::-1], "Romoppvarmingsbehov", Plotting().FOREST_BROWN)
+        with st.expander("Varighetskurve"):
+            Plotting().hourly_duration_plot(space_heating_array, "Romoppvarmingsbehov", Plotting().FOREST_BROWN)
 
         Plotting().hourly_plot(dhw_array, "Tappevannsbehov", Plotting().FOREST_PURPLE)
-        Plotting().hourly_plot(np.sort(dhw_array)[::-1], "Tappevannsbehov", Plotting().FOREST_PURPLE)
+        with st.expander("Varighetskurve"):
+            Plotting().hourly_duration_plot(dhw_array, "Tappevannsbehov", Plotting().FOREST_PURPLE)
 
         Plotting().hourly_plot(thermal_array, "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN)
-        Plotting().hourly_plot(np.sort(thermal_array)[::-1], "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN)
+        with st.expander("Varighetskurve"):
+            Plotting().hourly_duration_plot(thermal_array, "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN)
 
         Plotting().hourly_plot(solar_array, "Produsert solenergi", Plotting().SUN_YELLOW)
-        Plotting().hourly_plot(np.sort(solar_array)[::-1], "Produsert solenergi", Plotting().SUN_YELLOW)
-
+        with st.expander("Varighetskurve"):
+            Plotting().hourly_duration_plot(solar_array, "Produsert solenergi", Plotting().SUN_YELLOW)
     else:
         st.stop()
     st.markdown("---")
@@ -60,14 +65,15 @@ def energy_analysis():
     energy_coverage.COVERAGE = st.number_input("Velg energidekningsgrad [%]", min_value=50, value=90, max_value=100, step=2, key="fjernvarmedekning")    
     energy_coverage._coverage_calculation()
     Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Fjernvarmedekning", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_BLUE)
-    Plotting().hourly_stack_plot(np.sort(energy_coverage.covered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Fjernvarmedekning", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_BLUE)
-
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_stack_plot(np.sort(energy_coverage.covered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Fjernvarmedekning", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_BLUE)
     st.subheader("Gjenstående elektrisk behov")
     Plotting().hourly_plot(electric_array + energy_coverage.non_covered_arr, "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
-    Plotting().hourly_plot(np.sort(electric_array + energy_coverage.non_covered_arr)[::-1], "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
-
-    Plotting().hourly_plot(electric_array + energy_coverage.non_covered_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
-    Plotting().hourly_plot(np.sort(electric_array + energy_coverage.non_covered_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_plot(np.sort(electric_array + energy_coverage.non_covered_arr)[::-1], "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
+    Plotting().hourly_negative_plot(electric_array + energy_coverage.non_covered_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_negative_plot(np.sort(electric_array + energy_coverage.non_covered_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
     st.markdown("---")
     #--
     st.header("Grunnvarme og solenergi")
@@ -76,26 +82,31 @@ def energy_analysis():
     energy_coverage.COVERAGE = st.number_input("Velg energidekningsgrad [%]", min_value=50, value=90, max_value=100, step=2, key="grunnvarmedekning")    
     energy_coverage._coverage_calculation()
     Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Grunnvarmedekning", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE)
-    Plotting().hourly_stack_plot(np.sort(energy_coverage.covered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Grunnvarmedekning", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_stack_plot(np.sort(energy_coverage.covered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Grunnvarmedekning", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE)
     st.subheader("Årsvarmefaktor")
     energy_coverage.COP = st.number_input("Velg COP", min_value=1.0, value=3.5, max_value=5.0, step=0.2)
     energy_coverage._geoenergy_cop_calculation()
     Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
-    Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
     st.subheader("Gjenstående elektrisk behov")
     Plotting().hourly_plot(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr, "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
-    Plotting().hourly_plot(np.sort(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr)[::-1], "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
-
-    Plotting().hourly_plot(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
-    Plotting().hourly_plot(np.sort(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_plot(np.sort(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr)[::-1], "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
+    Plotting().hourly_negative_plot(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_negative_plot(np.sort(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
     st.markdown("---")
     #--
     st.header("Alternativer for spisslast - Akkumuleringstank")
+    selected_max_index = st.number_input("Velg maksindeks", value=8623, step = 10)
     max_effect_noncovered = max(energy_coverage.non_covered_arr)
     st.write("**Før akkumulering**")
-    Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, max_effect_noncovered)
-    Plotting().hourly_plot(np.sort(energy_coverage.non_covered_arr)[::-1], "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, max_effect_noncovered)
-    #Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SUN_YELLOW, 0, 1.1*max_effect_noncovered, max_effect_noncovered, winterweek=True)
+    Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, max_effect_noncovered, winterweek=True, max_index=selected_max_index)
+    Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, max_effect_noncovered, winterweek=0)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_plot(np.sort(energy_coverage.non_covered_arr)[::-1], "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, max_effect_noncovered)
     st.write("**Etter akkumulering**")
     effect_reduction = st.number_input("Ønsket effektreduksjon [kW]", value=int(round(max_effect_noncovered/10,0)), step=10)
     if effect_reduction > max_effect_noncovered:
@@ -104,9 +115,14 @@ def energy_analysis():
     TO_TEMP = st.number_input("Turtemperatur [°C]", value = 60)
     FROM_TEMP = st.number_input("Returtemperatur [°C]", value = 40)
     peakshaving_arr, peakshaving_effect = peakshaving(energy_coverage.non_covered_arr, effect_reduction, TO_TEMP, FROM_TEMP)
-    Plotting().hourly_plot(peakshaving_arr, "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, peakshaving_effect)
-    Plotting().hourly_plot(np.sort(peakshaving_arr)[::-1], "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, peakshaving_effect)
-    #Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SUN_YELLOW, 0, 1.1*max_effect_noncovered, max_effect_noncovered, winterweek=True)
+    Plotting().hourly_plot(peakshaving_arr, "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, peakshaving_effect, winterweek=True, max_index=selected_max_index)
+    Plotting().hourly_plot(peakshaving_arr, "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, peakshaving_effect, winterweek=0)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_plot(np.sort(peakshaving_arr)[::-1], "Spisslast", Plotting().SPRING_BLUE, 0, 1.1*max_effect_noncovered, peakshaving_effect)
+    st.write("**Oppsummert**")
+    Plotting().hourly_double_plot(energy_coverage.non_covered_arr, peakshaving_arr, "Spisslast (opprinnelig)", "Spisslast med akkumuleringstank", Plotting().SPRING_BLUE, Plotting().GRASS_BLUE, winterweek=True, max_index=selected_max_index)
+    Plotting().hourly_double_plot(energy_coverage.non_covered_arr, peakshaving_arr, "Spisslast (opprinnelig)", "Spisslast med akkumuleringstank", Plotting().SPRING_BLUE, Plotting().GRASS_BLUE, winterweek=True, hours=100, max_index=selected_max_index)
+    Plotting().hourly_double_plot(energy_coverage.non_covered_arr, peakshaving_arr, "Spisslast (opprinnelig)", "Spisslast med akkumuleringstank", Plotting().SPRING_BLUE, Plotting().GRASS_BLUE, winterweek=0)
     st.markdown("---")
     #--
     st.header("Fjernvarme/grunnvarme/solenergi")
@@ -115,22 +131,25 @@ def energy_analysis():
     energy_coverage.COVERAGE = st.number_input("Velg energidekningsgrad for romoppvarming [%]", min_value=50, value=90, max_value=100, step=2, key="fjernvarme/grunnvarme/solenergi")    
     energy_coverage._coverage_calculation()
     Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Grunnvarmedekning", "Spisslast", Plotting().FOREST_BROWN, Plotting().SPRING_BLUE)
-    Plotting().hourly_stack_plot(np.sort(energy_coverage.covered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Grunnvarmedekning", "Spisslast", Plotting().FOREST_BROWN, Plotting().SPRING_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_stack_plot(np.sort(energy_coverage.covered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Grunnvarmedekning", "Spisslast", Plotting().FOREST_BROWN, Plotting().SPRING_BLUE)
     st.subheader("Årsvarmefaktor, grunnvarme/romoppvarming")
     energy_coverage.COP = st.number_input("Velg COP", min_value=1.0, value=3.5, max_value=5.0, step=0.2, key="fjernvarme/grunnvarme/solenergi-cop")
     energy_coverage._geoenergy_cop_calculation()
     Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
-    Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
     st.subheader("Konsept")
     Plotting().hourly_triple_stack_plot(dhw_array, energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Tappevann(fjernvarme)", "Romoppvarming(grunnvarme)", "Romoppvarmingsspisslast(fjernvarme)", 
     Plotting().FOREST_PURPLE, Plotting().SPRING_GREEN, Plotting().SPRING_BLUE)
     Plotting().hourly_quad_stack_plot(dhw_array, energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Tappevann(fjernvarme)", "Kompressor(grunnvarme)", "Levert fra brønner(grunnvarme)", "Romoppvarmingspisslast(fjernvarme)", 
     Plotting().FOREST_PURPLE, Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
-    Plotting().hourly_quad_stack_plot(np.sort(dhw_array)[::-1], np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Tappevann(fjernvarme)", "Kompressor(grunnvarme)", "Levert fra brønner(grunnvarme)", "Romoppvarmingspisslast(fjernvarme)", 
+    with st.expander("Varighetskurve"):
+        Plotting().hourly_quad_stack_plot(np.sort(dhw_array)[::-1], np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Tappevann(fjernvarme)", "Kompressor(grunnvarme)", "Levert fra brønner(grunnvarme)", "Romoppvarmingspisslast(fjernvarme)", 
     Plotting().FOREST_PURPLE, Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
     st.subheader("Gjenstående elektrisk behov")
     Plotting().hourly_plot(electric_array + energy_coverage.gshp_compressor_arr, "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
-    Plotting().hourly_plot(electric_array + energy_coverage.gshp_compressor_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
+    Plotting().hourly_negative_plot(electric_array + energy_coverage.gshp_compressor_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
     st.markdown("---")
     #--
 #    st.title("Brønnpark")
