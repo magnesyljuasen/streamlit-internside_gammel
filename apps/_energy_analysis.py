@@ -73,7 +73,7 @@ def energy_analysis():
         Plotting().hourly_plot(np.sort(electric_array + energy_coverage.non_covered_arr)[::-1], "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
     Plotting().hourly_negative_plot(electric_array + energy_coverage.non_covered_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
     with st.expander("Varighetskurve"):
-        Plotting().hourly_negative_plot(np.sort(electric_array + energy_coverage.non_covered_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
+        Plotting().hourly_negative_plot(np.sort(electric_array + energy_coverage.non_covered_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)  
     st.markdown("---")
     #--
     st.header("Grunnvarme og solenergi")
@@ -150,6 +150,9 @@ def energy_analysis():
     st.subheader("Gjenstående elektrisk behov")
     Plotting().hourly_plot(electric_array + energy_coverage.gshp_compressor_arr, "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
     Plotting().hourly_negative_plot(electric_array + energy_coverage.gshp_compressor_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
+
+
+
     st.markdown("---")
     #--
 #    st.title("Brønnpark")
