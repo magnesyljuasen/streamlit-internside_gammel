@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import altair as alt
 import base64
+from deta import Deta
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -104,6 +105,90 @@ def elspot_today():
     Plotting().xy_plot(np.arange(0, len(chart_data), 1), 0, 24, f"Timer i ett døgn, {today}", chart_data, 0, max(chart_data), "Elspotpris [kr]", Plotting().FOREST_GREEN)
     st.metric(label = "Gjennomsnittlig strømpris", value = f"{round(np.mean(price_array), 2)} kr")
 
+#  Hjelpefunksjon - dagens strømpris
+def elspot_today_data():
+    url = "https://norway-power.ffail.win/" 
+    #url = "https://playground-norway-power.ffail.win" #bruk denne for testing
+    today = date.today()
+    zones = ["NO1", "NO2", "NO3", "NO4", "NO5"]
+    prize_zone_array = []
+    for i, zone in enumerate(zones):
+        r = requests.get(f"{url}/?zone={zone}&date={today}&key=b0235f2e-7ddc-4bf1-a054-5dffb4ec037a")
+        if r.status_code == 200:
+            price_array = []
+            for i in range(0, 24):
+                NOK_per_kWh = list(r.json().values())[i]["NOK_per_kWh"]
+                price_array.append(NOK_per_kWh)
+            prize_zone_array.append(price_array)
+    return prize_zone_array
+
+def electricity_database():
+    headers = {'auth-token': '1BuQzNfLDfUy4RksWFTwJvBypnl5qBwi'}
+    params = {'countryCode': 'NO'}
+    response = requests.get('https://api.co2signal.com/v1/latest', params=params, headers=headers)
+    deta = Deta("a0558p23_tjZdBJdbLTwWfajJU4x86NQzsYjv5ECS")
+    db = deta.Base("Intensitet")
+    if response.status_code == 200:
+        prize_zone_array = elspot_today_data()
+        today = date.today().strftime("%d.%m.%Y")
+        data = response.json()
+        carbon_intensity = data["data"]["carbonIntensity"]
+        fossil_fuel_percentage = data["data"]["fossilFuelPercentage"]
+        if prize_zone_array != []:
+            db.put({
+                "key" : today,
+                "carbon_intensity" : carbon_intensity,
+                'fossil_fuel_percentage' : fossil_fuel_percentage,
+                "no1_price" : prize_zone_array[0],
+                "no2_price" : prize_zone_array[1],
+                "no3_price" : prize_zone_array[2],
+                "no4_price" : prize_zone_array[3],
+                "no5_price" : prize_zone_array[4]
+            })
+    res = db.fetch().items
+    date_list = []
+    carbon_intensity_list = []
+    fossil_fuel_percentage_list = []
+    no1_price_list = []
+    no2_price_list = []
+    no3_price_list = []
+    no4_price_list = []
+    no5_price_list = []
+    for i in range(0, len(res)):
+        res_i = res[i]
+        date_list.append(res_i["key"])
+        carbon_intensity_list.append(res_i["carbon_intensity"])
+        fossil_fuel_percentage_list.append(res_i["fossil_fuel_percentage"])
+        no1_price_list.append(res_i["no1_price"])
+        no2_price_list.append(res_i["no2_price"])
+        no3_price_list.append(res_i["no3_price"])
+        no4_price_list.append(res_i["no4_price"])
+        no5_price_list.append(res_i["no5_price"])
+
+    df = pd.DataFrame({
+        "Dato" : date_list,
+        "carbon_intensity" : carbon_intensity_list,
+        "fossil_fuel_percentage" : fossil_fuel_percentage_list,
+        "NO1" : no1_price_list,
+        "NO2" : no2_price_list,
+        "NO3" : no3_price_list,
+        "NO4" : no4_price_list,
+        "NO5" : no5_price_list, 
+    })
+    options = df["Dato"]
+    selected_date_index = st.selectbox("Velg region", range(len(options)), format_func=lambda x: options[x])
+    selected_region = st.selectbox("Velg region", options=["NO1", "NO2", "NO3", "NO4", "NO5"])
+    y = df[selected_region][selected_date_index]
+    Plotting().xy_plot(np.arange(0, 24, 1), 0, 23, f"Timer i ett døgn, {options[selected_date_index]}", y, 0, max(y), "Spotpris [kr]", Plotting().FOREST_GREEN)
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.metric(label = "Gjennomsnittlig strømpris", value = f"{round(np.mean(y), 2)} kr")
+    with c2:
+        st.metric(label = "Maksimum strømpris", value = f"{round(np.max(y), 2)} kr")
+    with c3:
+        st.metric(label = "Minimum strømpris", value = f"{round(np.min(y), 2)} kr")
+    with st.expander("Historiske data etter 18/01/2023"):
+        st.dataframe(df)  
 
 #  Hjelpklasse - Plotting
 class Plotting:

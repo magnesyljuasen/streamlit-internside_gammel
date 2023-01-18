@@ -7,8 +7,7 @@ from scripts._utils import load_lottie
 from streamlit_lottie import st_lottie
 
 
-from scripts._utils import Tweet, elspot_today
-
+from scripts._utils import Tweet, elspot_today, electricity_database
 
 def front_page():
     #--
@@ -65,7 +64,8 @@ def front_page():
         st.subheader("[Profilmanual](%s)" % "https://profil.asplanviak.no/")
         
     with c2:
-        st.subheader("[GeoNorge](%s)" % "https://www.geonorge.no/") 
+        st.subheader("[GeoNorge](%s)" % "https://www.geonorge.no/")
+        st.subheader("[COPCALC](%s)" % "https://www.copcalc.com/tangix/index.php/desktop/index/live/norwegian")
     st.markdown(""" --- """)
     #--
     st.header("✂️ Symboler")
@@ -84,8 +84,7 @@ def front_page():
     st.markdown("---")
     #--
     st.header("⚡ Dagens strømpris")
-    st.caption("Under arbeid... ")
-    elspot_today()
+    electricity_database()
     st.markdown("---")
     #--
     st.header("📺 Nyheter")
