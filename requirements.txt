@@ -105,3 +105,7 @@ openpyxl==3.0.10
 pygfunction==2.2.1
 xlwings==0.28.0
 ghetool==2.1.0
+folium==0.14.0
+streamlit-folium==0.10.0
+geopandas==0.12.2
+shapely==2.0.0
