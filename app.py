@@ -34,7 +34,7 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         if NAME != None:
             st.title(f'Hei {NAME}!')
-            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk", "ΔT", "El-nett"]
+            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk", "ΔT", "Tensio"]
             selected = st.radio("Velg app", options, index=0)
             st.markdown("---")
     if NAME == None:
@@ -58,8 +58,11 @@ elif authentication_status:
             geotechnics()
         if selected == "ΔT":
             delta_t()
-        if selected == "El-nett":
-            power_grid()
+        if selected == "Tensio":
+            if NAME == "Randi" or NAME == "Magne" or NAME == "Henrik":
+                power_grid()
+            else:
+                st.write("**Konfidensielle data - be om tilgang**")
             
 
 
