@@ -25,7 +25,7 @@ def color_generator(trafo_list):
 
 def power_grid():
     st.button("Refresh")
-    st.title("Trondheim")
+    st.title("Data fra Tensio")
     st.caption("Det er 115 118 adressepunkter i datasettet. Det tar lang tid å vise alle på kart (særlig for *adresser*)")
     number_of_points = st.number_input("Antall punkter", value = 700, max_value=115118, step = 100)
     #--
