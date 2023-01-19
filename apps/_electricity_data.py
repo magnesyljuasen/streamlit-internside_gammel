@@ -53,6 +53,10 @@ def power_grid():
             if address_display:
                 df_plot.apply(lambda row:folium.CircleMarker(location=[row["lat"], row["lng"]], radius=5, tooltip=row["trafo"], color=color_list[i]).add_to(m), axis=1)
     st_folium(m, width=725, returned_objects=[])
+    st.markdown("---")
+    st.caption("- Knytte trafo til kapasitet")
+    st.caption("- Knytte trafo til nettstasjon")
+    st.caption("- Heat map(?)")
 
 
     #--
