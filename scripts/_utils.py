@@ -217,9 +217,22 @@ class Plotting:
         source = pd.DataFrame({"x": x, "y": y})
         c = alt.Chart(source).mark_line().encode(
             x=alt.X("x", scale=alt.Scale(domain=[xmin, xmax]), title=xlabel),
-            y=alt.Y("y", scale=alt.Scale(domain=[ymin, ymax]), title=ylabel),
+            y=alt.Y("y", scale=alt.Scale(domain=[ymin, ymax], reverse=True), title=ylabel),
             color = alt.value(COLOR))
         st.altair_chart(c, use_container_width=True)
+
+    def xy_plot_reversed(self, x, y, ymin = None, ymax = None):
+        plt.scatter(x, y)
+        plt.plot(x,y, '--')
+        plt.legend(loc='best')
+        plt.ylabel("Dybde [m]")
+        plt.ylim((ymin, ymax))
+        plt.grid(color='black', linestyle='--', linewidth=0.1)
+        plt.gca().invert_yaxis()
+        plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
+        plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
+        st.pyplot(plt)
+        plt.close()        
 
     def xy_bar_plot(self, x, xmin, xmax, xlabel, y, ymin, ymax, ylabel, COLOR):
         source = pd.DataFrame({"x": x, "y": y})

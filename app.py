@@ -18,6 +18,7 @@ from apps._energy_analysis import energy_analysis
 from apps._early_phase import early_phase
 from apps._delta_t import delta_t
 from apps._electricity_data import power_grid
+from apps._undisturbed_temperature import undisturbed_temperature
 
 from scripts._ghetool import main_functionalities
 
@@ -34,7 +35,7 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         if NAME != None:
             st.title(f'Hei {NAME}!')
-            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk", "ΔT", "Tensio"]
+            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk", "ΔT", "Uforstyrret temperatur", "Tensio"]
             selected = st.radio("Velg app", options, index=0)
             st.markdown("---")
     if NAME == None:
@@ -58,6 +59,8 @@ elif authentication_status:
             geotechnics()
         if selected == "ΔT":
             delta_t()
+        if selected == "Uforstyrret temperatur":
+            undisturbed_temperature()
         if selected == "Tensio":
             if NAME == "Randi" or NAME == "Magne" or NAME == "Henrik":
                 power_grid()
