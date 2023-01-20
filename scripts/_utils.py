@@ -290,6 +290,7 @@ class Plotting:
         f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
         plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
+        plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.xlim(0, 8760)
         st.pyplot(plt)

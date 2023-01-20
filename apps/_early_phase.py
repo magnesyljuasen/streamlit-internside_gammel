@@ -52,6 +52,7 @@ def early_phase():
     energy_coverage = EnergyCoverage(demand_array)
     energy_coverage.COVERAGE = st.number_input("Velg energidekningsgrad [%]", min_value=50, value=90, max_value=100, step=2)    
     energy_coverage._coverage_calculation()
+    st.caption(f"**Effektdekningsgrad: {int(round((energy_coverage.heat_pump_size/np.max(demand_array))*100,0))} %**")
     Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Grunnvarmedekning", "Spisslast", Plotting().FOREST_GREEN, Plotting().SUN_YELLOW)
     #--
     st.header("Årsvarmefaktor")
@@ -81,12 +82,11 @@ def early_phase():
         #Plotting().hourly_plot(energy_coverage.non_covered_arr, "Spisslast", Plotting().SUN_YELLOW, 0, 1.1*max_effect_noncovered, max_effect_noncovered, winterweek=True)
     st.markdown("---")
     st.header("Oppsummert")
-    st.write(f"Totalt energibehov: {int(round(np.sum(demand_array),0)):,} kWh".replace(',', ' '))
-    st.write(f"Dekkes av grunnvarmeanlegget: {int(round(np.sum(energy_coverage.covered_arr),0)):,} kWh".replace(',', ' '))
-    st.write(f"- Kompressor: {int(round(np.sum(energy_coverage.gshp_compressor_arr),0)):,} kWh".replace(',', ' '))
-    st.write(f"- Levert fra brønn(er): {int(round(np.sum(energy_coverage.gshp_delivered_arr),0)):,} kWh".replace(',', ' '))
-    st.write(f"Spisslast: {int(round(np.sum(energy_coverage.non_covered_arr),0)):,} kWh".replace(',', ' '))
-    st.write(f"Varmpumpestørrelse: {int(round(energy_coverage.heat_pump_size,0)):,} kW".replace(',', ' '))
+    st.write(f"Totalt energibehov: {int(round(np.sum(demand_array),0)):,} kWh | {int(round(np.max(demand_array),0)):,} kW".replace(',', ' '))
+    st.write(f"- Dekkes av grunnvarmeanlegget: {int(round(np.sum(energy_coverage.covered_arr),0)):,} kWh | **{int(round(np.max(energy_coverage.covered_arr),0)):,}** kW".replace(',', ' '))
+    st.write(f"- - Kompressor: {int(round(np.sum(energy_coverage.gshp_compressor_arr),0)):,} kWh | {int(round(np.max(energy_coverage.gshp_compressor_arr),0)):,} kW".replace(',', ' '))
+    st.write(f"- - Levert fra brønn(er): {int(round(np.sum(energy_coverage.gshp_delivered_arr),0)):,} kWh | {int(round(np.max(energy_coverage.gshp_delivered_arr),0)):,} kW".replace(',', ' '))
+    st.write(f"- Spisslast: {int(round(np.sum(energy_coverage.non_covered_arr),0)):,} kWh | {int(round(np.max(energy_coverage.non_covered_arr),0)):,} kW".replace(',', ' '))
     st.markdown("---")
     #--
     st.title("Brønnpark")
@@ -106,7 +106,12 @@ def early_phase():
             simulation_obj.T_G = st.number_input("Uforstyrret temperatur [°C]", min_value=1.0, value=8.0, max_value=20.0, step=1.0)
             simulation_obj.R_B = st.number_input("Borehullsmotstand [m∙K/W]", min_value=0.0, value=0.08, max_value=2.0, step=0.01)
             simulation_obj.N_1= st.number_input("Antall brønner (X)", value=well_guess, step=1) 
-            simulation_obj.N_2= st.number_input("Antall brønner (Y)", value=1, step=1) 
+            simulation_obj.N_2= st.number_input("Antall brønner (Y)", value=1, step=1)
+            #--
+            simulation_obj.COP = energy_coverage.COP
+            heat_carrier_fluid_types = ["HX24", "HX35", "Kilfrost GEO 24%", "Kilfrost GEO 32%", "Kilfrost GEO 35%"]    
+            heat_carrier_fluid = st.selectbox("Type kollektorvæske", options=list(range(len(heat_carrier_fluid_types))), format_func=lambda x: heat_carrier_fluid_types[x])
+            simulation_obj.FLOW = st.number_input("Flow [l/min]", value=0.5, step=0.1)
         with c2:
             H = st.number_input("Brønndybde [m]", min_value=100, value=300, max_value=500, step=10)
             GWT = st.number_input("Grunnvannsstand [m]", min_value=0, value=5, max_value=100, step=1)
@@ -115,8 +120,48 @@ def early_phase():
             simulation_obj.RADIUS = st.number_input("Brønndiameter [mm]", min_value = 80, value=115, max_value=300, step=1) / 2000
             simulation_obj.peak_heating = st.number_input("Varmepumpe [kW]", value = int(round(energy_coverage.heat_pump_size,0)), step=10)
         st.form_submit_button("Kjør simulering")
+        heat_carrier_fluid_densities = [970.5, 955, 1105.5, 1136.2, 1150.6]
+        heat_carrier_fluid_capacities = [4.298, 4.061, 3.455, 3.251, 3.156]
+        simulation_obj.DENSITY = heat_carrier_fluid_densities[heat_carrier_fluid]
+        simulation_obj.HEAT_CAPACITY = heat_carrier_fluid_capacities[heat_carrier_fluid]
         simulation_obj._run_simulation()
 
+#--
+def delta_t():
+    heat_carrier_fluid_types = ["HX24", "HX35", "Kilfrost GEO 24%", "Kilfrost GEO 32%", "Kilfrost GEO 35%"]
+    heat_carrier_fluid_densities = [970.5, 955, 1105.5, 1136.2, 1150.6]
+    heat_carrier_fluid_capacities = [4.298, 4.061, 3.455, 3.251, 3.156]
+    st.title("ΔT")
+    c1, c2 = st.columns(2)
+    with c1:
+        number_of_wells = st.number_input("Antall brønner", value=1, step=1, min_value=1)
+        COP = st.number_input("COP", value=3.5, min_value=2.0, max_value=5.0, step=0.1)
+        heat_pump_size = st.number_input("Varmepumpestørrelse [kW]", value=10, step=10)
+        peak_average_minimum_temperature = st.number_input("Gjennomsnittlig minimumstemperatur [°C]", value=0.0, step=1.0)
+    with c2:
+        flow = st.number_input("Flow [l/min]", value=0.5, step=0.1)
+        heat_carrier_fluid = st.selectbox("Type kollektorvæske", options=list(range(len(heat_carrier_fluid_types))), format_func=lambda x: heat_carrier_fluid_types[x])
+        density = st.number_input("Tetthet [kg/m3]", value=heat_carrier_fluid_densities[heat_carrier_fluid])
+        heat_capacity = st.number_input("Spesifikk varmekapasitet [kJ/kg∙K]", value=heat_carrier_fluid_capacities[heat_carrier_fluid])
+    st.markdown("---")
+    #--
+    st.header("Resultater")
+    #st.caption(f"Levert effekt fra brønnpark: {round(heat_pump_size-heat_pump_size/COP,1)} kW")
+    Q = (heat_pump_size-heat_pump_size/COP)/number_of_wells
+    st.caption(f"Levert effekt fra brønnpark: {round(heat_pump_size-heat_pump_size/COP,1)} kW | Levert effekt per brønn (Q): {round(Q,1)} kW")
+    delta_T = round((Q*1000)/(density*flow*heat_capacity),1)
+    st.write(f"ΔT = {delta_T} °C")
+    peak_max_temperature = round(peak_average_minimum_temperature + delta_T/2,1)
+    peak_min_temperature = round(peak_average_minimum_temperature - delta_T/2,1)
+    st.write(f"Maksimal kollektorvæsketemperatur: {peak_average_minimum_temperature} °C + {delta_T/2} °C = **{peak_max_temperature} °C**")
+    st.write(f"Minimum kollektorvæsketemperatur: {peak_average_minimum_temperature} °C - {delta_T/2} °C = **{peak_min_temperature} °C**")
+    st.markdown("---")
+    #--
+    st.header("Til rapport")
+    st.write(f""" Ved maksimal varmeeffekt fra varmepumpen på {heat_pump_size} kW kommer temperaturen til og fra energibrønnene til å være henholdsvis ca. {round(delta_T/2,1)} grader høyere og lavere enn den gjennomsnittlige temperaturen (ΔT = {delta_T} °C). Dette betyr at den laveste kollektorvæsketemperaturen til og fra varmepumpens fordampere i vintermånedene år 25 vil være henholdsvis {peak_max_temperature} °C og {peak_min_temperature} °C. """)
+
+
+#--
     #st.title("Kostnader")
     #st.caption("Under arbeid")
     #tab1, tab2 = st.tabs(["Direkte kjøp", "Lånefinansiert"])

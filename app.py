@@ -35,7 +35,7 @@ elif authentication_status:
         authenticator.logout('Logg ut', 'sidebar')
         if NAME != None:
             st.title(f'Hei {NAME}!')
-            options = ["Forside", "Prosjektoversikt", "TRT", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknikk", "ΔT", "Uforstyrret temperatur", "Tensio"]
+            options = ["Forside", "Prosjektoversikt", "Termisk responstest", "Bergvarmekalkulatoren", "Tidligfasedimensjonering", "Energianalyse", "Python", "Geoteknisk vurdering", "ΔT", "Uforstyrret temperatur", "Tensio"]
             selected = st.radio("Velg app", options, index=0)
             st.markdown("---")
     if NAME == None:
@@ -45,7 +45,7 @@ elif authentication_status:
             front_page()   
         if selected == "Prosjektoversikt":
             projects(NAME)
-        if selected == "TRT":
+        if selected == "Termisk responstest":
             trt()
         if selected == "Bergvarmekalkulatoren":
             bergvarmekalkulatoren()
@@ -55,7 +55,7 @@ elif authentication_status:
             energy_analysis()
         if selected == "Python":
             python_programming()
-        if selected == "Geoteknikk":
+        if selected == "Geoteknisk vurdering":
             geotechnics()
         if selected == "ΔT":
             delta_t()

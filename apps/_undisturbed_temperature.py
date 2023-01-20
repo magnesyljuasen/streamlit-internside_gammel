@@ -7,7 +7,6 @@ from scripts._utils import Plotting
 
 
 def undisturbed_temperature():
-    st.button("Refresh")
     st.title("Uforstyrret temperatur")
     uploaded_file = st.file_uploader("Last opp fil (excel)")
     with st.expander("Hvordan skal filen se ut?"):
