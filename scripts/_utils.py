@@ -221,12 +221,15 @@ class Plotting:
             color = alt.value(COLOR))
         st.altair_chart(c, use_container_width=True)
 
-    def xy_plot_reversed(self, x, y, ymin = None, ymax = None):
+    def xy_plot_reversed(self, x, y, groundwater_table = None, area_divider = None):
         plt.scatter(x, y)
+        if groundwater_table != None and area_divider != None:
+            plt.axhline(y = groundwater_table, color = 'b', linestyle = '--', label = f"Grunnvannstand: {groundwater_table} m")
+            plt.vlines(x = area_divider, ymin = groundwater_table, ymax = max(y), color = 'r', linestyle = '--', label = f"Uforstyrret temperatur: {round(area_divider,2)} °C")
         plt.plot(x,y, '--')
         plt.legend(loc='best')
         plt.ylabel("Dybde [m]")
-        plt.ylim((ymin, ymax))
+        plt.ylim(0, max(y)*1.1)
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.gca().invert_yaxis()
         plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
