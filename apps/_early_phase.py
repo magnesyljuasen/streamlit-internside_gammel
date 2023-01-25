@@ -12,6 +12,7 @@ from scripts._utils import hour_to_month
 from scripts._peakshaving import peakshaving
 
 def early_phase():
+    st.write("test")
     st.warning("Under utvikling")
     st.title("Tidligfasedimensjonering av energibrønnpark")
     #---
