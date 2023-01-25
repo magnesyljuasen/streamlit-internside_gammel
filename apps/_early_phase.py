@@ -129,20 +129,31 @@ def early_phase():
         simulation_obj._run_simulation()
     #--
     st.header("Ⅲ) Kostnader")
+    st.subheader("Forutsetninger")
     costs_obj = Costs()
+    c1, c2 = st.columns(2)
     #-- input
-    costs_obj.ELPRICE = st.number_input("Strømpris inkl. alt [kr/kWh]", min_value=0.0, value=1.0, max_value=10.0, step=1.0)
-    costs_obj.LIFETIME = st.number_input("Levetid [år]", min_value=1, value=25, max_value=100, step=5)
-    costs_obj.DISKONTERINGSRENTE = st.number_input("Diskonteringsrente [%]", min_value=1, value=6, max_value=100, step=2) / 100
-    costs_obj.METERS = (simulation_obj.N_1 * simulation_obj.N_2) * simulation_obj.H
-    costs_obj.gshp_compressor_arr = energy_coverage.gshp_compressor_arr
-    costs_obj.non_covered_arr = energy_coverage.non_covered_arr
-    costs_obj.demand_array = demand_array
-    costs_obj.heat_pump_size = energy_coverage.heat_pump_size
-    #--
-    costs_obj._run_cost_calculation()
+    with c1:
+        costs_obj.ELPRICE = st.number_input("Strømpris inkl. alt [kr/kWh]", min_value=0.0, value=1.0, max_value=10.0, step=1.0)
+        costs_obj.LIFETIME = st.number_input("Levetid [år]", min_value=1, value=25, max_value=100, step=5)
+    with c2:
+        costs_obj.METERS = (simulation_obj.N_1 * simulation_obj.N_2) * simulation_obj.H
+        costs_obj.gshp_compressor_arr = energy_coverage.gshp_compressor_arr
+        costs_obj.non_covered_arr = energy_coverage.non_covered_arr
+        costs_obj.demand_array = demand_array
+        costs_obj.heat_pump_size = energy_coverage.heat_pump_size
+        #--
+        costs_obj.DISKONTERINGSRENTE = st.number_input("Diskonteringsrente [%]", min_value=1, value=6, max_value=100, step=2) / 100
+        costs_obj.maintenance_cost = st.number_input("Vedlikeholdskostnad [kr]", min_value=0, value=10000, max_value=100000, step=1000)     
+        #--
+        costs_obj._run_cost_calculation()
+    
     st.subheader("Resultater")
-    st.write(f" - Investeringskostnad: {costs_obj.investment_cost:,} kr".replace(',', ' '))
-    st.write(f" - Driftskostnad (strøm): {costs_obj.operation_cost:,} kr/år".replace(',', ' '))
-    st.write(f" - Vedlikeholdskostnad: {costs_obj.maintenance_cost:,} kr/år".replace(',', ' '))
-    st.write(f" - LCOE: {costs_obj.LCOE:,} kr/kWh".replace(',', ' '))
+    c1, c2 = st.columns(2)
+    with c1:
+        st.write(f"**Investeringskostnad: {costs_obj.investment_cost:,} kr**".replace(',', ' '))
+        st.write(f"- Brønner: {costs_obj.investment_well:,} kr".replace(',', ' '))
+        st.write(f"- Varmepumpe: {costs_obj.investment_heat_pump:,} kr".replace(',', ' '))
+    with c2:
+        st.write(f"**Driftskostnad: {costs_obj.operation_cost + costs_obj.maintenance_cost:,} kr/år**".replace(',', ' '))
+        st.write(f"**LCOE: {costs_obj.LCOE:,} kr/kWh**".replace(',', ' '))

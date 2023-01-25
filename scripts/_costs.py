@@ -16,12 +16,12 @@ class Costs():
         self.non_covered_arr = np.zeros(8760)
         self.demand_arr = np.zeros(8760)
         self.heat_pump_size = 20
+        self.maintenance_cost = 10000
 
     def _run_cost_calculation(self):
         self._calculate_energy_cost()
         self._calculate_investment_cost()
         self._calculate_operation_cost()
-        self._calculate_maintenance_cost()
 
         self._npv()
 
@@ -29,7 +29,9 @@ class Costs():
         #-- Veldig enkelt
         PRICE_PER_METER = 329.19
         HEAT_PUMP_CONSTANT_COST = 12927
-        self.investment_cost = int(round(((PRICE_PER_METER * self.METERS)/0.6) + (self.heat_pump_size * HEAT_PUMP_CONSTANT_COST),0))  
+        self.investment_heat_pump = int(round((self.heat_pump_size * HEAT_PUMP_CONSTANT_COST),0))
+        self.investment_well = int(round((PRICE_PER_METER * self.METERS)/0.6,2))
+        self.investment_cost = int(round(self.investment_well + self.investment_heat_pump,0))  
         #-- 
 
     def _calculate_energy_cost(self):
@@ -38,8 +40,6 @@ class Costs():
     def _calculate_operation_cost(self):
         self.operation_cost = int(round(np.sum(((self.gshp_compressor_arr + self.non_covered_arr) * self.ELPRICE)),0))
 
-    def _calculate_maintenance_cost(self):
-        self.maintenance_cost = 10000
 
     def _npv(self):
         self.npv_maintenance = -npf.pv(self.DISKONTERINGSRENTE, self.LIFETIME, self.maintenance_cost)
