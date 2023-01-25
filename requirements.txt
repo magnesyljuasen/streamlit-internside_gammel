@@ -110,3 +110,4 @@ streamlit-folium==0.10.0
 geopandas==0.12.2
 shapely==2.0.0
 pygeos==0.14
+numpy-financial==1.0.0
