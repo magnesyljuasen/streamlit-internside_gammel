@@ -1,10 +1,57 @@
 import streamlit as st 
 import numpy as np
+import numpy_financial as npf
 import altair as alt
 import pandas as pd
 from scripts._utils import hour_to_month, render_svg
+from scripts._energy_coverage import EnergyCoverage
 
-class Costs:
+class Costs():
+    def __init__(self):
+        self.METERS = 500
+        self.ELPRICE = 1
+        self.LIFETIME = 25
+        self.DISKONTERINGSRENTE = 0.06
+        self.gshp_compressor_arr = np.zeros(8760)
+        self.non_covered_arr = np.zeros(8760)
+        self.demand_arr = np.zeros(8760)
+        self.heat_pump_size = 20
+
+    def _run_cost_calculation(self):
+        self._calculate_energy_cost()
+        self._calculate_investment_cost()
+        self._calculate_operation_cost()
+        self._calculate_maintenance_cost()
+
+        self._npv()
+
+    def _calculate_investment_cost(self):
+        #-- Veldig enkelt
+        PRICE_PER_METER = 329.19
+        HEAT_PUMP_CONSTANT_COST = 12927
+        self.investment_cost = int(round(((PRICE_PER_METER * self.METERS)/0.6) + (self.heat_pump_size * HEAT_PUMP_CONSTANT_COST),0))  
+        #-- 
+
+    def _calculate_energy_cost(self):
+        self.energy_cost = int(round(np.sum(self.demand_arr * self.ELPRICE,0)))
+
+    def _calculate_operation_cost(self):
+        self.operation_cost = int(round(np.sum(((self.gshp_compressor_arr + self.non_covered_arr) * self.ELPRICE)),0))
+
+    def _calculate_maintenance_cost(self):
+        self.maintenance_cost = 10000
+
+    def _npv(self):
+        self.npv_maintenance = -npf.pv(self.DISKONTERINGSRENTE, self.LIFETIME, self.maintenance_cost)
+        self.npv_operation = -npf.pv(self.DISKONTERINGSRENTE, self.LIFETIME, self.operation_cost)
+        self.npv_energy = -npf.pv(self.DISKONTERINGSRENTE, self.LIFETIME, self.energy_cost)
+
+        self.LCOE = round(((self.npv_maintenance + self.npv_operation + self.npv_energy) / self.investment_cost),2)
+
+
+
+
+class Costs1:
     def __init__(self, meters):
         self.METER = meters
         self.PRICE_PER_METER = 365

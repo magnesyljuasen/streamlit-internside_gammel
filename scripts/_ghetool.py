@@ -76,6 +76,14 @@ class GheTool:
             borefield.results_peak_heating, "Gj.snittlig kollektorvæsketemperatur [°C]]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/dellast: **{round(min(borefield.results_month_heating),1)} °C**")
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} °C**")
+            #--
+            Q = (self.peak_heating-self.peak_heating/self.COP)/(self.N_1 * self.N_2)
+            #st.caption(f"Levert effekt fra brønnpark: {round(self.peak_heating-self.peak_heating/self.COP,1)} kW | Levert effekt per brønn (Q): {round(Q,1)} kW")
+            delta_T = round((Q*1000)/(self.DENSITY*self.FLOW*self.HEAT_CAPACITY),1)
+            st.write(f"- ΔT: {delta_T:,} °C".replace(',', ' '))
+            st.write(f"- Inn til varmepumpe: {round(min(borefield.results_peak_heating) + delta_T/2,1):,} °C".replace(',', ' '))
+            st.write(f"- Ut fra varmepumpe: {round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
+            #--
             if np.sum(self.monthly_load_cooling) > 0:   
                 st.markdown("---")
                 Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_cooling, 
@@ -83,19 +91,19 @@ class GheTool:
                 st.write(f"Høyeste gj.snittlige kollektorvæsketemperatur v/maksimal kjøleeffekt: **{round(max(borefield.results_peak_cooling),1)} °C**")
                 st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal kjøleeffekt: **{round(min(borefield.results_peak_cooling),1)} °C**")  
             st.markdown("---")
-            Q = (self.peak_heating-self.peak_heating/self.COP)/(self.N_1 * self.N_2)
-            st.caption(f"Levert effekt fra brønnpark: {round(self.peak_heating-self.peak_heating/self.COP,1)} kW | Levert effekt per brønn (Q): {round(Q,1)} kW")
-            delta_T = round((Q*1000)/(self.DENSITY*self.FLOW*self.HEAT_CAPACITY),1)
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.metric("Aktive brønnmetere", value = f"{meters:,} m".replace(',', ' '))
-                st.metric("ΔT", value = f"{delta_T:,} °C".replace(',', ' '))
-            with c2:
-                st.metric("Energi per meter", value = f"{int(round(monthly_load_heating_sum/meters,0)):,} kWh/m".replace(',', ' '))
-                st.metric("Inn til varmepumpe", value = f"{round(min(borefield.results_peak_heating) + delta_T/2,1):,} °C".replace(',', ' '))
-            with c3:
-                st.metric("Effekt per meter", value = f"{int(round(peak_heating_max*1000/meters,0)):,} W/m".replace(',', ' '))
-                st.metric("Ut fra varmepumpe", value = f"{round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
+#            Q = (self.peak_heating-self.peak_heating/self.COP)/(self.N_1 * self.N_2)
+#            st.caption(f"Levert effekt fra brønnpark: {round(self.peak_heating-self.peak_heating/self.COP,1)} kW | Levert effekt per brønn (Q): {round(Q,1)} kW")
+#            delta_T = round((Q*1000)/(self.DENSITY*self.FLOW*self.HEAT_CAPACITY),1)
+#            c1, c2, c3 = st.columns(3)
+#            with c1:
+#                st.metric("Aktive brønnmetere", value = f"{meters:,} m".replace(',', ' '))
+#                st.metric("ΔT", value = f"{delta_T:,} °C".replace(',', ' '))
+#            with c2:
+#                st.metric("Energi per meter", value = f"{int(round(monthly_load_heating_sum/meters,0)):,} kWh/m".replace(',', ' '))
+#                st.metric("Inn til varmepumpe", value = f"{round(min(borefield.results_peak_heating) + delta_T/2,1):,} °C".replace(',', ' '))
+#            with c3:
+#                st.metric("Effekt per meter", value = f"{int(round(peak_heating_max*1000/meters,0)):,} W/m".replace(',', ' '))
+#                st.metric("Ut fra varmepumpe", value = f"{round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
 
             
             #borefield.results_peak_heating()
