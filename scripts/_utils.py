@@ -8,6 +8,8 @@ import pandas as pd
 import altair as alt
 import base64
 from deta import Deta
+from matplotlib.ticker import StrMethodFormatter, FuncFormatter
+
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -305,6 +307,7 @@ class Plotting:
         f'{y4label}: {int(np.sum(y4)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color, y4color])
         plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
+        plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.xlim(0, 8760)
         st.pyplot(plt)
@@ -375,6 +378,19 @@ class Plotting:
         ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
         if hline_value != 0:
             ax.axhline(y = hline_value, color = 'black', linestyle = '--', linewidth=0.3)
+        st.pyplot(plt)
+        plt.close()
+
+    def xy_plot_bar_stacked(self, x, x_label, y1, y2, y1label, y2label, ymin, ymax, y_label, COLOR1, COLOR2):
+        #plt.rcParams["figure.figsize"] = (3,20)
+        fig, ax = plt.subplots(figsize=(10,3))
+        plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, p: format(int(x), ',').replace(",", " ")))
+        #plt.ticklabel_format(style='plain')
+        ax.bar(x, y1, label = y1label, color = COLOR1)
+        ax.bar(x, y2, bottom=y1, label = y2label, color = COLOR2)
+        ax.legend()
+        ax.grid(color='black', linestyle='--', linewidth=0.1)
+        ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
         st.pyplot(plt)
         plt.close()
 
