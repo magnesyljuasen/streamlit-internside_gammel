@@ -234,8 +234,8 @@ class Plotting:
         plt.ylim(0, max(y)*1.1)
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.gca().invert_yaxis()
-        #plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
-        #plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
+        plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = False
+        plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = True
         st.pyplot(plt)
         plt.close()        
 
