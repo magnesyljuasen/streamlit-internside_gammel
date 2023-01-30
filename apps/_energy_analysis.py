@@ -78,7 +78,8 @@ def energy_analysis():
     energy_coverage._coverage_calculation()
     df["S1 - Fjernvarmedekning"] = energy_coverage.covered_arr
     df["S1 - Spisslast"] = energy_coverage.non_covered_arr
-    Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Fjernvarmedekning", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_BLUE)
+    Plotting().hourly_plot(energy_coverage.covered_arr, "Fjernvarmedekning", Plotting().FOREST_GREEN)
+    #Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Fjernvarmedekning", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_BLUE)
     #np.savetxt('src/data/output/Fjernvarmedekning.csv', energy_coverage.covered_arr, delimiter=',')
     #np.savetxt('src/data/output/Spisslast.csv', energy_coverage.non_covered_arr, delimiter=',')
     with st.expander("Varighetskurve"):
@@ -98,6 +99,7 @@ def energy_analysis():
         cost_per_month_districtheating = hour_to_month(DISTRICTHEATING_PRICE*(energy_coverage.covered_arr))
         Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),0)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),0)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
         st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),0)):,} kr**".replace(",", " "))
+        df1 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
     st.markdown("---")
     #--
     st.header("Grunnvarme og solenergi")
@@ -135,6 +137,7 @@ def energy_analysis():
         cost_per_month_districtheating = 0
         Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),0)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),0)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
         st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),0)):,} kr**".replace(",", " "))
+        df2 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
     st.markdown("---")
     #np.savetxt('src/data/output/Kompressor.csv', energy_coverage.gshp_compressor_arr, delimiter=',')
     #--
@@ -201,9 +204,24 @@ def energy_analysis():
         cost_per_month_districtheating = hour_to_month(DISTRICTHEATING_PRICE*(energy_coverage.non_covered_arr + dhw_array))
         Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),0)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),0)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
         st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),0)):,} kr**".replace(",", " "))
+        df3 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
     #np.savetxt('src/data/output/Fjernvarme_3.csv', (dhw_array + energy_coverage.non_covered_arr), delimiter=',')
     #np.savetxt('src/data/output/Kompressor_3.csv', (energy_coverage.gshp_compressor_arr), delimiter=',')
     df.to_csv("src/data/output/hei.csv", sep=";")
+
+    # create fake dataframes
+#    df1 = pd.DataFrame(np.random.rand(4, 5),
+#                    index=["A", "B", "C", "D"],
+#                    columns=["I", "J", "K", "L", "M"])
+#    df2 = pd.DataFrame(np.random.rand(4, 5),
+#                    index=["A", "B", "C", "D"],
+#                    columns=["I", "J", "K", "L", "M"])
+#    df3 = pd.DataFrame(np.random.rand(4, 5),
+#                    index=["A", "B", "C", "D"], 
+#                    columns=["I", "J", "K", "L", "M"])
+
+    # Then, just call :
+    Plotting().plot_clustered_stacked([df1, df2, df3],["Scenario 1", "Scenario 2", "Scenario 3"], color=[Plotting().GRASS_BLUE, Plotting().FOREST_GREEN])
 
     st.markdown("---")
     #--
