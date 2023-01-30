@@ -229,7 +229,7 @@ class Plotting:
             plt.axhline(y = groundwater_table, color = 'b', linestyle = '--', label = f"Grunnvannstand: {groundwater_table} m")
             plt.vlines(x = area_divider, ymin = groundwater_table, ymax = max(y), color = 'r', linestyle = '--', label = f"Uforstyrret temperatur: {round(area_divider,2)} °C")
         plt.plot(x,y, '--')
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Dybde [m]")
         plt.ylim(0, max(y)*1.1)
         plt.grid(color='black', linestyle='--', linewidth=0.1)
@@ -262,7 +262,7 @@ class Plotting:
         if winterweek == True:
             plt.xlim(max_index - 24, max_index + 24)
         plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
@@ -277,7 +277,7 @@ class Plotting:
             plt.xlim(max_index - hours, max_index + hours)
         plt.plot(x, y1, label=y1label, color=y1color)
         plt.plot(x, y2, label=y2label, color=y2color, linestyle='--')
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
@@ -290,7 +290,7 @@ class Plotting:
         f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
         f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
         f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
@@ -305,7 +305,7 @@ class Plotting:
         f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
         f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' '),
         f'{y4label}: {int(np.sum(y4)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color, y4color])
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
@@ -323,7 +323,7 @@ class Plotting:
             #myFmt = mdates.DateFormatter('%d.%b')
             #plt.gca().xaxis.set_major_formatter(myFmt)
         plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
         plt.xlabel("Timer i ett år")
         plt.ylim((ymin, ymax))
@@ -339,7 +339,7 @@ class Plotting:
         if winterweek == True:
             plt.xlim(max_index - 24, max_index + 24)
         plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW \nOverskuddsproduksjon: {solar_production:,} kWh | {solar_effect:,} kW'.replace(',', ' ')], colors=y1color)
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
         plt.xlabel("Timer i ett år")
         plt.ylim((ymin, ymax))
@@ -351,7 +351,7 @@ class Plotting:
     def hourly_duration_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0):
         x = np.arange(0, len(y1))
         plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
-        plt.legend(loc='best')
+        #plt.legend(loc='best')
         plt.ylabel("Effekt [kW]")
         plt.ylim((ymin, ymax))
         plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
