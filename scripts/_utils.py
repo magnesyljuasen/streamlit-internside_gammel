@@ -415,13 +415,13 @@ class Plotting:
         ax.set(xlim=(xmin, xmax), xlabel=(x_label), ylabel=(y_label), yticks=(np.arange(ymin, ymax, 1)))
         st.pyplot(plt)
 
-    def xy_simulation_pygf_plot(self, x, y1, y_legend1, COLOR1):
+    def xy_simulation_pygf_plot(self, x, y1, COLOR1):
         fig, ax = plt.subplots()
-        ax.plot(x, y1, linewidth=0.05, color=COLOR1, label=y_legend1)
+        ax.plot(x, y1, linewidth=0.05, color=COLOR1)
         ax.axhline(y = 1, color = 'black', linestyle = '--', linewidth=0.3)
         ax.axhline(y = 0, color = 'black', linestyle = '-.', linewidth=0.3)        
         ax.legend()
-        ax.set(xlabel=("Timer"), ylabel=("Effekt [kW]"))
+        ax.set(xlabel=("Timer"), ylabel=("Gjennomsnittlig kollektorvæsketemperatur [°C]"), xlim=(0, len(x)), ylim=(-2,9))
         ax.grid(color='black', linestyle='--', linewidth=0.1)
         st.pyplot(plt)
 

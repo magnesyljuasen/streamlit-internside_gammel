@@ -15,7 +15,6 @@ from scripts._peakshaving import peakshaving
 from scripts._pygfunction import Simulation
 
 def early_phase():
-    st.warning("Under utvikling...")
     st.title("Tidligfasedimensjonering av energibrønnpark")
     st.caption("Spørsmål til verktøyet? Ta kontakt: Magne Syljuåsen | magne.syljuasen@asplanviak.no ")
     with st.expander("Hva er dette?"):
@@ -41,7 +40,7 @@ def early_phase():
     selected_input = st.radio("Hvordan vil du legge inn input?", options=["PROFet", "Last opp"])
     if selected_input == "PROFet":
         st.subheader("Termisk energibehov fra PROFet")
-        st.caption("Foreløpig begrenset til Trondheimsklima")
+        st.info("Foreløpig begrenset til Trondheimsklima", icon="ℹ️")
         energy_demand = EnergyDemand()
         demand_array, selected_array = energy_demand.get_thermal_arrays_from_input()
         Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
@@ -134,7 +133,7 @@ def early_phase():
     st.markdown("---")
     #---
     st.header("Ⅱ) Dimensjonering av brønnpark")
-    #st.info("Under arbeid... Resultatene må kvalitetssikres av rådgiver innen grunnvarme.")
+    st.warning("Under utvikling...", icon = "⚠️")
     with st.expander("Generelle råd"):
         st.write(""" - Avstanden mellom brønnene bør være minst 15 meter slik at de ikke henter varme fra samme bergvolum. 
         Der det er tilgengelig plass etterstrebes en mest mulig åpen konfigurasjon""")
@@ -212,6 +211,7 @@ def early_phase():
     st.markdown("---")   
     #--
     st.header("Ⅲ) Kostnader")
+    st.warning("Under utvikling...", icon = "⚠️")
     st.subheader("Forutsetninger")
     costs_obj = Costs()
     c1, c2 = st.columns(2)
