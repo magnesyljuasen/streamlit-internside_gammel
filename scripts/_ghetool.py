@@ -1,14 +1,5 @@
-"""
-This file contains all the main functionalities of GHEtool being:
-    * sizing of the borefield
-    * sizing of the borefield for a specific quadrant
-    * plotting the temperature evolution
-    * plotting the temperature evolution for a specific depth
-    * printing the array of the temperature
-"""
-
 # import all the relevant functions
-from GHEtool import Borefield, GroundData, FluidData, PipeData
+from GHEtool import Borefield, GroundData
 from scripts._utils import Plotting
 import numpy as np
 import streamlit as st
@@ -60,7 +51,6 @@ class GheTool:
                     baseload_heating=self.monthly_load_heating,
                     baseload_cooling=self.monthly_load_cooling)
         monthly_load_heating_sum = int(np.sum(self.monthly_load_heating))
-        peak_heating_max = int(np.max(self.peak_heating))
 
         borefield.set_ground_parameters(data)
         field = borefield.create_rectangular_borefield(self.N_1, self.N_2, self.B, self.B, self.H, 0, self.RADIUS)
@@ -71,18 +61,17 @@ class GheTool:
         with st.expander("Se resultater", expanded=True):
             st.write(f"**{self.N_1 * self.N_2} brønn(er) á {self.H} aktiv brønndybde med {self.B} m avstand**")
             meters = (self.N_1 * self.N_2) * self.H
-            st.write(f"Leveres fra brønn(er) til oppvarming: {monthly_load_heating_sum:,} kWh".replace(',', ' '))
             Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
             borefield.results_peak_heating, "Gj.snittlig kollektorvæsketemperatur [°C]]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/dellast: **{round(min(borefield.results_month_heating),1)} °C**")
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} °C**")
             #--
-            Q = (self.peak_heating-self.peak_heating/self.COP)/(self.N_1 * self.N_2)
+            Q = (max(self.peak_heating)-max(self.peak_heating)/self.COP)/(self.N_1 * self.N_2)
             #st.caption(f"Levert effekt fra brønnpark: {round(self.peak_heating-self.peak_heating/self.COP,1)} kW | Levert effekt per brønn (Q): {round(Q,1)} kW")
             delta_T = round((Q*1000)/(self.DENSITY*self.FLOW*self.HEAT_CAPACITY),1)
             st.write(f"- ΔT: {delta_T:,} °C".replace(',', ' '))
-            st.write(f"- Inn til varmepumpe: {round(min(borefield.results_peak_heating) + delta_T/2,1):,} °C".replace(',', ' '))
-            st.write(f"- Ut fra varmepumpe: {round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
+            st.write(f"- Kollektorvæsketemperatur inn til varmepumpe: {round(min(borefield.results_peak_heating) + delta_T/2,1):,} °C".replace(',', ' '))
+            st.write(f"- Kollektorvæsketemperatur ut fra varmepumpe: {round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
             #--
             if np.sum(self.monthly_load_cooling) > 0:   
                 st.markdown("---")
@@ -90,7 +79,6 @@ class GheTool:
                 borefield.results_peak_cooling, "Gj.snittlig kollektorvæsketemperatur [°C]", "Ved dellast", f"Ved maksimal kjøleeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_BLUE)   
                 st.write(f"Høyeste gj.snittlige kollektorvæsketemperatur v/maksimal kjøleeffekt: **{round(max(borefield.results_peak_cooling),1)} °C**")
                 st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal kjøleeffekt: **{round(min(borefield.results_peak_cooling),1)} °C**")  
-            st.markdown("---")
 #            Q = (self.peak_heating-self.peak_heating/self.COP)/(self.N_1 * self.N_2)
 #            st.caption(f"Levert effekt fra brønnpark: {round(self.peak_heating-self.peak_heating/self.COP,1)} kW | Levert effekt per brønn (Q): {round(Q,1)} kW")
 #            delta_T = round((Q*1000)/(self.DENSITY*self.FLOW*self.HEAT_CAPACITY),1)

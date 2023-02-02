@@ -25,10 +25,10 @@ class Simulation:
         self._load(demand_array)
         self._simulation()
         self._effective_borehole_thermal_resistance()
-        with st.expander("Borehull"):
-            self._visualize_pipes()
-        with st.expander("Varmeuttak"):
-            self._plot_hourly_extraction_rate()
+        #with st.expander("Borehull"):
+        #    self._visualize_pipes()
+        #with st.expander("Varmeuttak"):
+        #    self._plot_hourly_extraction_rate()
         self._plot_hourly_temperatures()
         #self._plot_fluid_temperature_profiles()
         #st.write(self.R_B)
@@ -181,12 +181,8 @@ class Simulation:
         hours = np.arange(1, self.nt+1) * self.DT / 3600.
         x_label, y_label = "Timer", "Temperatur [℃]"
         y_min, y_max = -2, 10
-        with st.expander("Til varmepumpe (opp av brønn)"):
-            Plotting().xy_plot(hours, 0, max(hours), x_label, self.tf_out, y_min, y_max, f"Kollektorvæsketemperatur til varmepumpe [°C]", Plotting().FOREST_GREEN)
-        with st.expander("Fra varmepumpe (ned i brønn)"):
-            Plotting().xy_plot(hours, 0, max(hours), x_label, self.tf_in, y_min, y_max, f"Kollektorvæsketemperatur fra varmepumpe [°C]", Plotting().FOREST_GREEN)
-        Plotting().xy_plot(hours, 0, max(hours), x_label, self.tf_mean, y_min, y_max, f"Gjennomsnittlig kollektorvæsketemperatur [°C]", Plotting().FOREST_GREEN)
-        
+        #Plotting().xy_plot(hours, 0, max(hours), x_label, self.tf_mean, y_min, y_max, f"Gjennomsnittlig kollektorvæsketemperatur [°C]", Plotting().FOREST_GREEN)
+        Plotting().xy_simulation_pygf_plot(hours, self.tf_in, self.tf_mean, self.tf_out, "Gjennomsnittlig kollektorvæsketemperatur [°C]", "Til VP [°C]", "Fra VP [°C]", Plotting().FOREST_GREEN, Plotting().GRASS_GREEN, Plotting().SPRING_GREEN)
         #np.savetxt('src/data/output/data_mean.csv', self.tf_mean, delimiter=',')
         #np.savetxt('src/data/output/data_in.csv', self.tf_in, delimiter=',')
         #np.savetxt('src/data/output/data_out.csv', self.tf_out, delimiter=',')

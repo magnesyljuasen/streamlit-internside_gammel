@@ -261,10 +261,10 @@ class Plotting:
         plt.xlim(0, 8760)
         if winterweek == True:
             plt.xlim(max_index - 24, max_index + 24)
-        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
-        plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh'.replace(',', ' ')], colors=[y1color,y2color])        
+        plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
+        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh'.replace(',', ' ')], colors=[y1color,y2color])        
         plt.legend(loc='best')
-        plt.ylabel("Effekt [kW]")
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         st.pyplot(plt)
@@ -279,7 +279,7 @@ class Plotting:
         plt.plot(x, y1, label=y1label, color=y1color)
         plt.plot(x, y2, label=y2label, color=y2color, linestyle='--')
         plt.legend(loc='best')
-        plt.ylabel("Effekt [kW]")
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         st.pyplot(plt)
@@ -287,16 +287,16 @@ class Plotting:
 
     def hourly_triple_stack_plot(self, y1 , y2, y3, y1label, y2label, y3label, y1color, y2color, y3color):
         x = np.arange(0, 8760)
-        #plt.stackplot(x, y1, y2, y3, labels=[
-        #f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
-        #f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
-        #f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
         plt.stackplot(x, y1, y2, y3, labels=[
-        f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' '),
-        f'{y2label}: {int(np.sum(y2)):,} kWh'.replace(',', ' '),
-        f'{y3label}: {int(np.sum(y3)):,} kWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
+        f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
+        f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        #plt.stackplot(x, y1, y2, y3, labels=[
+        #f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' '),
+        #f'{y2label}: {int(np.sum(y2)):,} kWh'.replace(',', ' '),
+        #f'{y3label}: {int(np.sum(y3)):,} kWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
         plt.legend(loc='best')
-        plt.ylabel("Effekt [kW]")
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.xlim(0, 8760)
@@ -311,7 +311,7 @@ class Plotting:
         f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' '),
         f'{y4label}: {int(np.sum(y4)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color, y4color])
         plt.legend(loc='best')
-        plt.ylabel("Effekt [kW]")
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
         plt.grid(color='black', linestyle='--', linewidth=0.1)
         plt.xlim(0, 8760)
@@ -327,10 +327,10 @@ class Plotting:
             #x = np.arange(date_1, date_2, dtype='datetime64')
             #myFmt = mdates.DateFormatter('%d.%b')
             #plt.gca().xaxis.set_major_formatter(myFmt)
-        #plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
-        plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
+        #plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
-        plt.ylabel("Effekt [kW]")
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
         plt.ylim((ymin, ymax))
         plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
@@ -346,7 +346,7 @@ class Plotting:
             plt.xlim(max_index - 24, max_index + 24)
         plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW \nOverskuddsproduksjon: {solar_production:,} kWh | {solar_effect:,} kW'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
-        plt.ylabel("Effekt [kW]")
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
         plt.ylim((ymin, ymax))
         plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
@@ -356,10 +356,10 @@ class Plotting:
 
     def hourly_duration_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0):
         x = np.arange(0, len(y1))
-        #plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
-        plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
+        #plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
-        plt.ylabel("Effekt [kW]")
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.ylim((ymin, ymax))
         plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
         plt.grid(color='black', linestyle='--', linewidth=0.1)
@@ -382,7 +382,8 @@ class Plotting:
         mpl.rcParams['axes.prop_cycle'] = cycler(color=[COLOR])
         ax.bar(x, y)
         ax.grid(color='black', linestyle='--', linewidth=0.1)
-        ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
+        #ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
+        ax.set(xlabel=(x_label), ylabel=(y_label))
         if hline_value != 0:
             ax.axhline(y = hline_value, color = 'black', linestyle = '--', linewidth=0.3)
         st.pyplot(plt)
@@ -397,7 +398,8 @@ class Plotting:
         ax.bar(x, y2, bottom=y1, label = y2label, color = COLOR2)
         ax.legend()
         ax.grid(color='black', linestyle='--', linewidth=0.1)
-        ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
+        ax.set(xlabel=(x_label), ylabel=(y_label))
+        #ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
         st.pyplot(plt)
         plt.close()
 
@@ -411,6 +413,17 @@ class Plotting:
         ax.legend()
         ax.grid(color='black', linestyle='--', linewidth=0.1)
         ax.set(xlim=(xmin, xmax), xlabel=(x_label), ylabel=(y_label), yticks=(np.arange(ymin, ymax, 1)))
+        st.pyplot(plt)
+
+    def xy_simulation_pygf_plot(self, x, y1, y2, y3, y_legend1, y_legend2, y_legend3, COLOR1, COLOR2, COLOR3):
+        fig, ax = plt.subplots()
+        ax.plot(x, y1, linewidth=0.05, color=COLOR1, label=y_legend1)
+        ax.plot(x, y2, linewidth=0.5, color=COLOR2, label=y_legend2)
+        ax.plot(x, y3, linewidth=0.05, color=COLOR3, label=y_legend3)
+        ax.axhline(y = 1, color = 'black', linestyle = '--', linewidth=0.3)
+        ax.axhline(y = 0, color = 'black', linestyle = '-.', linewidth=0.3)        
+        ax.legend()
+        ax.grid(color='black', linestyle='--', linewidth=0.1)
         st.pyplot(plt)
 
     def plot_clustered_stacked(self, dfall, labels=None,  H="/", **kwargs):
