@@ -415,14 +415,13 @@ class Plotting:
         ax.set(xlim=(xmin, xmax), xlabel=(x_label), ylabel=(y_label), yticks=(np.arange(ymin, ymax, 1)))
         st.pyplot(plt)
 
-    def xy_simulation_pygf_plot(self, x, y1, y2, y3, y_legend1, y_legend2, y_legend3, COLOR1, COLOR2, COLOR3):
+    def xy_simulation_pygf_plot(self, x, y1, y_legend1, COLOR1):
         fig, ax = plt.subplots()
         ax.plot(x, y1, linewidth=0.05, color=COLOR1, label=y_legend1)
-        ax.plot(x, y2, linewidth=0.5, color=COLOR2, label=y_legend2)
-        ax.plot(x, y3, linewidth=0.05, color=COLOR3, label=y_legend3)
         ax.axhline(y = 1, color = 'black', linestyle = '--', linewidth=0.3)
         ax.axhline(y = 0, color = 'black', linestyle = '-.', linewidth=0.3)        
         ax.legend()
+        ax.set(xlabel=("Timer"), ylabel=("Effekt [kW]"))
         ax.grid(color='black', linestyle='--', linewidth=0.1)
         st.pyplot(plt)
 

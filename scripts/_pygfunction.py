@@ -182,7 +182,10 @@ class Simulation:
         x_label, y_label = "Timer", "Temperatur [℃]"
         y_min, y_max = -2, 10
         #Plotting().xy_plot(hours, 0, max(hours), x_label, self.tf_mean, y_min, y_max, f"Gjennomsnittlig kollektorvæsketemperatur [°C]", Plotting().FOREST_GREEN)
-        Plotting().xy_simulation_pygf_plot(hours, self.tf_in, self.tf_mean, self.tf_out, "Gjennomsnittlig kollektorvæsketemperatur [°C]", "Til VP [°C]", "Fra VP [°C]", Plotting().FOREST_GREEN, Plotting().GRASS_GREEN, Plotting().SPRING_GREEN)
+        Plotting().xy_simulation_pygf_plot(hours, self.tf_in, "Gjennomsnittlig kollektorvæsketemperatur [°C]", Plotting().FOREST_GREEN)
+        st.write(f"Laveste gj.snittlige kollektorvæsketemperatur: **{round(min(self.tf_mean),1)} °C**")
+        st.write(f"Laveste kollektorvæsketemperatur til varmepumpe: **{round(min(self.tf_in),1)} °C**")
+        st.write(f"Laveste kollektorvæsketemperatur fra varmepumpe: **{round(min(self.tf_out),1)} °C**")
         #np.savetxt('src/data/output/data_mean.csv', self.tf_mean, delimiter=',')
         #np.savetxt('src/data/output/data_in.csv', self.tf_in, delimiter=',')
         #np.savetxt('src/data/output/data_out.csv', self.tf_out, delimiter=',')
