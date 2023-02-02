@@ -20,12 +20,14 @@ def early_phase():
     st.caption("Vi bistår gjerne i grunnvarmeprosjekter! Ta kontakt 😊")
     c1, c2 = st.columns(2)
     with c1:
-        st.write(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
-        st.write(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
-        st.write(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
+        st.caption(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
+        st.caption(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
+        st.caption(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
     with c2:    
-        st.write(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")
-        st.write(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
+        st.caption(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")
+        st.caption(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
+        st.caption(""" """)
+
 
     with st.expander("Hva er dette?"):
         st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
