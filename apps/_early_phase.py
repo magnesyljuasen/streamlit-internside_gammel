@@ -17,6 +17,16 @@ from scripts._pygfunction import Simulation
 def early_phase():
     st.title("Tidligfasedimensjonering av energibrønnpark")
     st.caption("Spørsmål til verktøyet? Ta kontakt: Magne Syljuåsen | magne.syljuasen@asplanviak.no ")
+    st.caption("Vi bistår gjerne i grunnvarmeprosjekter! Ta kontakt 😊")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.write(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
+        st.write(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
+        st.write(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
+    with c2:    
+        st.write(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")
+        st.write(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
+
     with st.expander("Hva er dette?"):
         st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
         Beregningene tar utgangspunkt i timeverdier til oppvarming, og kan enten estimeres vha. PROFet eller lastes opp selv som en excel-fil. """)
@@ -27,13 +37,7 @@ def early_phase():
 
         st.write(""" Deretter dimensjoneres energibrønnparken. Dimensjoneringen går ut på å simulere temperaturnivåene i brønnparken ut ifra
         energi- og effektuttak/tilførsel, og forutsetningene i kapittel Ⅱ). """)
-    with st.expander("Bistand til grunnvarmeprosjekter?"):
-        st.write("**Vi bistår gjerne i grunnvarmeprosjekter, ta kontakt! 😊**")
-        st.write(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
-        st.write(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
-        st.write(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
-        st.write(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
-        st.write(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")
+        
     st.markdown("---")
     #---
     st.header("Ⅰ) Energibehov")
@@ -133,7 +137,7 @@ def early_phase():
     st.markdown("---")
     #---
     st.header("Ⅱ) Dimensjonering av brønnpark")
-    st.warning("Under utvikling...", icon = "⚠️")
+    st.warning("Under utvikling", icon = "⚠️")
     with st.expander("Generelle råd"):
         st.write(""" - Avstanden mellom brønnene bør være minst 15 meter slik at de ikke henter varme fra samme bergvolum. 
         Der det er tilgengelig plass etterstrebes en mest mulig åpen konfigurasjon""")
@@ -186,32 +190,33 @@ def early_phase():
         pygf = Simulation()
         pygf.select_borehole_field(simulation_obj.N_1 * simulation_obj.N_2)
         if st.button("Kjør timesimulering"):
-            pygf.YEARS = 25
-            pygf.U_PIPE = "Single"  # Choose between "Single" and "Double"
-            pygf.R_B = simulation_obj.RADIUS  # Radius (m)
-            pygf.R_OUT = 0.020  # Pipe outer radius (m)
-            pygf.R_IN = 0.0176  # Pipe inner radius (m)
-            pygf.D_S = 0.067/2  # Shank spacing (m)
-            pygf.EPSILON = 1.0e-6  # Pipe roughness (m)
-            pygf.ALPHA = 1.39e-6  # Ground thermal diffusivity (m2/s)
-            pygf.K_S = simulation_obj.K_S  # Ground thermal conductivity (W/m.K)            
-            pygf.T_G = simulation_obj.T_G  # Undisturbed ground temperature (degrees)   
-            pygf.K_G = 2  # Grout thermal conductivity (W/m.K)
-            pygf.K_P = 0.42  # Pipe thermal conductivity (W/m.K)
-            pygf.H = simulation_obj.H  # Borehole depth (m)
-            pygf.B = simulation_obj.B  # Distance between boreholes (m)
-            pygf.D = 0  # Borehole buried depth
-            pygf.FLOW_RATE = 0.5  # Flow rate (kg/s)
-            pygf.FLUID_NAME = "MPG"  # The fluid is propylene-glycol 
-            pygf.FLUID_DEGREES = 5  # at 20 degC
-            pygf.BOUNDARY_CONDITION = 'MIFT'
-            pygf.run_simulation(energy_coverage.gshp_delivered_arr)
+            with st.spinner("Beregner..."):
+                pygf.YEARS = 25
+                pygf.U_PIPE = "Single"  # Choose between "Single" and "Double"
+                pygf.R_B = simulation_obj.RADIUS  # Radius (m)
+                pygf.R_OUT = 0.020  # Pipe outer radius (m)
+                pygf.R_IN = 0.0176  # Pipe inner radius (m)
+                pygf.D_S = 0.067/2  # Shank spacing (m)
+                pygf.EPSILON = 1.0e-6  # Pipe roughness (m)
+                pygf.ALPHA = 1.39e-6  # Ground thermal diffusivity (m2/s)
+                pygf.K_S = simulation_obj.K_S  # Ground thermal conductivity (W/m.K)            
+                pygf.T_G = simulation_obj.T_G  # Undisturbed ground temperature (degrees)   
+                pygf.K_G = 2  # Grout thermal conductivity (W/m.K)
+                pygf.K_P = 0.42  # Pipe thermal conductivity (W/m.K)
+                pygf.H = simulation_obj.H  # Borehole depth (m)
+                pygf.B = simulation_obj.B  # Distance between boreholes (m)
+                pygf.D = 0  # Borehole buried depth
+                pygf.FLOW_RATE = 0.5  # Flow rate (kg/s)
+                pygf.FLUID_NAME = "MPG"  # The fluid is propylene-glycol 
+                pygf.FLUID_DEGREES = 5  # at 20 degC
+                pygf.BOUNDARY_CONDITION = 'MIFT'
+                pygf.run_simulation(energy_coverage.gshp_delivered_arr)
 
 
     st.markdown("---")   
     #--
     st.header("Ⅲ) Kostnader")
-    st.warning("Under utvikling...", icon = "⚠️")
+    st.warning("Under utvikling", icon = "⚠️")
     st.subheader("Forutsetninger")
     costs_obj = Costs()
     c1, c2 = st.columns(2)
