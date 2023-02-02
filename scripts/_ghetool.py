@@ -74,6 +74,7 @@ class GheTool:
             st.write(f"- Kollektorvæsketemperatur ut fra varmepumpe: {round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
             #--
             st.write(f"Energi per meter: {int(round(monthly_load_heating_sum/meters,0)):,} kWh/m".replace(',', ' '))
+            st.write(self.peak_heating)
             st.metric(f"Effekt per meter: {int((np.sum(self.peak_heating)*1000)/meters,0):,} W/m".replace(',', ' '))
             #--
             if np.sum(self.monthly_load_cooling) > 0:   
