@@ -15,32 +15,25 @@ from scripts._peakshaving import peakshaving
 from scripts._pygfunction import Simulation
 
 def early_phase():
-    st.write("HEEEEEEEEEEEEEEEEEEI")
     st.title("Tidligfasedimensjonering av energibrønnpark")
-    st.caption("Spørsmål til verktøyet? Ta kontakt: Magne Syljuåsen | magne.syljuasen@asplanviak.no ")
-    st.caption("Vi bistår gjerne i grunnvarmeprosjekter! Ta kontakt 😊")
-    c1, c2 = st.columns(2)
-    with c1:
-        st.caption(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
-        st.caption(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
-        st.caption(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
-    with c2:    
-        st.caption(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")
-        st.caption(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
-        st.caption(""" """)
-
-
-    with st.expander("Hva er dette?"):
-        st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
-        Beregningene tar utgangspunkt i timeverdier til oppvarming, og kan enten estimeres vha. PROFet eller lastes opp selv som en excel-fil. """)
-
-        st.write(""" PROFet er en temperaturavhengig lastprofilmodell 
-        som baserer seg på reelle måledata fra bygg. Modellen gjør det mulig å estimere energibehovet 
-        til romoppvarming, varmt tappevann og elektrisitet for bygg.""")
-
-        st.write(""" Deretter dimensjoneres energibrønnparken. Dimensjoneringen går ut på å simulere temperaturnivåene i brønnparken ut ifra
-        energi- og effektuttak/tilførsel, og forutsetningene i kapittel Ⅱ). """)
-        
+    st.caption("Spørsmål til verktøyet? 📧 magne.syljuasen@asplanviak.no ")
+    st.markdown("---")
+    st.header("Bistand til grunnvarmeprosjekter?")
+    st.write("Vi bistår gjerne i alle typer grunnvarmeprosjekter! Ta kontakt med en av oss 😊")
+    st.caption(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
+    st.caption(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
+    st.caption(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")    
+    st.caption(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")
+    st.caption(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
+    st.markdown("---")
+    st.header("Hva er dette?")
+    st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
+    Beregningene tar utgangspunkt i timeverdier til oppvarming, og kan enten estimeres vha. PROFet eller lastes opp selv som en excel-fil. """)
+    st.write(""" PROFet er en temperaturavhengig lastprofilmodell 
+    som baserer seg på reelle måledata fra bygg. Modellen gjør det mulig å estimere energibehovet 
+    til romoppvarming, varmt tappevann og elektrisitet for bygg.""")
+    st.write(""" Deretter dimensjoneres energibrønnparken. Dimensjoneringen går ut på å simulere temperaturnivåene i brønnparken ut ifra
+    energi- og effektuttak/tilførsel, og forutsetningene i kapittel Ⅱ). """)
     st.markdown("---")
     #---
     st.header("Ⅰ) Energibehov")
