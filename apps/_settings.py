@@ -5,7 +5,7 @@ import base64
 
 def settings():
     #st.set_page_config(page_title="AV Grunnvarme", page_icon=":bar_chart:", layout="centered")
-    st.set_page_config(page_title="AV Grunnvarme", layout="centered", page_icon="♨️")
+    st.set_page_config(page_title="AV Grunnvarme", layout="centered", page_icon="chart_with_upwards_trend")
 
     with open("src/styles/main.css") as f:
         st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
