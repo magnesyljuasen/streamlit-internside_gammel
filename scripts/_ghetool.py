@@ -73,6 +73,9 @@ class GheTool:
             st.write(f"- Kollektorvæsketemperatur inn til varmepumpe: {round(min(borefield.results_peak_heating) + delta_T/2,1):,} °C".replace(',', ' '))
             st.write(f"- Kollektorvæsketemperatur ut fra varmepumpe: {round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
             #--
+            st.metric("Energi per meter", value = f"{int(round(monthly_load_heating_sum/meters,0)):,} kWh/m".replace(',', ' '))
+            st.metric("Effekt per meter", value = f"{int((np.sum(self.peak_heating)*1000/meters,0)):,} W/m".replace(',', ' '))
+            #--
             if np.sum(self.monthly_load_cooling) > 0:   
                 st.markdown("---")
                 Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_cooling, 
@@ -87,10 +90,9 @@ class GheTool:
 #                st.metric("Aktive brønnmetere", value = f"{meters:,} m".replace(',', ' '))
 #                st.metric("ΔT", value = f"{delta_T:,} °C".replace(',', ' '))
 #            with c2:
-            st.metric("Energi per meter", value = f"{int(round(monthly_load_heating_sum/meters,0)):,} kWh/m".replace(',', ' '))
+          
 #                st.metric("Inn til varmepumpe", value = f"{round(min(borefield.results_peak_heating) + delta_T/2,1):,} °C".replace(',', ' '))
 #            with c3:
-            st.metric("Effekt per meter", value = f"{int((np.sum(self.peak_heating)*1000/meters,0)):,} W/m".replace(',', ' '))
 #                st.metric("Ut fra varmepumpe", value = f"{round(min(borefield.results_peak_heating) - delta_T/2,1):,} °C".replace(',', ' '))
 
             

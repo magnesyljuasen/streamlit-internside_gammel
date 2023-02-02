@@ -15,6 +15,7 @@ from scripts._peakshaving import peakshaving
 from scripts._pygfunction import Simulation
 
 def early_phase():
+    st.write("heheihei")
     st.title("Tidligfasedimensjonering av energibrønnpark")
     st.caption("Spørsmål til verktøyet? 📧 magne.syljuasen@asplanviak.no ")
     st.markdown("---")
