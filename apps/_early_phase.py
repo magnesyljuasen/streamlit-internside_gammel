@@ -134,7 +134,7 @@ def early_phase():
     st.markdown("---")
     #---
     st.header("Ⅱ) Dimensjonering av brønnpark")
-    st.info("Under arbeid... Resultatene må kvalitetssikres av rådgiver innen grunnvarme.")
+    #st.info("Under arbeid... Resultatene må kvalitetssikres av rådgiver innen grunnvarme.")
     with st.expander("Generelle råd"):
         st.write(""" - Avstanden mellom brønnene bør være minst 15 meter slik at de ikke henter varme fra samme bergvolum. 
         Der det er tilgengelig plass etterstrebes en mest mulig åpen konfigurasjon""")
