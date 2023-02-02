@@ -31,7 +31,7 @@ class Simulation:
         #    self._plot_hourly_extraction_rate()
         self._plot_hourly_temperatures()
         #self._plot_fluid_temperature_profiles()
-        #st.write(self.R_B)
+        st.write(self.R_B)
 
     def _properties(self):
         self.YEARS = 25

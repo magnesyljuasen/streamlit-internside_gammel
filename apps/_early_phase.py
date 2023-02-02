@@ -161,7 +161,7 @@ def early_phase():
         with c1:
             simulation_obj.K_S = st.number_input("Effektiv varmledningsevne [W/m∙K]", min_value=1.0, value=3.5, max_value=10.0, step=1.0) 
             simulation_obj.T_G = st.number_input("Uforstyrret temperatur [°C]", min_value=1.0, value=8.0, max_value=20.0, step=1.0)
-            simulation_obj.R_B = st.number_input("Borehullsmotstand [m∙K/W]", min_value=0.0, value=0.08, max_value=2.0, step=0.01)
+            simulation_obj.R_B = st.number_input("Borehullsmotstand [m∙K/W]", min_value=0.0, value=0.10, max_value=2.0, step=0.01) + 0.03
             simulation_obj.N_1= st.number_input("Antall brønner (X)", value=well_guess, step=1) 
             simulation_obj.N_2= st.number_input("Antall brønner (Y)", value=1, step=1)
             #--
