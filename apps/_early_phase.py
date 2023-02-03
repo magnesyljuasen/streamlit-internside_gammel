@@ -18,14 +18,6 @@ def early_phase():
     st.title("Tidligfasedimensjonering av energibrønnpark")
     st.caption("Spørsmål til verktøyet? 📧 magne.syljuasen@asplanviak.no ")
     st.markdown("---")
-    st.header("Bistand til grunnvarmeprosjekter?")
-    st.write("Vi bistår gjerne i alle typer grunnvarmeprosjekter! Ta kontakt med en av oss 😊")
-    st.caption(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
-    st.caption(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
-    st.caption(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
-    st.caption(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
-    st.caption(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")
-    st.markdown("---")
     st.header("Hva er dette?")
     st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
     Beregningene tar utgangspunkt i timeverdier til oppvarming, og kan enten estimeres vha. PROFet eller lastes opp selv som en excel-fil. """)
@@ -259,6 +251,13 @@ def early_phase():
             file_name="Energibehov.xlsx",
             mime="application/vnd.ms-excel",
         )
-    
+    st.markdown("---")
+    st.header("Bistand til grunnvarmeprosjekter?")
+    st.write("Vi bistår gjerne i alle typer grunnvarmeprosjekter! Ta kontakt med en av oss 😊")
+    st.caption(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
+    st.caption(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
+    st.caption(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
+    st.caption(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
+    st.caption(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")    
 
     
