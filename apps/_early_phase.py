@@ -254,10 +254,10 @@ def early_phase():
     st.markdown("---")
     st.header("Bistand til grunnvarmeprosjekter?")
     st.write("Vi bistår gjerne i alle typer grunnvarmeprosjekter! Ta kontakt med en av oss 😊")
-    st.caption(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
-    st.caption(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
-    st.caption(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
-    st.caption(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
-    st.caption(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")    
+    st.write(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
+    st.write(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
+    st.write(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
+    st.write(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
+    st.write(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")    
 
     
