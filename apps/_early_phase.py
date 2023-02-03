@@ -18,14 +18,15 @@ def early_phase():
     st.title("Tidligfasedimensjonering av energibrønnpark")
     st.caption("Spørsmål til verktøyet? 📧 magne.syljuasen@asplanviak.no ")
     st.markdown("---")
-    st.header("Hva er dette?")
-    st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
-    Beregningene tar utgangspunkt i timeverdier til oppvarming, og kan enten estimeres vha. PROFet eller lastes opp selv som en excel-fil. """)
-    st.write(""" PROFet er en temperaturavhengig lastprofilmodell 
-    som baserer seg på reelle måledata fra bygg. Modellen gjør det mulig å estimere energibehovet 
-    til romoppvarming, varmt tappevann og elektrisitet for bygg.""")
-    st.write(""" Deretter dimensjoneres energibrønnparken. Dimensjoneringen går ut på å simulere temperaturnivåene i brønnparken ut ifra
-    energi- og effektuttak/tilførsel, og forutsetningene i kapittel Ⅱ). """)
+    with st.expander("Hva er dette?"):
+        st.header("Hva er dette?")
+        st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
+        Beregningene tar utgangspunkt i timeverdier til oppvarming, og kan enten estimeres vha. PROFet eller lastes opp selv som en excel-fil. """)
+        st.write(""" PROFet er en temperaturavhengig lastprofilmodell 
+        som baserer seg på reelle måledata fra bygg. Modellen gjør det mulig å estimere energibehovet 
+        til romoppvarming, varmt tappevann og elektrisitet for bygg.""")
+        st.write(""" Deretter dimensjoneres energibrønnparken. Dimensjoneringen går ut på å simulere temperaturnivåene i brønnparken ut ifra
+        energi- og effektuttak/tilførsel, og forutsetningene i kapittel Ⅱ). """)
     st.markdown("---")
     #---
     st.header("Ⅰ) Energibehov")
