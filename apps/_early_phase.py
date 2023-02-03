@@ -15,6 +15,8 @@ from scripts._peakshaving import peakshaving
 from scripts._pygfunction import Simulation
 
 def early_phase():
+    st.warning("""Programmet fungerer per dags dato dårlig med flere brukere samtidig. 
+    Det er en kjent feil med pakken *matplotlib* som gjør at figurene ser rare ut dersom flere er inne samtidig.""")
     st.title("Tidligfasedimensjonering av energibrønnpark")
     st.caption("Spørsmål til verktøyet? 📧 magne.syljuasen@asplanviak.no ")
     with st.expander("Hva er dette?"):
