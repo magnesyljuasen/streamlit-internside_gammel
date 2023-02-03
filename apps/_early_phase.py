@@ -17,7 +17,6 @@ from scripts._pygfunction import Simulation
 def early_phase():
     st.title("Tidligfasedimensjonering av energibrønnpark")
     st.caption("Spørsmål til verktøyet? 📧 magne.syljuasen@asplanviak.no ")
-    st.markdown("---")
     with st.expander("Hva er dette?"):
         st.header("Hva er dette?")
         st.write("""Dette verktøyet gir et tidlig estimat for størrelse på brønnpark til et bygg eller område. 
