@@ -270,6 +270,22 @@ class Plotting:
         st.pyplot(plt)
         plt.close()
 
+    def hourly_stack_plot_negative(self, y1 , y2, y3, y1label, y2label, y1color, y2color, y3color, winterweek=0):
+        max_index = 8623
+        x = np.arange(0, 8760)
+        plt.xlim(0, 8760)
+        if winterweek == True:
+            plt.xlim(max_index - 24, max_index + 24)
+        plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
+        plt.stackplot(x, -y3, labels=[f'Lading: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y3color])
+        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' '),f'{y2label}: {int(np.sum(y2)):,} kWh'.replace(',', ' ')], colors=[y1color,y2color])        
+        plt.legend(loc='best')
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
+        plt.xlabel("Timer i ett år")
+        plt.grid(color='black', linestyle='--', linewidth=0.1)
+        st.pyplot(plt)
+        plt.close()
+
     def hourly_double_plot(self, y1 , y2, y1label, y2label, y1color, y2color, winterweek=0, hours=24, max_index = 8623):
         x = np.arange(0, 8760)
         plt.xlim(0, 8760)
@@ -291,6 +307,25 @@ class Plotting:
         f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
         f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
         f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        #plt.stackplot(x, y1, y2, y3, labels=[
+        #f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' '),
+        #f'{y2label}: {int(np.sum(y2)):,} kWh'.replace(',', ' '),
+        #f'{y3label}: {int(np.sum(y3)):,} kWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        plt.legend(loc='best')
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
+        plt.xlabel("Timer i ett år")
+        plt.grid(color='black', linestyle='--', linewidth=0.1)
+        plt.xlim(0, 8760)
+        st.pyplot(plt)
+        plt.close()
+
+    def hourly_triple_stack_plot_negative(self, y1 , y2, y3, y4, y1label, y2label, y3label, y1color, y2color, y3color, y4color):
+        x = np.arange(0, 8760)
+        plt.stackplot(x, y1, y2, y3, labels=[
+        f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
+        f'{y2label}: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
+        f'{y3label}: {int(np.sum(y3)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        plt.stackplot(x, -y4, labels=[f'Lading: {int(np.sum(y4)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y4color])
         #plt.stackplot(x, y1, y2, y3, labels=[
         #f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' '),
         #f'{y2label}: {int(np.sum(y2)):,} kWh'.replace(',', ' '),
@@ -331,6 +366,48 @@ class Plotting:
         #plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
+        plt.xlabel("Timer i ett år")
+        plt.ylim((ymin, ymax))
+        plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
+        plt.grid(color='black', linestyle='--', linewidth=0.1)
+        st.pyplot(plt)
+        plt.close()
+    
+    def hourly_plot_with_negative(self, y1, y2, y1label, y1color, y2color, ymin = None, ymax = None, hline_value=0, winterweek = 0, max_index = 8623):
+        x = np.arange(0, 8760)
+        plt.xlim(0, 8760)
+        if winterweek == True:
+            plt.xlim(max_index - 24, max_index + 24)
+            #date_1, date_2 = np.datetime64("2021-01-01T00"), np.datetime64("2022-01-01T00")
+            #x = np.arange(date_1, date_2, dtype='datetime64')
+            #myFmt = mdates.DateFormatter('%d.%b')
+            #plt.gca().xaxis.set_major_formatter(myFmt)
+        plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, -y2, labels=[f'Lading: {int(np.sum(y2)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=y2color)
+        #plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' ')], colors=y1color)
+        plt.legend(loc='best')
+        plt.ylabel("Timesmidlet effekt [kWh/h]")
+        plt.xlabel("Timer i ett år")
+        plt.ylim((ymin, ymax))
+        plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        
+        plt.grid(color='black', linestyle='--', linewidth=0.1)
+        st.pyplot(plt)
+        plt.close()
+
+    def hourly_price_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0, winterweek = 0, max_index = 8623):
+        x = np.arange(0, 8760)
+        plt.xlim(0, 8760)
+        plt.ylim(0, 5)
+        if winterweek == True:
+            plt.xlim(max_index - 24, max_index + 24)
+            #date_1, date_2 = np.datetime64("2021-01-01T00"), np.datetime64("2022-01-01T00")
+            #x = np.arange(date_1, date_2, dtype='datetime64')
+            #myFmt = mdates.DateFormatter('%d.%b')
+            #plt.gca().xaxis.set_major_formatter(myFmt)
+        plt.stackplot(x, y1, labels=[f'Gjennomsnittspris: {round(float(np.mean(y1)),2):,} kr/kWh | Makspris: {round(float(max(y1)),2):,} kr'.replace(',', ' ')], colors=y1color)
+        #plt.stackplot(x, y1, labels=[f'{y1label}: {int(np.sum(y1)):,} kWh'.replace(',', ' ')], colors=y1color)
+        plt.legend(loc='best')
+        plt.ylabel("Kroner")
         plt.xlabel("Timer i ett år")
         plt.ylim((ymin, ymax))
         plt.axhline(y = hline_value, color = 'black', linestyle = '-.', linewidth=0.5)        

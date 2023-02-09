@@ -39,24 +39,24 @@ def early_phase():
         demand_array, selected_array = energy_demand.get_thermal_arrays_from_input()
         Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
         Plotting().hourly_duration_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
-        #with st.expander("Her kan du justere dimensjonerende varmeeffekt"):
-        #    DUT = st.number_input("Legg inn dimensjonerende varmeeffekt [kW]", value=int(max(demand_array)), step=10)
-        #    if DUT < int(max(demand_array)):
-        #        st.warning(f"Effekt må være større enn eksisterende {max(demand_array)} kW")
-        #        st.stop() 
-        #    DUT_hours = st.slider("Antall timer med høy varmeeffekt [timer/år]", value=1, step=1, min_value=1, max_value=500)
-        #    ind = np.argpartition(demand_array, -DUT_hours)[-DUT_hours:]
-        #    DUT_list = np.zeros(DUT_hours)
-        #    previous_max = max(demand_array)
-        #    decrement = (DUT -  max(demand_array))/DUT_hours*5
-        #    for i in range(0, DUT_hours):
-        #        DUT_list[i] = DUT 
-        #        DUT = DUT - decrement
-        #        if DUT < previous_max:
-        #            DUT = previous_max
-        #    demand_array[ind] = DUT_list
-        #    Plotting().hourly_duration_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
-        #    Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
+#        with st.expander("Her kan du justere dimensjonerende varmeeffekt"):
+#            DUT = st.number_input("Legg inn dimensjonerende varmeeffekt [kW]", value=int(max(demand_array)), step=10)
+#            if DUT < int(max(demand_array)):
+#                st.warning(f"Effekt må være større enn eksisterende {max(demand_array)} kW")
+#                st.stop() 
+#            DUT_hours = st.slider("Antall timer med høy varmeeffekt [timer/år]", value=1, step=1, min_value=1, max_value=500)
+#            ind = np.argpartition(demand_array, -DUT_hours)[-DUT_hours:]
+#            DUT_list = np.zeros(DUT_hours)
+#            previous_max = max(demand_array)
+#            decrement = (DUT -  max(demand_array))/DUT_hours*5
+#            for i in range(0, DUT_hours):
+#                DUT_list[i] = DUT 
+#                DUT = DUT - decrement
+#                if DUT < previous_max:
+#                    DUT = previous_max
+#            demand_array[ind] = DUT_list
+#            Plotting().hourly_duration_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
+#            Plotting().hourly_plot(demand_array, selected_array, Plotting().FOREST_GREEN)
         #st.markdown("---")
         #--
         st.subheader("Elspesifikt energibehov fra PROFet")
