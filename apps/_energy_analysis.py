@@ -15,7 +15,6 @@ from scripts._utils import negative_sum
 
 
 def energy_analysis():
-    st.write("hei")
     st.button("Refresh")
     st.title("Energianalyse")
     #st.header("Last opp fil")
