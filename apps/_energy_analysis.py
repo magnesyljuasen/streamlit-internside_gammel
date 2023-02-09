@@ -273,7 +273,9 @@ def energy_analysis():
         heat_arr = []
         cool_arr = []
         st.write(f"Hentes fra brønner: {int(np.sum(energy_coverage.gshp_delivered_arr))} kWh")
+        #Plotting().hourly_plot(energy_coverage.gshp_delivered_arr, "Hentes fra brønner", Plotting().FOREST_DARK_PURPLE)
         st.write(f"Lading: {int(np.sum(charge_arr))} kWh")
+        #Plotting().hourly_plot(charge_arr, "Lading (tilføres brønner)", Plotting().FOREST_DARK_PURPLE)
         
         if b == True:
             heat_arr = energy_coverage.gshp_delivered_arr
