@@ -34,7 +34,7 @@ def energy_analysis():
             DISTRICTHEATING_PRICE = st.number_input("Velg total fjernvarmepris [kr/kwh]", min_value=0.0, value=1.0, max_value=10.0, step=0.5)
     if selected_prices == "Historisk":
         year = st.selectbox("Velg år", options= [2018, 2019, 2020, 2021])
-        elspot_df = pd.read_csv(f'src\data\csv\el_spot_hourly_{year}.csv', sep=';', on_bad_lines='skip')
+        elspot_df = pd.read_csv(f'src/data/csv/el_spot_hourly_{year}.csv', sep=';', on_bad_lines='skip')
         NETTLEIE = st.number_input("Fast nettleie og andre avgifter [kr/kWh]", value=0.44, min_value=0.0, step=0.1)
         ELPRICE = np.resize(elspot_df.iloc[:, 5].to_numpy()/1000, 8760) 
         ELPRICE[np.isnan(ELPRICE)] = 0
