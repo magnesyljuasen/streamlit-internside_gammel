@@ -49,7 +49,7 @@ def energy_analysis():
         MAX_VALUE = st.number_input("Maksverdi for plotting", min_value=0, value=1000000, max_value=10000000)
     st.markdown("---")
     #if uploaded_array:
-    df = pd.read_excel("src\data\input\yrkesskolevegen.xlsx")
+    df = pd.read_excel("src/data/input/yrkesskolevegen.xlsx")
     electric_array = df.iloc[:,0].to_numpy()
     space_heating_array = df.iloc[:,1].to_numpy()
     dhw_array = df.iloc[:,2].to_numpy()
