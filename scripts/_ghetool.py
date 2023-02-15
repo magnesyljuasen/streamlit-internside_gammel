@@ -9,7 +9,7 @@ import streamlit as st
 
 class GheTool:
     def __init__(self):
-        self.YEARS = 25
+        self.YEARS = 50
         #  extras
         self.COP = 3.5
         self.DENSITY = 970.5
@@ -53,7 +53,7 @@ class GheTool:
         monthly_load_heating_sum = int(np.sum(self.monthly_load_heating))
 
         borefield.set_ground_parameters(data)
-        field = borefield.create_rectangular_borefield(self.N_1, self.N_2, self.B, self.B, self.H, 0, self.RADIUS)
+        field = borefield.create_rectangular_borefield(self.N_1, self.N_2, self.B, self.B, self.H, 10, self.RADIUS)
         with st.expander("Se konfigurasjon"):
             st.pyplot(gt.boreholes.visualize_field(field))
         borefield.calculate_temperatures()
@@ -62,7 +62,7 @@ class GheTool:
             st.write(f"**{self.N_1 * self.N_2} brønn(er) á {self.H} aktiv brønndybde med {self.B} m avstand**")
             meters = (self.N_1 * self.N_2) * self.H
             Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
-            borefield.results_peak_heating, "Gj.snittlig kollektorvæsketemperatur [°C]]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
+            borefield.results_peak_heating, "Gj.snittlig kollektorvæsketemperatur [°C]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/dellast: **{round(min(borefield.results_month_heating),1)} °C**")
             st.write(f"Laveste gj.snittlige kollektorvæsketemperatur v/maksimal varmeeffekt: **{round(min(borefield.results_peak_heating),1)} °C**")
             #--

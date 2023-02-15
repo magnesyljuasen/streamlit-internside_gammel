@@ -32,8 +32,7 @@ def delta_t():
     #--
     st.header("Til rapport")
     st.write(f""" Ved maksimal varmeeffekt fra varmepumpen på {heat_pump_size} kW kommer temperaturen til og fra energibrønnene til å være henholdsvis ca. {round(delta_T/2,1)} grader høyere og lavere enn den gjennomsnittlige temperaturen (ΔT = {delta_T} °C). Dette betyr at den laveste kollektorvæsketemperaturen til og fra varmepumpens fordampere i vintermånedene år 25 vil være henholdsvis {peak_max_temperature} °C og {peak_min_temperature} °C. """)
-
-
+    #--
 
         
         

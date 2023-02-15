@@ -48,17 +48,21 @@ def energy_analysis():
         MAX_VALUE = st.number_input("Maksverdi for plotting", min_value=0, value=1000000, max_value=10000000)
     st.markdown("---")
     #if uploaded_array:
-    df = pd.read_excel("src/data/input/yrkesskolevegen.xlsx")
+    selected_df = st.selectbox("Input?", options=["TEK10/TEK17", "Passivhus"])
+    if selected_df == "TEK10/TEK17":
+        df = pd.read_excel("src/data/input/yrkesskolevegen.xlsx")
+    if selected_df == "Passivhus":
+        df = pd.read_excel("src/data/input/yrkesskolevegen2.xlsx")
     electric_array = df.iloc[:,0].to_numpy()
     space_heating_array = df.iloc[:,1].to_numpy()
     dhw_array = df.iloc[:,2].to_numpy()
     solar_array = df.iloc[:,3].to_numpy()
     thermal_array = df.iloc[:,4].to_numpy()
-    Plotting().hourly_plot(electric_array, "Elspesifikt behov", Plotting().GRASS_BLUE)
-    df = pd.DataFrame({"Elspesifikt behov" : electric_array})
+    Plotting().hourly_plot(electric_array, "El-spesifikt behov", Plotting().GRASS_BLUE)
+    df = pd.DataFrame({"El-spesifikt behov" : electric_array})
     #np.savetxt('src/data/output/Elspesifikt.csv', electric_array, delimiter=',')
     with st.expander("Varighetskurve"):
-        Plotting().hourly_duration_plot(electric_array, "Elspesifikt behov", Plotting().GRASS_BLUE)
+        Plotting().hourly_duration_plot(electric_array, "El-spesifikt behov", Plotting().GRASS_BLUE)
 
     Plotting().hourly_plot(space_heating_array, "Romoppvarmingsbehov", Plotting().FOREST_BROWN)
     df["Romoppvarmingsbehov"] = space_heating_array
@@ -119,8 +123,8 @@ def energy_analysis():
             months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
             cost_per_month_el = hour_to_month(ELPRICE*(electric_array + energy_coverage.non_covered_arr - solar_array))
             cost_per_month_districtheating = hour_to_month(DISTRICTHEATING_PRICE*(energy_coverage.covered_arr))
-            Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),0)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),0)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
-            st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),0)):,} kr**".replace(",", " "))
+            Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),-3)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),-3)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
+            st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),-3)):,} kr**".replace(",", " "))
             df1 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
         st.markdown("---")
         #--
@@ -143,9 +147,9 @@ def energy_analysis():
         energy_coverage._geoenergy_cop_calculation()
         df["S2 - Kompressor"] = energy_coverage.gshp_compressor_arr
         df["S2 - Levert energi fra brønner"] = energy_coverage.gshp_delivered_arr
-        Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+        Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
         with st.expander("Varighetskurve"):
-            Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+            Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
         st.subheader("Gjenstående elektrisk behov")
         df["S2 - Totalt elektrisk"] = electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr
         Plotting().hourly_plot(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr, "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
@@ -159,8 +163,8 @@ def energy_analysis():
             months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
             cost_per_month_el = hour_to_month(ELPRICE*(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array))
             cost_per_month_districtheating = 0
-            Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),0)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),0)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
-            st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),0)):,} kr**".replace(",", " "))
+            Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),-3)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),-3)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
+            st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),-3)):,} kr**".replace(",", " "))
             df2 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
         st.markdown("---")
         #np.savetxt('src/data/output/Kompressor.csv', energy_coverage.gshp_compressor_arr, delimiter=',')
@@ -194,13 +198,12 @@ def energy_analysis():
         #--
         st.markdown("---")
         st.header("Fjernvarme/grunnvarme")
-        st.subheader("Termisk behov")
-        Plotting().hourly_plot(thermal_array, "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN)
+        new_thermal_array = thermal_array
         st.subheader("Lading av brønner med fjernvarme")
-        selected_case = st.selectbox("Type lading?", options=["Lading hver natt hele året", "Konstant lading om sommeren", "Lading hver natt om sommeren"])
+        selected_case = st.selectbox("Type lading?", options=["Lading hver natt hele året", "Konstant lading om sommeren", "Lading hver natt om sommeren"], index=2)
         st.caption("Om natten betyr fra klokken 00 - 06")
         charge_arr = np.zeros(8760)
-        charging_amount = st.number_input("Lading [kW]", value = 0)
+        charging_amount = st.number_input("Lading [kW]", value = 800)
         if selected_case == "Lading hver natt hele året":
             #case 1 - lading hver natt
             for i in range(0, len(charge_arr)):
@@ -222,21 +225,28 @@ def energy_analysis():
 
         if np.sum(charge_arr) > np.sum(thermal_array):
             st.stop()
-        Plotting().hourly_plot(charge_arr, "Lading", Plotting().FOREST_DARK_PURPLE)
-        Plotting().hourly_plot(charge_arr, "Lading (zoomet inn)", Plotting().FOREST_DARK_PURPLE, winterweek=True, max_index=4000)
+        Plotting().hourly_plot(charge_arr, "Lading", Plotting().FOREST_GREEN)
+        Plotting().hourly_plot(charge_arr, "Lading (zoomet inn)", Plotting().FOREST_GREEN, winterweek=True, max_index=4000)
         st.subheader("Sammenstilt termisk behov med lading")
         #se på denne
-        new_thermal_array = thermal_array
-        Plotting().hourly_plot_with_negative(thermal_array, charge_arr, "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN, Plotting().FOREST_DARK_PURPLE)
+        Plotting().hourly_plot_with_negative(new_thermal_array, charge_arr, "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN, Plotting().FOREST_GREEN)
 
         st.subheader("Dekningsgrad")
+        selected_fjernvarme = st.selectbox("Velg fjernvarmedekning", options=["Fjernvarme dekker tappevann", "Grunnvarme dekker tappevann"])
+        if selected_fjernvarme == "Fjernvarme dekker tappevann":
+            new_thermal_array = space_heating_array
+        elif selected_fjernvarme == "Grunnvarme dekker tappevann":
+            new_thermal_array = thermal_array
         energy_coverage = EnergyCoverage(new_thermal_array)
         energy_coverage.COVERAGE = st.number_input("Velg energidekningsgrad [%]", min_value=50, value=90, max_value=100, step=2, key="grunnvarmedekning")    
         energy_coverage._coverage_calculation()
         df["S2 - Grunnvarmedekning"] = energy_coverage.covered_arr
         df["S2 - Spisslast"] = energy_coverage.non_covered_arr
         #Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Grunnvarmedekning", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE)
-        Plotting().hourly_stack_plot_negative(energy_coverage.covered_arr, energy_coverage.non_covered_arr, charge_arr, "Grunnvarmedekning", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_PURPLE)
+        if selected_fjernvarme == "Fjernvarme dekker tappevann":
+            Plotting().hourly_stack_plot_quad_negative(dhw_array, energy_coverage.covered_arr, charge_arr, energy_coverage.non_covered_arr, "Tappevann (fjernvarme)", "Grunnvarme", "Spisslast", Plotting().FOREST_PURPLE, Plotting().SPRING_GREEN, Plotting().FOREST_GREEN, Plotting().SPRING_BLUE)
+        elif selected_fjernvarme == "Grunnvarme dekker tappevann":
+            Plotting().hourly_stack_plot_negative(energy_coverage.covered_arr, energy_coverage.non_covered_arr, charge_arr, "Grunnvarme", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_PURPLE)
         #np.savetxt('src/data/output/Grunnvarmedekning.csv', energy_coverage.covered_arr, delimiter=',')
         #np.savetxt('src/data/output/Spisslast.csv', energy_coverage.non_covered_arr, delimiter=',')
         with st.expander("Varighetskurve"):
@@ -246,10 +256,13 @@ def energy_analysis():
         energy_coverage._geoenergy_cop_calculation()
         df["S2 - Kompressor"] = energy_coverage.gshp_compressor_arr
         df["S2 - Levert energi fra brønner"] = energy_coverage.gshp_delivered_arr
-        #Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
-        Plotting().hourly_triple_stack_plot_negative(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, charge_arr, "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_PURPLE)
+        #Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+        if selected_fjernvarme == "Grunnvarme dekker tappevann":
+            Plotting().hourly_triple_stack_plot_negative(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, charge_arr, "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
+        if selected_fjernvarme == "Fjernvarme dekker tappevann":
+            Plotting().hourly_quad_stack_plot_negative(dhw_array, energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, charge_arr, "Tappevann (fjernvarme)", "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().FOREST_PURPLE, Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
         with st.expander("Varighetskurve"):
-            Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+            Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
         st.subheader("Gjenstående elektrisk behov")
         df["S2 - Totalt elektrisk"] = electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr
         Plotting().hourly_plot(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr, "Totalt elektrisk behov; uten solproduksjon", Plotting().GRASS_BLUE)
@@ -263,9 +276,13 @@ def energy_analysis():
             months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
             cost_per_month_el = hour_to_month(ELPRICE*(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array))
             cost_per_month_districtheating = hour_to_month(charge_arr * DISTRICTHEATING_PRICE)
-            Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),0)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),0)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
-            st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),0)):,} kr**".replace(",", " "))
-            df2 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
+            if selected_fjernvarme == "Fjernvarme dekker tappevann":
+                cost_per_month_districtheating = hour_to_month((charge_arr + dhw_array) * DISTRICTHEATING_PRICE)
+            else:
+                cost_per_month_districtheating = hour_to_month(charge_arr * DISTRICTHEATING_PRICE)
+            Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),-3)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),-3)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
+            st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),-3)):,} kr**".replace(",", " "))
+            df3 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
 
         simulation_obj = GheTool()
         a = False
@@ -334,6 +351,9 @@ def energy_analysis():
             simulation_obj.DENSITY = heat_carrier_fluid_densities[heat_carrier_fluid]
             simulation_obj.HEAT_CAPACITY = heat_carrier_fluid_capacities[heat_carrier_fluid]
             simulation_obj._run_simulation()
+            
+    #Plotting().plot_clustered_stacked([df1, df2, df3],["Scenario 1", "Scenario 2", "Scenario 3"], color=[Plotting().GRASS_BLUE, Plotting().FOREST_GREEN])
+
 
 #    st.header("Fjernvarme/grunnvarme/solenergi")
 #    st.subheader("Dekningsgrad, grunnvarme/romoppvarming")
@@ -350,9 +370,9 @@ def energy_analysis():
 #    energy_coverage._geoenergy_cop_calculation()
 #    df["S3 - Kompressor"] = energy_coverage.gshp_compressor_arr
 #    df["S3 - Levert fra brønner"] = energy_coverage.gshp_delivered_arr
-#    Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+#    Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
 #    with st.expander("Varighetskurve"):
-#        Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert fra brønn(er)", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
+#        Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Kompressor", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
 #    st.subheader("Konsept")
 #    Plotting().hourly_triple_stack_plot(dhw_array, energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Tappevann(fjernvarme)", "Romoppvarming(grunnvarme)", "Romoppvarmingsspisslast(fjernvarme)", 
 #    Plotting().FOREST_PURPLE, Plotting().SPRING_GREEN, Plotting().SPRING_BLUE)
@@ -371,8 +391,8 @@ def energy_analysis():
 #        months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
 #        cost_per_month_el = hour_to_month(ELPRICE*(electric_array + energy_coverage.gshp_compressor_arr - solar_array))
 #        cost_per_month_districtheating = hour_to_month(DISTRICTHEATING_PRICE*(energy_coverage.non_covered_arr + dhw_array))
-#        Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),0)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),0)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
-#        st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),0)):,} kr**".replace(",", " "))
+#        Plotting().xy_plot_bar_stacked(months, "Måneder i ett år", cost_per_month_el, cost_per_month_districtheating, f"Strøm: {int(round(np.sum(cost_per_month_el),-3)):,} kr/år".replace(",", " "), f"Fjernvarme: {int(round(np.sum(cost_per_month_districtheating),-3)):,} kr/år".replace(",", " "), 0, MAX_VALUE, "Kostnad [kr]", Plotting().GRASS_BLUE, Plotting().FOREST_GREEN)
+#        st.write(f"**Sum: {int(round(np.sum(cost_per_month_districtheating) + np.sum(cost_per_month_el),-3)):,} kr**".replace(",", " "))
 #        df3 = pd.DataFrame({"Strøm" : cost_per_month_el, "Fjernvarme" : cost_per_month_districtheating})
 
 #    #np.savetxt('src/data/output/Fjernvarme_3.csv', (dhw_array + energy_coverage.non_covered_arr), delimiter=',')
@@ -391,7 +411,7 @@ def energy_analysis():
 #                    columns=["I", "J", "K", "L", "M"])
 
     # Then, just call :
-#    Plotting().plot_clustered_stacked([df1, df2, df3],["Scenario 1", "Scenario 2", "Scenario 3"], color=[Plotting().GRASS_BLUE, Plotting().FOREST_GREEN])
+    Plotting().plot_clustered_stacked([df1, df2, df3],["Scenario 1", "Scenario 2", "Scenario 3"], color=[Plotting().GRASS_BLUE, Plotting().FOREST_GREEN])
 
 #    st.markdown("---")
     #--
