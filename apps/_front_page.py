@@ -10,6 +10,7 @@ from streamlit_lottie import st_lottie
 from scripts._utils import Tweet, elspot_today, electricity_database
 
 def front_page():
+    st.info("[Internsiden flyttes hit etter hvert. Den skal bli mer robust, og det kommer nye funksjoner. Sjekk det ut!](%s)" % "https://grunnvarme-internside.streamlit.app/")
     #--
     col1, col2, col3 = st.columns(3)
     with col1:

@@ -153,6 +153,7 @@ def early_phase():
     with st.form("Inndata"):
         c1, c2 = st.columns(2)
         with c1:
+            simulation_obj.YEARS= st.number_input("Antall år", value=25, step=25)
             simulation_obj.K_S = st.number_input("Effektiv varmledningsevne [W/m∙K]", min_value=1.0, value=3.5, max_value=10.0, step=1.0) 
             simulation_obj.T_G = st.number_input("Uforstyrret temperatur [°C]", min_value=1.0, value=8.0, max_value=20.0, step=1.0)
             simulation_obj.R_B = st.number_input("Borehullsmotstand [m∙K/W]", min_value=0.0, value=0.10, max_value=2.0, step=0.01) + 0.03
@@ -176,60 +177,60 @@ def early_phase():
     simulation_obj.DENSITY = heat_carrier_fluid_densities[heat_carrier_fluid]
     simulation_obj.HEAT_CAPACITY = heat_carrier_fluid_capacities[heat_carrier_fluid]
     simulation_obj._run_simulation()
-    with st.expander("Per time. NB! Denne tar lang tid, men er mer nøyaktig."):
-        pygf = Simulation()
-        pygf.select_borehole_field(simulation_obj.N_1 * simulation_obj.N_2)
-        if st.button("Kjør timesimulering"):
-            with st.spinner("Beregner..."):
-                pygf.YEARS = 25
-                pygf.U_PIPE = "Single"  # Choose between "Single" and "Double"
-                pygf.R_B = simulation_obj.RADIUS  # Radius (m)
-                pygf.R_OUT = 0.020  # Pipe outer radius (m)
-                pygf.R_IN = 0.0176  # Pipe inner radius (m)
-                pygf.D_S = 0.067/2  # Shank spacing (m)
-                pygf.EPSILON = 1.0e-6  # Pipe roughness (m)
-                pygf.ALPHA = 1.39e-6  # Ground thermal diffusivity (m2/s)
-                pygf.K_S = simulation_obj.K_S  # Ground thermal conductivity (W/m.K)            
-                pygf.T_G = simulation_obj.T_G  # Undisturbed ground temperature (degrees)   
-                pygf.K_G = 2  # Grout thermal conductivity (W/m.K)
-                pygf.K_P = 0.42  # Pipe thermal conductivity (W/m.K)
-                pygf.H = simulation_obj.H  # Borehole depth (m)
-                pygf.B = simulation_obj.B  # Distance between boreholes (m)
-                pygf.D = 0  # Borehole buried depth
-                pygf.FLOW_RATE = 0.5  # Flow rate (kg/s)
-                pygf.FLUID_NAME = "MPG"  # The fluid is propylene-glycol 
-                pygf.FLUID_DEGREES = 5  # at 20 degC
-                pygf.BOUNDARY_CONDITION = 'MIFT'
-                pygf.run_simulation(energy_coverage.gshp_delivered_arr)
+#    with st.expander("Per time. NB! Denne tar lang tid, men er mer nøyaktig."):
+#        pygf = Simulation()
+#        pygf.select_borehole_field(simulation_obj.N_1 * simulation_obj.N_2)
+#        if st.button("Kjør timesimulering"):
+#            with st.spinner("Beregner..."):
+#                pygf.YEARS = 25
+#                pygf.U_PIPE = "Single"  # Choose between "Single" and "Double"
+#                pygf.R_B = simulation_obj.RADIUS  # Radius (m)
+#                pygf.R_OUT = 0.020  # Pipe outer radius (m)
+#                pygf.R_IN = 0.0176  # Pipe inner radius (m)
+#                pygf.D_S = 0.067/2  # Shank spacing (m)
+#                pygf.EPSILON = 1.0e-6  # Pipe roughness (m)
+#                pygf.ALPHA = 1.39e-6  # Ground thermal diffusivity (m2/s)
+#                pygf.K_S = simulation_obj.K_S  # Ground thermal conductivity (W/m.K)            
+#                pygf.T_G = simulation_obj.T_G  # Undisturbed ground temperature (degrees)   
+#                pygf.K_G = 2  # Grout thermal conductivity (W/m.K)
+#                pygf.K_P = 0.42  # Pipe thermal conductivity (W/m.K)
+#                pygf.H = simulation_obj.H  # Borehole depth (m)
+#                pygf.B = simulation_obj.B  # Distance between boreholes (m)
+#                pygf.D = 0  # Borehole buried depth
+#                pygf.FLOW_RATE = 0.5  # Flow rate (kg/s)
+#                pygf.FLUID_NAME = "MPG"  # The fluid is propylene-glycol 
+#                pygf.FLUID_DEGREES = 5  # at 20 degC
+#                pygf.BOUNDARY_CONDITION = 'MIFT'
+#                pygf.run_simulation(energy_coverage.gshp_delivered_arr)
 
 
     st.markdown("---")   
     #--
-    st.header("Ⅲ) Kostnader")
-    st.warning("Under utvikling", icon = "⚠️")
-    st.subheader("Forutsetninger")
-    costs_obj = Costs()
-    c1, c2 = st.columns(2)
+#    st.header("Ⅲ) Kostnader")
+#    st.warning("Under utvikling", icon = "⚠️")
+#    st.subheader("Forutsetninger")
+#    costs_obj = Costs()
+#    c1, c2 = st.columns(2)
     #-- input
-    with c1:
-        costs_obj.ELPRICE = st.number_input("Strømpris inkl. alt [kr/kWh]", min_value=0.0, value=1.0, max_value=10.0, step=1.0)
-        costs_obj.LIFETIME = st.number_input("Levetid [år]", min_value=1, value=25, max_value=100, step=5)
-    with c2:
-        costs_obj.METERS = (simulation_obj.N_1 * simulation_obj.N_2) * simulation_obj.H
-        costs_obj.gshp_compressor_arr = energy_coverage.gshp_compressor_arr
-        costs_obj.non_covered_arr = energy_coverage.non_covered_arr
-        costs_obj.demand_array = demand_array
-        costs_obj.heat_pump_size = energy_coverage.heat_pump_size
+#    with c1:
+#        costs_obj.ELPRICE = st.number_input("Strømpris inkl. alt [kr/kWh]", min_value=0.0, value=1.0, max_value=10.0, step=1.0)
+#        costs_obj.LIFETIME = st.number_input("Levetid [år]", min_value=1, value=25, max_value=100, step=5)
+#    with c2:
+#        costs_obj.METERS = (simulation_obj.N_1 * simulation_obj.N_2) * simulation_obj.H
+#        costs_obj.gshp_compressor_arr = energy_coverage.gshp_compressor_arr
+#        costs_obj.non_covered_arr = energy_coverage.non_covered_arr
+#        costs_obj.demand_array = demand_array
+#        costs_obj.heat_pump_size = energy_coverage.heat_pump_size
         #--
-        costs_obj.DISKONTERINGSRENTE = st.number_input("Diskonteringsrente [%]", min_value=1, value=6, max_value=100, step=2) / 100
-        costs_obj.maintenance_cost = st.number_input("Vedlikeholdskostnad [kr/år]", min_value=0, value=10000, max_value=100000, step=1000)     
+#        costs_obj.DISKONTERINGSRENTE = st.number_input("Diskonteringsrente [%]", min_value=1, value=6, max_value=100, step=2) / 100
+#        costs_obj.maintenance_cost = st.number_input("Vedlikeholdskostnad [kr/år]", min_value=0, value=10000, max_value=100000, step=1000)     
         #--
-        costs_obj._run_cost_calculation()
+#        costs_obj._run_cost_calculation()
     
-    st.subheader("Resultater")
-    st.write(f"- Anslått investeringskostnad: {costs_obj.investment_cost:,} kr".replace(',', ' '))
-    st.write(f"- Driftskostnad (strøm): {costs_obj.operation_cost + costs_obj.maintenance_cost:,} kr/år".replace(',', ' '))
-    st.write(f"- Levelized cost of electricity (LCOE): {costs_obj.LCOE:,} kr/kWh".replace(',', ' '))
+#    st.subheader("Resultater")
+#    st.write(f"- Anslått investeringskostnad: {costs_obj.investment_cost:,} kr".replace(',', ' '))
+#    st.write(f"- Driftskostnad (strøm): {costs_obj.operation_cost + costs_obj.maintenance_cost:,} kr/år".replace(',', ' '))
+#    st.write(f"- Levelized cost of electricity (LCOE): {costs_obj.LCOE:,} kr/kWh".replace(',', ' '))
 
     st.markdown("---")
     st.header("Oppsummering")
@@ -254,12 +255,12 @@ def early_phase():
             mime="application/vnd.ms-excel",
         )
     st.markdown("---")
-    st.header("Bistand til grunnvarmeprosjekter?")
-    st.write("Vi bistår gjerne i alle typer grunnvarmeprosjekter! Ta kontakt med en av oss 😊")
-    st.write(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
-    st.write(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
-    st.write(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
-    st.write(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
-    st.write(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")    
+    with st.expander("Bistand til grunnvarmeprosjekter?"):
+        st.write("Vi bistår gjerne i alle typer grunnvarmeprosjekter! Ta kontakt med en av oss 😊")
+        st.write(""" - Johanne Strålberg | johanne.stralberg@asplanviak.no""")
+        st.write(""" - Sofie Hartvigsen | sofie.hartvigsen@asplanviak.no""")
+        st.write(""" - Magne Syljuåsen | magne.syljuasen@asplanviak.no""")
+        st.write(""" - Henrik Holmberg | henrik.holmberg@asplanviak.no""")
+        st.write(""" - Randi Kalskin Ramstad | randi.kalskin.ramstad@asplanviak.no""")    
 
     

@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 from PIL import Image
+from streamlit_extras.chart_container import chart_container
+
 
 from scripts._profet import EnergyDemand
 from scripts._utils import Plotting
@@ -45,7 +47,7 @@ def energy_analysis():
 
 
     with st.expander("Plotting"):
-        MAX_VALUE = st.number_input("Maksverdi for plotting", min_value=0, value=1000000, max_value=10000000)
+        MAX_VALUE = st.number_input("Maksverdi for plotting", min_value=0, value=1000000, max_value=10000000, step = 1000)
     st.markdown("---")
     #if uploaded_array:
     selected_df = st.selectbox("Input?", options=["TEK10/TEK17", "Passivhus"])
@@ -119,7 +121,7 @@ def energy_analysis():
         Plotting().hourly_negative_plot(electric_array + energy_coverage.non_covered_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
         with st.expander("Varighetskurve"):
             Plotting().hourly_negative_plot(np.sort(electric_array + energy_coverage.non_covered_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
-        with st.expander("Kostnader"):
+        with st.expander("Kostnader", expanded=True):
             months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
             cost_per_month_el = hour_to_month(ELPRICE*(electric_array + energy_coverage.non_covered_arr - solar_array))
             cost_per_month_districtheating = hour_to_month(DISTRICTHEATING_PRICE*(energy_coverage.covered_arr))
@@ -159,7 +161,7 @@ def energy_analysis():
         Plotting().hourly_negative_plot(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
         with st.expander("Varighetskurve"):
             Plotting().hourly_negative_plot(np.sort(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
-        with st.expander("Kostnader"):
+        with st.expander("Kostnader", expanded=True):
             months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
             cost_per_month_el = hour_to_month(ELPRICE*(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array))
             cost_per_month_districtheating = 0
@@ -226,6 +228,7 @@ def energy_analysis():
         if np.sum(charge_arr) > np.sum(thermal_array):
             st.stop()
         Plotting().hourly_plot(charge_arr, "Lading", Plotting().FOREST_GREEN)
+        np.savetxt('src/data/output/Lading.csv', charge_arr, delimiter=',')
         Plotting().hourly_plot(charge_arr, "Lading (zoomet inn)", Plotting().FOREST_GREEN, winterweek=True, max_index=4000)
         st.subheader("Sammenstilt termisk behov med lading")
         #se på denne
@@ -261,6 +264,10 @@ def energy_analysis():
             Plotting().hourly_triple_stack_plot_negative(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, charge_arr, "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
         if selected_fjernvarme == "Fjernvarme dekker tappevann":
             Plotting().hourly_quad_stack_plot_negative(dhw_array, energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, charge_arr, "Tappevann (fjernvarme)", "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().FOREST_PURPLE, Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
+        np.savetxt('src/data/output/tappevann.csv', dhw_array, delimiter=',')
+        np.savetxt('src/data/output/kompressor.csv', energy_coverage.gshp_compressor_arr, delimiter=',')
+        np.savetxt('src/data/output/levert_fra_bronner.csv', energy_coverage.gshp_delivered_arr, delimiter=',')
+        np.savetxt('src/data/output/spisslast.csv', energy_coverage.non_covered_arr, delimiter=',')
         with st.expander("Varighetskurve"):
             Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
         st.subheader("Gjenstående elektrisk behov")
@@ -272,7 +279,7 @@ def energy_analysis():
         Plotting().hourly_negative_plot(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array, "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
         with st.expander("Varighetskurve"):
             Plotting().hourly_negative_plot(np.sort(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array)[::-1], "Totalt elektrisk behov; med solproduksjon", Plotting().GRASS_BLUE)
-        with st.expander("Kostnader"):
+        with st.expander("Kostnader", expanded=True):
             months = ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"]
             cost_per_month_el = hour_to_month(ELPRICE*(electric_array + energy_coverage.non_covered_arr + energy_coverage.gshp_compressor_arr - solar_array))
             cost_per_month_districtheating = hour_to_month(charge_arr * DISTRICTHEATING_PRICE)
@@ -411,7 +418,7 @@ def energy_analysis():
 #                    columns=["I", "J", "K", "L", "M"])
 
     # Then, just call :
-    Plotting().plot_clustered_stacked([df1, df2, df3],["Scenario 1", "Scenario 2", "Scenario 3"], color=[Plotting().GRASS_BLUE, Plotting().FOREST_GREEN])
+#    Plotting().plot_clustered_stacked([df1, df2, df3],["Scenario 1", "Scenario 2", "Scenario 3"], color=[Plotting().GRASS_BLUE, Plotting().FOREST_GREEN])
 
 #    st.markdown("---")
     #--

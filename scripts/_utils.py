@@ -513,7 +513,7 @@ class Plotting:
         ax.legend()
         ax.grid(color='black', linestyle='--', linewidth=0.1)
         ax.set(xlabel=(x_label), ylabel=(y_label))
-        #ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
+        ax.set(ylim=(ymin, ymax), xlabel=(x_label), ylabel=(y_label))
         st.pyplot(plt)
         plt.close()
 
