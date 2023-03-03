@@ -261,8 +261,8 @@ class Plotting:
         plt.xlim(0, 8760)
         if winterweek == True:
             plt.xlim(max_index - 24, max_index + 24)
-        plt.stackplot(x, y1, y2, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
-        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh'.replace(',', ' ')], colors=[y1color,y2color])        
+        plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
+        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh'.replace(',', ' ')], colors=[y1color,y2color])        
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -276,9 +276,9 @@ class Plotting:
         plt.xlim(0, 8760)
         if winterweek == True:
             plt.xlim(max_index - 24, max_index + 24)
-        plt.stackplot(x, y1, y2, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
-        plt.stackplot(x, y3, labels=[f'Lading: -{round((np.sum(y3)/1000000),2):,} GWh | -{int(max(y3)):,} kW'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y3color])
-        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh'.replace(',', ' ')], colors=[y1color,y2color])        
+        plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y1color,y2color])
+        plt.stackplot(x, y3, labels=[f'Lading: -{int(round((np.sum(y3)),0)):,} kWh | -{int(max(y3)):,} kW'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y3color])
+        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh'.replace(',', ' ')], colors=[y1color,y2color])        
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -292,9 +292,9 @@ class Plotting:
         plt.xlim(0, 8760)
         if winterweek == True:
             plt.xlim(max_index - 24, max_index + 24)
-        plt.stackplot(x, y1, y2, y4, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' '),f'{y4label}: {round((np.sum(y4)/1000000),2):,} GWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color,y2color,y4color])
-        plt.stackplot(x, y3, labels=[f'Lading: -{round((np.sum(y3)/1000000),2):,} GWh | -{int(max(y3)):,} kW'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y3color])
-        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' '),f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh'.replace(',', ' ')], colors=[y1color,y2color])        
+        plt.stackplot(x, y1, y2, y4, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),f'{y4label}: {int(round((np.sum(y4)),0)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color,y2color,y4color])
+        plt.stackplot(x, y3, labels=[f'Lading: -{int(round((np.sum(y3)),0)):,} kWh | -{int(max(y3)):,} kW'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' ')], colors=[y3color])
+        #plt.stackplot(x, y1, y2, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' '),f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh'.replace(',', ' ')], colors=[y1color,y2color])        
         plt.legend(loc='best')
         #plt.ylim(bottom=-100)
         plt.ylabel("Timesmidlet effekt [kWh/h]")
@@ -321,13 +321,13 @@ class Plotting:
     def hourly_triple_stack_plot(self, y1 , y2, y3, y1label, y2label, y3label, y1color, y2color, y3color):
         x = np.arange(0, 8760)
         plt.stackplot(x, y1, y2, y3, labels=[
-        f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' '),
-        f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' '),
-        f'{y3label}: {round((np.sum(y3)/1000000),2):,} GWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
+        f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
+        f'{y3label}: {int(round((np.sum(y3)),0)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
         #plt.stackplot(x, y1, y2, y3, labels=[
-        #f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' '),
-        #f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh'.replace(',', ' '),
-        #f'{y3label}: {round((np.sum(y3)/1000000),2):,} GWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        #f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' '),
+        #f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh'.replace(',', ' '),
+        #f'{y3label}: {int(round((np.sum(y3)),0)):,} kWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -339,14 +339,14 @@ class Plotting:
     def hourly_triple_stack_plot_negative(self, y1 , y2, y3, y4, y1label, y2label, y3label, y1color, y2color, y3color, y4color):
         x = np.arange(0, 8760)
         plt.stackplot(x, y1, y2, y3, labels=[
-        f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' '),
-        f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' '),
-        f'{y3label}: {round((np.sum(y3)/1000000),2):,} GWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
-        plt.stackplot(x, y4, labels=[f'Lading: -{round((np.sum(y4)/1000000),2):,} GWh | -{int(max(y4)):,} kW'.replace(',', ' ')], colors=[y4color])
+        f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
+        f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
+        f'{y3label}: {int(round((np.sum(y3)),0)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        plt.stackplot(x, y4, labels=[f'Lading: -{int(round((np.sum(y4)),0)):,} kWh | -{int(max(y4)):,} kW'.replace(',', ' ')], colors=[y4color])
         #plt.stackplot(x, y1, y2, y3, labels=[
-        #f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' '),
-        #f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh'.replace(',', ' '),
-        #f'{y3label}: {round((np.sum(y3)/1000000),2):,} GWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        #f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' '),
+        #f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh'.replace(',', ' '),
+        #f'{y3label}: {int(round((np.sum(y3)),0)):,} kWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -358,15 +358,15 @@ class Plotting:
     def hourly_quad_stack_plot_negative(self, y1, y2, y3, y4, y5, y1label, y2label, y3label, y4label, y1color, y2color, y3color, y4color, y5color):
         x = np.arange(0, 8760)
         plt.stackplot(x, y1, y2, y3, y4, labels=[
-        f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' '),
-        f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' '),
-        f'{y3label}: {round((np.sum(y3)/1000000),2):,} GWh | {int(max(y3)):,} kW'.replace(',', ' '),
-        f'{y4label}: {round((np.sum(y4)/1000000),2):,} GWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color, y4color])
-        plt.stackplot(x, y5, labels=[f'Lading: -{round((np.sum(y5)/1000000),2):,} GWh | -{int(max(y5)):,} kW'.replace(',', ' ')], colors=[y5color])
+        f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
+        f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
+        f'{y3label}: {int(round((np.sum(y3)),0)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' '),
+        f'{y4label}: {int(round((np.sum(y4)),0)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color, y4color])
+        plt.stackplot(x, y5, labels=[f'Lading: -{int(round((np.sum(y5)),0)):,} kWh | -{int(max(y5)):,} kW'.replace(',', ' ')], colors=[y5color])
         #plt.stackplot(x, y1, y2, y3, labels=[
-        #f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' '),
-        #f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh'.replace(',', ' '),
-        #f'{y3label}: {round((np.sum(y3)/1000000),2):,} GWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
+        #f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' '),
+        #f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh'.replace(',', ' '),
+        #f'{y3label}: {int(round((np.sum(y3)),0)):,} kWh'.replace(',', ' ')], colors=[y1color, y2color, y3color])
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -378,10 +378,10 @@ class Plotting:
     def hourly_quad_stack_plot(self, y1 , y2, y3, y4, y1label, y2label, y3label, y4label, y1color, y2color, y3color, y4color):
         x = np.arange(0, 8760)
         plt.stackplot(x, y1, y2, y3, y4, labels=[
-        f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' '),
-        f'{y2label}: {round((np.sum(y2)/1000000),2):,} GWh | {int(max(y2)):,} kW'.replace(',', ' '),
-        f'{y3label}: {round((np.sum(y3)/1000000),2):,} GWh | {int(max(y3)):,} kW'.replace(',', ' '),
-        f'{y4label}: {round((np.sum(y4)/1000000),2):,} GWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color, y4color])
+        f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' '),
+        f'{y2label}: {int(round((np.sum(y2)),0)):,} kWh | {int(max(y2)):,} kW'.replace(',', ' '),
+        f'{y3label}: {int(round((np.sum(y3)),0)):,} kWh | {int(max(y3)):,} kW'.replace(',', ' '),
+        f'{y4label}: {int(round((np.sum(y4)),0)):,} kWh | {int(max(y4)):,} kW'.replace(',', ' ')], colors=[y1color, y2color, y3color, y4color])
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -399,8 +399,8 @@ class Plotting:
             #x = np.arange(date_1, date_2, dtype='datetime64')
             #myFmt = mdates.DateFormatter('%d.%b')
             #plt.gca().xaxis.set_major_formatter(myFmt)
-        plt.stackplot(x, y1, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
-        #plt.stackplot(x, y1, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, y1, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
+        #plt.stackplot(x, y1, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -419,9 +419,9 @@ class Plotting:
             #x = np.arange(date_1, date_2, dtype='datetime64')
             #myFmt = mdates.DateFormatter('%d.%b')
             #plt.gca().xaxis.set_major_formatter(myFmt)
-        plt.stackplot(x, y1, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
-        plt.stackplot(x, -y2, labels=[f'Lading: -{round((np.sum(y2)/1000000),2):,} GWh | -{int(max(y2)):,} kW'.replace(',', ' ')], colors=y2color)
-        #plt.stackplot(x, y1, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, y1, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, -y2, labels=[f'Lading: -{int(round((np.sum(y2)),0)):,} kWh | -{int(max(y2)):,} kW'.replace(',', ' ')], colors=y2color)
+        #plt.stackplot(x, y1, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -442,7 +442,7 @@ class Plotting:
             #myFmt = mdates.DateFormatter('%d.%b')
             #plt.gca().xaxis.set_major_formatter(myFmt)
         plt.stackplot(x, y1, labels=[f'Gjennomsnittspris: {round(float(np.mean(y1)),-3):,} kr/kWh | Makspris: {round(float(max(y1)),-3):,} kr'.replace(',', ' ')], colors=y1color)
-        #plt.stackplot(x, y1, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' ')], colors=y1color)
+        #plt.stackplot(x, y1, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
         plt.ylabel("Kroner")
         plt.xlabel("Timer i ett år")
@@ -458,7 +458,7 @@ class Plotting:
         solar_production, solar_effect = negative_sum(y1)
         if winterweek == True:
             plt.xlim(max_index - 24, max_index + 24)
-        plt.stackplot(x, y1, labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW \nOverskuddsproduksjon: {round(solar_production,-3):,} kWh | {solar_effect:,} kW'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, y1, labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW \nOverskuddsproduksjon: {round(solar_production,-3):,} kWh | {solar_effect:,} kW'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.xlabel("Timer i ett år")
@@ -470,8 +470,8 @@ class Plotting:
 
     def hourly_duration_plot(self, y1, y1label, y1color, ymin = None, ymax = None, hline_value=0):
         x = np.arange(0, len(y1))
-        plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
-        #plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {round((np.sum(y1)/1000000),2):,} GWh'.replace(',', ' ')], colors=y1color)
+        plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh | {int(max(y1)):,} kW'.replace(',', ' ')], colors=y1color)
+        #plt.stackplot(x, np.sort(y1)[::-1], labels=[f'{y1label}: {int(round((np.sum(y1)),0)):,} kWh'.replace(',', ' ')], colors=y1color)
         plt.legend(loc='best')
         plt.ylabel("Timesmidlet effekt [kWh/h]")
         plt.ylim((ymin, ymax))
