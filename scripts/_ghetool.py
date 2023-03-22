@@ -64,7 +64,7 @@ class GheTool:
         borefield.calculate_temperatures()
         x = np.arange(0,len(borefield.results_month_heating))
         with st.expander("Se resultater", expanded=True):
-            st.write(f"**{self.N_1 * self.N_2} brønn(er) á {self.H} aktiv brønndybde med {self.B} m avstand**")
+            st.write(f"**{borefield.number_of_boreholes} brønn(er) á {self.H} aktiv brønndybde med {self.B} m avstand**")
             meters = (self.N_1 * self.N_2) * self.H
             Plotting().xy_simulation_plot(x, 0, self.YEARS, "År", borefield.results_month_heating, 
             borefield.results_peak_heating, "Gj.snittlig kollektorvæsketemperatur [°C]", "Ved dellast", f"Ved maksimal varmeeffekt", Plotting().GRASS_GREEN, Plotting().GRASS_RED)
