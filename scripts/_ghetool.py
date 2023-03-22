@@ -53,7 +53,12 @@ class GheTool:
         monthly_load_heating_sum = int(np.sum(self.monthly_load_heating))
 
         borefield.set_ground_parameters(data)
-        field = borefield.create_rectangular_borefield(self.N_1, self.N_2, self.B, self.B, self.H, 10, self.RADIUS)
+        selected_field = st.selectbox("Type konfigurasjon", options=["Linje/rektangel", "Åpent"])
+        if selected_field == "Linje/rektangel":
+            field = borefield.create_rectangular_borefield(self.N_1, self.N_2, self.B, self.B, self.H, 10, self.RADIUS)
+        if selected_field == "Åpent":
+            field = gt.boreholes.U_shaped_field(self.N_1, self.N_2, self.B, self.B, self.H, 10, self.RADIUS)
+        borefield.set_borefield(field)
         with st.expander("Se konfigurasjon"):
             st.pyplot(gt.boreholes.visualize_field(field))
         borefield.calculate_temperatures()

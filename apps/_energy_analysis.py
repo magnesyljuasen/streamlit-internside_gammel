@@ -80,6 +80,13 @@ def energy_analysis():
     Plotting().hourly_plot(thermal_array, "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN)
     with st.expander("Varighetskurve"):
         Plotting().hourly_duration_plot(thermal_array, "Termisk (romoppvarming + tappevann)", Plotting().FOREST_DARK_BROWN)
+    
+    Plotting().hourly_stack_plot(electric_array, thermal_array, "El-spesifikt behov", "Termisk behov", Plotting().GRASS_BLUE, Plotting().FOREST_BROWN)
+    Plotting().hourly_stack_plot(np.sort(electric_array)[::-1], np.sort(thermal_array)[::-1], "El-spesifikt behov", "Termisk behov", Plotting().GRASS_BLUE, Plotting().FOREST_BROWN)
+
+    Plotting().hourly_stack_plot(np.sort(dhw_array)[::-1], np.sort(space_heating_array)[::-1], "Tappevannsbehov", "Romoppvarmingsbehov", Plotting().FOREST_PURPLE, Plotting().FOREST_BROWN)
+    Plotting().hourly_stack_plot(dhw_array, space_heating_array, "Tappevannsbehov", "Romoppvarmingsbehov", Plotting().FOREST_PURPLE, Plotting().FOREST_BROWN)
+
 
     df["Solenergi"] = solar_array
     Plotting().hourly_plot(solar_array, "Produsert solenergi", Plotting().SUN_YELLOW)
@@ -107,6 +114,7 @@ def energy_analysis():
         df["S1 - Fjernvarmedekning"] = energy_coverage.covered_arr
         df["S1 - Spisslast"] = energy_coverage.non_covered_arr
         Plotting().hourly_plot(energy_coverage.covered_arr, "Fjernvarmedekning", Plotting().FOREST_GREEN)
+        Plotting().hourly_plot(np.sort(energy_coverage.covered_arr)[::-1], "Fjernvarmedekning", Plotting().FOREST_GREEN)
         #Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Fjernvarmedekning", "Spisslast", Plotting().FOREST_GREEN, Plotting().GRASS_BLUE)
         #np.savetxt('src/data/output/Fjernvarmedekning.csv', energy_coverage.covered_arr, delimiter=',')
         #np.savetxt('src/data/output/Spisslast.csv', energy_coverage.non_covered_arr, delimiter=',')
@@ -248,6 +256,10 @@ def energy_analysis():
         #Plotting().hourly_stack_plot(energy_coverage.covered_arr, energy_coverage.non_covered_arr, "Grunnvarmedekning", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE)
         if selected_fjernvarme == "Fjernvarme dekker tappevann":
             Plotting().hourly_stack_plot_quad_negative(dhw_array, energy_coverage.covered_arr, charge_arr, energy_coverage.non_covered_arr, "Tappevann (fjernvarme)", "Grunnvarme", "Spisslast", Plotting().FOREST_PURPLE, Plotting().SPRING_GREEN, Plotting().FOREST_GREEN, Plotting().SPRING_BLUE)
+            np.savetxt('src/data/output/dhw_array.csv', dhw_array, delimiter=',')
+            np.savetxt('src/data/output/grunnvarmedekning.csv', energy_coverage.covered_arr, delimiter=',')
+            np.savetxt('src/data/output/lading.csv', charge_arr, delimiter=',')
+            np.savetxt('src/data/output/spisslast.csv', energy_coverage.non_covered_arr, delimiter=',')
         elif selected_fjernvarme == "Grunnvarme dekker tappevann":
             Plotting().hourly_stack_plot_negative(energy_coverage.covered_arr, energy_coverage.non_covered_arr, charge_arr, "Grunnvarme", "Spisslast", Plotting().SPRING_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_PURPLE)
         #np.savetxt('src/data/output/Grunnvarmedekning.csv', energy_coverage.covered_arr, delimiter=',')
@@ -262,12 +274,12 @@ def energy_analysis():
         #Plotting().hourly_triple_stack_plot(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, "Kompressor", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
         if selected_fjernvarme == "Grunnvarme dekker tappevann":
             Plotting().hourly_triple_stack_plot_negative(energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, charge_arr, "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
+            Plotting().hourly_triple_stack_plot_negative(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], -np.sort(charge_arr)[::-1], "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
+
         if selected_fjernvarme == "Fjernvarme dekker tappevann":
             Plotting().hourly_quad_stack_plot_negative(dhw_array, energy_coverage.gshp_compressor_arr, energy_coverage.gshp_delivered_arr, energy_coverage.non_covered_arr, charge_arr, "Tappevann (fjernvarme)", "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().FOREST_PURPLE, Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
-        np.savetxt('src/data/output/tappevann.csv', dhw_array, delimiter=',')
-        np.savetxt('src/data/output/kompressor.csv', energy_coverage.gshp_compressor_arr, delimiter=',')
-        np.savetxt('src/data/output/levert_fra_bronner.csv', energy_coverage.gshp_delivered_arr, delimiter=',')
-        np.savetxt('src/data/output/spisslast.csv', energy_coverage.non_covered_arr, delimiter=',')
+            Plotting().hourly_quad_stack_plot_negative(np.sort(dhw_array)[::-1], np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], -np.sort(charge_arr)[::-1], "Tappevann (fjernvarme)", "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().FOREST_PURPLE, Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE, Plotting().FOREST_GREEN)
+
         with st.expander("Varighetskurve"):
             Plotting().hourly_triple_stack_plot(np.sort(energy_coverage.gshp_compressor_arr)[::-1], np.sort(energy_coverage.gshp_delivered_arr)[::-1], np.sort(energy_coverage.non_covered_arr)[::-1], "Strøm til varmepumpe", "Levert energi fra brønner", "Spisslast", Plotting().GRASS_BLUE, Plotting().GRASS_GREEN, Plotting().SPRING_BLUE)
         st.subheader("Gjenstående elektrisk behov")
