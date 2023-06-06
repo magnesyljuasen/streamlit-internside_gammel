@@ -240,7 +240,8 @@ def early_phase():
         "Termisk energibehov" : demand_array, 
         "Strøm til varmepumpe" : energy_coverage.gshp_compressor_arr,
         "Levert energi fra brønner" : energy_coverage.gshp_delivered_arr,
-        "Spisslast" : energy_coverage.non_covered_arr
+        "Spisslast" : energy_coverage.non_covered_arr,
+        "Romoppvarming" : energy_coverage.space_heating
         })
 
     with pd.ExcelWriter(buffer, engine="xlsxwriter") as writer:
